@@ -29,7 +29,7 @@ function xmldb_local_kaltura_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2014013000) {
+    if ($oldversion < 2014102105) {
         // Because the plug-in is being upgraded we need to set the migration flag to true.
         set_config('migration_yes', 1, KALTURA_PLUGIN_NAME);
 
@@ -57,11 +57,11 @@ function xmldb_local_kaltura_upgrade($oldversion) {
         }
 
         // Kaltura savepoint reached.
-        upgrade_plugin_savepoint(true, 2014013000, 'local', 'kaltura');
+        upgrade_plugin_savepoint(true, 2014102105, 'local', 'kaltura');
     }
 
-    if ($oldversion < 2014013000.01) {
+    if ($oldversion < 2014102105) {
         // Kaltura savepoint reached.
-        upgrade_plugin_savepoint(true, 2014013000.01, 'local', 'kaltura');
+        upgrade_plugin_savepoint(true, 2014102105, 'local', 'kaltura');
     }
 }
