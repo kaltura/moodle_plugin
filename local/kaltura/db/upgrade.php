@@ -25,6 +25,7 @@
 function xmldb_local_kaltura_upgrade($oldversion) {
     global $CFG, $DB;
 
+    $savePointDone = false;
     require_once($CFG->dirroot.'/local/kaltura/locallib.php');
 
     $dbman = $DB->get_manager();
@@ -58,10 +59,12 @@ function xmldb_local_kaltura_upgrade($oldversion) {
 
         // Kaltura savepoint reached.
         upgrade_plugin_savepoint(true, 2014102105, 'local', 'kaltura');
+        $savePointDone = true;
     }
 
-    if ($oldversion < 2014102105) {
+    if (!$savePointDone && $oldversion < 2014102105) {
         // Kaltura savepoint reached.
         upgrade_plugin_savepoint(true, 2014102105, 'local', 'kaltura');
     }
+    return true;
 }
