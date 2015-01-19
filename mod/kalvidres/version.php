@@ -27,7 +27,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 $module->version = 2014121806;
 $module->component  = 'mod_kalvidres';
-$module->release    = 'Kaltura release 4.0.01';
+$module->release    = 'Kaltura release 4.0.02';
 $module->requires = 2013111801;
 $module->cron       = 0;
 $module->maturity = MATURITY_STABLE;
