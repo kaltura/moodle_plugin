@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2014121806;
-$plugin->release = 'Kaltura release 4.0.01';
+$plugin->release = 'Kaltura release 4.0.02';
 $plugin->requires = 2013111801;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
