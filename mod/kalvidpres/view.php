@@ -77,9 +77,7 @@ $params = array(
     'bodyclass' => $pageclass,
     'lastheight' => null,
     'padding' => 15,
-    'kalvidwidth' => $kalvidpres->width,
-    'width' => $kalvidpres->width,
-    'height' => $kalvidpres->height
+    'kalvidwidth' => $kalvidpres->width
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 
