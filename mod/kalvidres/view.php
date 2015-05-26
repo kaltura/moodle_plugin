@@ -77,9 +77,7 @@ $renderer = $PAGE->get_renderer('mod_kalvidres');
 $params = array(
     'bodyclass' => $pageclass,
     'lastheight' => null,
-    'padding' => 15,
-    'width' => $kalvidres->width,
-    'height' => $kalvidres->height
+    'padding' => 15
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 
