@@ -127,7 +127,9 @@ if (!has_capability('mod/kalvidassign:gradesubmission', $context)) {
     $params = array(
         'bodyclass' => $pageclass,
         'lastheight' => null,
-        'padding' => 15
+        'padding' => 15,
+        'width' => isset($kalvidassign->width) ? $kalvidassign->width : null,
+        'height' => isset($kalvidassign->height) ? $kalvidassign->height : null
     );
     $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
     $PAGE->requires->string_for_js('replacevideo', 'kalvidassign');
