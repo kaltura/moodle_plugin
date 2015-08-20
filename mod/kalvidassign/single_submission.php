@@ -61,7 +61,11 @@ $PAGE->requires->css('/local/kaltura/styles.css');
 
 require_capability('mod/kalvidassign:gradesubmission', $context);
 
-add_to_log($course->id, 'kalvidassign', 'view submission page', 'single_submission.php?id='.$cm->id, $kalvidassignobj->id, $cm->id);
+$event = \mod_kalvidassign\event\single_submission_page_viewed::create(array(
+    'objectid'  => $kalvidassignobj->id,
+    'context' => context_module::instance($cm->id)
+));
+$event->trigger();
 
 // Get a single submission record
 $submission = kalvidassign_get_submission($cm->instance, $userid);
@@ -177,8 +181,10 @@ if ($submissionform->is_cancelled()) {
             kalvidassign_grade_item_update($kalvidassignobj, $gradeobj);
 
             // Add to log.
-            add_to_log($kalvidassignobj->course, 'kalvidassign', 'update grades', 'grade_submissions.php?cmid='.$cm->id, $cm->id);
-
+            $event = \mod_kalvidassign\event\grades_updated::create(array(
+                        'context'   => context_module::instance($cm->id),
+            ));
+            $event->trigger();
         }
 
         // Handle outcome data
