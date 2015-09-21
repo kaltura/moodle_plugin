@@ -286,8 +286,16 @@ Y.extend(LTIPANELMEDIAASSIGNMENT, Y.Base, {
         this.panelheight = parseInt(height, 10) + 45;
         this.panelwidth = parseInt(width, 10) + 23;
 
-        this.panelbodycontent = "<iframe id='panelcontentframe' height='"+height+"px' width='"+width+"px' "+
-                "allowfullscreen='true' webkitallowfullscreen='true' mozallowfullscreen='true' src='"+url+"'></iframe>";
+        width += 'px';
+
+        if (Y.UA.ipod !== 0 || Y.UA.ipad !== 0 || Y.UA.iphone !== 0 || Y.UA.android !== 0 || Y.UA.mobile !== null) {
+            this.panelwidth = '80%';
+            width = '100%';
+        }
+
+        this.panelbodycontent = "<iframe id='panelcontentframe' height='"+height+"px' width='"+width+"' "+
+            "allowfullscreen='true' webkitallowfullscreen='true' mozallowfullscreen='true' src='"+url+"'></iframe>";
+
 
         // If the panel has not yet been initialized.
         if (null === this.panel) {
