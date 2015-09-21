@@ -57,6 +57,12 @@ $PAGE->add_body_class($pageclass);
 
 $context = $PAGE->context;
 
+$event = \mod_kalvidpres\event\video_resource_viewed::create(array(
+    'objectid' => $kalvidpres->id,
+    'context' => context_module::instance($cm->id)
+));
+$event->trigger();
+
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
@@ -75,7 +81,9 @@ $params = array(
     'bodyclass' => $pageclass,
     'lastheight' => null,
     'padding' => 15,
-    'kalvidwidth' => $kalvidpres->width
+    'kalvidwidth' => $kalvidpres->width,
+    'width' => $kalvidpres->width,
+    'height' => $kalvidpres->height,
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 

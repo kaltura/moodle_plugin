@@ -57,6 +57,12 @@ $PAGE->add_body_class($pageclass);
 
 $context = $PAGE->context;
 
+$event = \mod_kalvidres\event\video_resource_viewed::create(array(
+    'objectid' => $kalvidres->id,
+    'context' => context_module::instance($cm->id)
+));
+$event->trigger();
+
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
 
@@ -75,7 +81,9 @@ $renderer = $PAGE->get_renderer('mod_kalvidres');
 $params = array(
     'bodyclass' => $pageclass,
     'lastheight' => null,
-    'padding' => 15
+    'padding' => 15,
+    'width' => $kalvidres->width,
+    'height' => $kalvidres->height
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 

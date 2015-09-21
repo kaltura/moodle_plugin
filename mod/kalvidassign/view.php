@@ -48,6 +48,12 @@ $PAGE->add_body_class($pageclass);
 
 $context = context_module::instance($cm->id);
 
+$event = \mod_kalvidassign\event\assignment_details_viewed::create(array(
+            'objectid' => $kalvidassign->id,
+            'context' => context_module::instance($cm->id)
+        ));
+$event->trigger();
+
 // Update 'viewed' state if required by completion system
 $completion = new completion_info($course);
 $completion->set_module_viewed($cm);
@@ -127,6 +133,13 @@ if (!has_capability('mod/kalvidassign:gradesubmission', $context)) {
         'lastheight' => null,
         'padding' => 15
     );
+
+    if(isset($submission->width) && isset($submission->height))
+    {
+        $params['width'] = $submission->width;
+        $params['height'] = $submission->height;
+    }
+
     $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
     $PAGE->requires->string_for_js('replacevideo', 'kalvidassign');
 } else {
