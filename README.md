@@ -27,7 +27,7 @@ MOODLE_XX_DEV is our development branch - all approved pull requests are merged 
 After our QA team verifies the changes made in the corresponding DEV branch - they are merged to the STABLE branch.
 
 So, when issuing a PR - please make sure that:
-* You are checked out a DEV branch.
+* You checked out the DEV branch.
 * In your pull-request, the base branch is indeed the DEV branch you checked-out from.
  
 ## Contribution Guidelines
