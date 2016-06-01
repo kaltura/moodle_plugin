@@ -76,7 +76,6 @@ $url = '';
 $width = 0;
 $height = 0;
 
-if (!has_capability('mod/kalvidassign:gradesubmission', $context)) {
 
     $param = array('vidassignid' => $kalvidassign->id, 'userid' => $USER->id);
     $submission = $DB->get_record('kalvidassign_submission', $param);
@@ -142,7 +141,7 @@ if (!has_capability('mod/kalvidassign:gradesubmission', $context)) {
 
     $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
     $PAGE->requires->string_for_js('replacevideo', 'kalvidassign');
-} else {
+if (has_capability('mod/kalvidassign:gradesubmission', $context)) {
     echo $renderer->display_instructor_buttons($cm, $USER->id);
 }
 

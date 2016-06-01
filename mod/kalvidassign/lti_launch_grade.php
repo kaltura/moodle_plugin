@@ -36,8 +36,7 @@ $width = required_param('width', PARAM_INT);
 $withblocks = optional_param('withblocks', 0, PARAM_INT);
 $source = required_param('source', PARAM_TEXT);
 
-$context = context_course::instance($courseid);
-require_capability('mod/kalvidassign:gradesubmission', $context);
+require_capability('mod/kalvidassign:gradesubmission', context_module::instance($cmid));
 $course = get_course($courseid);
 
 $launch = array();
