@@ -13,6 +13,7 @@
 </iframe>
 <div id="kalturaMediaSubmitButton"></div>
 <script>
+    var buttonJs = window.opener.buttonJs;
     var embedButton = Y.Node.create('<button></button>');
     embedButton.setAttribute('id', 'KalturaMediaSubmit');
     embedButton.setAttribute('disabled', 'disabled');
@@ -30,12 +31,10 @@
         button.removeAttribute('disabled');
         button.show();
 
-        embedButton.on('click', this.buttonJs.embedItem, this.buttonJs, button._getDataAttributes());
+        embedButton.on('click', buttonJs.embedItem, buttonJs, button._getDataAttributes());
     }
 
     function getEmbedInfo(data) {
-        
-
         return embedInfo;
     }
 </script>
