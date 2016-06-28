@@ -38,13 +38,24 @@ function local_mymedia_extend_navigation($navigation) {
     // table.
     if ('admin-index' === $PAGE->pagetype) {
         $exists = $DB->record_exists('capabilities', array('name' => 'local/mymedia:view'));
-
         if (!$exists) {
             return;
         }
     }
 
-    $nodehome = $navigation->get('home');
+    if (!isloggedin()) {
+        $nodehome = $navigation->get('home');
+    } else {
+        $nodehome = $navigation->get('myprofile');
+        if (!is_siteadmin()) {
+            $homenode = $navigation->find('home', navigation_node::NODETYPE_LEAF);
+            if($homenode){
+                $homenode->remove();
+                $navigation = $homenode->parent;
+            }
+        }
+    }
+
     $context = context_user::instance($USER->id);
 
     if (empty($nodehome) || !has_capability('local/mymedia:view', $context, $USER)) {
