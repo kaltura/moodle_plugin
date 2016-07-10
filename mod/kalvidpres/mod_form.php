@@ -53,7 +53,7 @@ class mod_kalvidpres_mod_form extends moodleform_mod {
 
         $params = array(
             'addvidbtnid' => 'id_'.$this->addvideobutton,
-            'ltilaunchurl' => $url->out(),
+            'ltilaunchurl' => $url->out(false),
             'height' => KALTURA_PANEL_HEIGHT,
             'width' => KALTURA_PANEL_WIDTH,
             'modulename' => 'kalvidpres'
@@ -136,7 +136,7 @@ class mod_kalvidpres_mod_form extends moodleform_mod {
 
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->add_intro_editor(false);
+        $this->standard_intro_elements();
 
         $mform->addElement('header', 'video', get_string('video_hdr', 'kalvidpres'));
         $this->add_video_definition($mform);
@@ -144,8 +144,6 @@ class mod_kalvidpres_mod_form extends moodleform_mod {
         $this->standard_coursemodule_elements();
 
         $this->add_action_buttons();
-
-        $mform->addElement('html', html_writer::empty_tag('input', array('type' => 'hidden', 'id' => 'closeltipanel', 'value' => 0)));
     }
 
     /**

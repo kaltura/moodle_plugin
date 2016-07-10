@@ -136,22 +136,19 @@ if ($submissionform->is_cancelled()) {
         // Flag used when an instructor is about to grade a user who does not have
         // a submittion (see KALDEV-126)
         $updategrade = true;
-
         if ($submission) {
-
             $submissionchanged = strcmp($submission->submissioncomment, $submitted_data->submissioncomment_editor['text']);
             if ($submission->grade == $submitted_data->xgrade && $submissionchanged) {
-
                 $updategrade = false;
-            } else {
-                $submission->grade              = $submitted_data->xgrade;
-                $submission->submissioncomment  = $submitted_data->submissioncomment_editor['text'];
-                $submission->format             = $submitted_data->submissioncomment_editor['format'];
-                $submission->timemarked         = time();
-                $submission->teacher            = $USER->id;
+            }
+            if ($submissionchanged || $updategrade) {
+                $submission->grade = $submitted_data->xgrade;
+                $submission->submissioncomment = $submitted_data->submissioncomment_editor['text'];
+                $submission->format = $submitted_data->submissioncomment_editor['format'];
+                $submission->timemarked = time();
+                $submission->teacher = $USER->id;
                 $DB->update_record('kalvidassign_submission', $submission);
             }
-
         } else {
 
             // Check for unchanged values
