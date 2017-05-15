@@ -60,13 +60,13 @@ function local_kalturamediagallery_extend_navigation($navigation) {
         $coursecontext = $context;
     }
 
-    $mycoursesnode = $navigation->find('currentcourse', $navigation::TYPE_ROOTNODE);
+    $current_course_node =$navigation->find($PAGE->course->id, navigation_node::TYPE_COURSE);
 
-    if (empty($mycoursesnode) || !has_capability('local/kalturamediagallery:view', $coursecontext, $USER)) {
+    if (empty($current_course_node) || !has_capability('local/kalturamediagallery:view', $coursecontext, $USER)) {
         return;
     }
 
     $name = get_string('nav_mediagallery', 'local_kalturamediagallery');
     $url = new moodle_url('/local/kalturamediagallery/index.php', array('courseid' => $coursecontext->instanceid));
-    $kalmedgalnode = $mycoursesnode->add($name, $url, navigation_node::NODETYPE_LEAF, $name, 'kalcrsgal');
+    $kalmedgalnode = $current_course_node->add($name, $url, navigation_node::NODETYPE_LEAF, $name, 'kalcrsgal');
 }
