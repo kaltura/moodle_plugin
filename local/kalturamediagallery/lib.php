@@ -21,6 +21,9 @@
  * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
  */
 
+define('LOCAL_KALTURAMEDIAGALLERY_LINK_LOCATION_NAVIGATION_BLOCK', 0);
+define('LOCAL_KALTURAMEDIAGALLERY_LINK_LOCATION_COURSE_SETTINGS', 1);
+
 /**
  * This function adds Kaltura media gallery link to the navigation block.  The code ensures that the Kaltura media gallery link is only displayed in the 'Current courses'
  * menu true.  In addition it check if the current context is one that is below the course context.
@@ -30,7 +33,8 @@
 function local_kalturamediagallery_extend_navigation($navigation) {
     global $USER, $PAGE, $DB;
 
-    if (empty($USER->id)) {
+    if (empty($USER->id)
+        || !empty(get_config('local_kalturamediagallery', 'link_location'))) { // link_location is either 0 or not set
         return;
     }
 
@@ -69,4 +73,18 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     $name = get_string('nav_mediagallery', 'local_kalturamediagallery');
     $url = new moodle_url('/local/kalturamediagallery/index.php', array('courseid' => $coursecontext->instanceid));
     $kalmedgalnode = $mycoursesnode->add($name, $url, navigation_node::NODETYPE_LEAF, $name, 'kalcrsgal');
+}
+
+function local_kalturamediagallery_extend_navigation_course(navigation_node $parent, stdClass $course, context_course $context) {
+    global $USER;
+    if (get_config('local_kalturamediagallery', 'link_location') != LOCAL_KALTURAMEDIAGALLERY_LINK_LOCATION_COURSE_SETTINGS
+        || empty($USER->id)
+        || !has_capability('local/kalturamediagallery:view', $context, $USER)) {
+        return;
+    }
+
+    $name = get_string('nav_mediagallery', 'local_kalturamediagallery');
+    $url = new moodle_url('/local/kalturamediagallery/index.php', array('courseid' => $course->id));
+    $icon = new image_icon('kaltura_icon', $name);
+    $parent->add($name, $url, navigation_node::NODETYPE_LEAF, $name, 'kalturacoursegallerylink-settings', $icon);
 }
