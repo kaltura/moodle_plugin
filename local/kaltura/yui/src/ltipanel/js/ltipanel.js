@@ -1,5 +1,3 @@
-YUI.add('moodle-local_kaltura-ltipanel', function (Y, NAME) {
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -206,7 +204,7 @@ Y.extend(LTIPANELMEDIAASSIGNMENT, Y.Base, {
 
         var left = ((width / 2) - (w / 2)) + dualScreenLeft;
         var top = ((height / 2) - (h / 2)) + dualScreenTop;
-        var bsePopup = window.open(url, M.util.get_string("browse_and_embed", "local_kaltura"), 'scrollbars=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+        var bsePopup = window.open(url, M.util.get_string("browse_and_embed", "local_kaltura"), 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
         if (window.focus) {
             bsePopup.focus();
@@ -355,6 +353,3 @@ M.local_kaltura.initreviewsubmission = function() {
     var mediaassignment = new LTIPANELMEDIAASSIGNMENT(args);
     return new LTISUBMISSIONREVIEW(mediaassignment);
 };
-
-
-}, '@VERSION@', {"requires": ["base", "node", "panel", "node-event-simulate"]});
