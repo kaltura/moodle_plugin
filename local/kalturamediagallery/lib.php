@@ -97,6 +97,15 @@ function local_kalturamediagallery_extend_navigation($navigation) {
             $currentCourseInCourses->add($mediaGalleryLinkName, $linkUrl, navigation_node::NODETYPE_LEAF, $mediaGalleryLinkName, 'kalturacoursegallerylink-mycourses');
         }
     }
+
+    $coursesNode = $navigation->find('courses', $navigation::TYPE_ROOTNODE);
+    if (isNodeNotEmpty($coursesNode)) {
+        $currentCourseInCourses = $coursesNode->find($coursecontext->instanceid, navigation_node::TYPE_COURSE);
+        if ($coursesNode) {
+            // we found the current course in the "courses node", add the link to it.
+            $currentCourseInCourses->add($mediaGalleryLinkName, $linkUrl, navigation_node::NODETYPE_LEAF, $mediaGalleryLinkName, 'kalturacoursegallerylink-mycourses');
+        }
+    }
 }
 
 function local_kalturamediagallery_extend_navigation_course(navigation_node $parent, stdClass $course, context_course $context) {
