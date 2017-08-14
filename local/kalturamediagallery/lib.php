@@ -84,7 +84,7 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     if(isNodeNotEmpty($myCoursesNode)) {
         $currentCourseInMyCourses = $myCoursesNode->find($coursecontext->instanceid, navigation_node::TYPE_COURSE);
         if($currentCourseInMyCourses) {
-            // we found the current course in "my courses node", add the link to it.
+            // we found the current course in 'my courses' node, add the link to it.
             $currentCourseInMyCourses->add($mediaGalleryLinkName, $linkUrl, navigation_node::NODETYPE_LEAF, $mediaGalleryLinkName, 'kalturacoursegallerylink-mycourses');
         }
     }
@@ -93,7 +93,7 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     if (isNodeNotEmpty($coursesNode)) {
         $currentCourseInCourses = $coursesNode->find($coursecontext->instanceid, navigation_node::TYPE_COURSE);
         if ($coursesNode) {
-            // we found the current course in the "courses node", add the link to it.
+            // we found the current course in the 'courses' node, add the link to it.
             $currentCourseInCourses->add($mediaGalleryLinkName, $linkUrl, navigation_node::NODETYPE_LEAF, $mediaGalleryLinkName, 'kalturacoursegallerylink-mycourses');
         }
     }
