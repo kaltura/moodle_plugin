@@ -33,8 +33,8 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     global $USER, $PAGE, $DB;
 
     // Either a set value of 0 or an unset value means hook into navigation block.
-    if (!empty(get_config('local_kalturamediagallery', 'link_location')))
-    {
+    $linkLocationConfig = get_config('local_kalturamediagallery', 'link_location');
+    if (!empty($linkLocationConfig)) {
         return;
     }
 
