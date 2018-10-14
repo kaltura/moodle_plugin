@@ -47,7 +47,7 @@ class mod_kalvidres_renderer extends plugin_renderer_base {
 
     /**
      * This function displays the iframe markup.
-     * @param object $kalvidres A Kaltura video resource instance object.
+     * @param object $kalvidres A Kaltura video resrouce instance object.
      * @param int $courseid A course id.
      * @return string HTML markup.
      */
@@ -71,24 +71,7 @@ class mod_kalvidres_renderer extends plugin_renderer_base {
         );
 
         $iframe = html_writer::tag('iframe', '', $attr);
-        $script = html_writer::start_tag('script');
-        $script .= "window.addEventListener('message', function(e) {
-                try {
-                    var postMessageData = e.data;
-                    if (postMessageData.subject === \"lti.frameResize\") {
-                        var height = postMessageData.height;
-                        if (height.toString().indexOf(\"%\") === -1) {
-                            height += \"px\";
-                        }
-                        $('.kaltura-player-iframe').height(height);
-                    }
-                }
-                catch(ex) {
-                    console.error(\"encountered error in kms communication\", ex);
-                }
-            });";
-        $script.= html_writer::end_tag('script');
-        $iframeContainer = html_writer::tag('div', $iframe . $script, array(
+        $iframeContainer = html_writer::tag('div', $iframe, array(
             'class' => 'kaltura-player-container'
         ));
 
