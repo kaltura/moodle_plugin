@@ -27,7 +27,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 $plugin->version = 2018120334;
 $plugin->component  = 'mod_kalvidpres';
-$plugin->release    = 'Kaltura release 4.1.3';
+$plugin->release    = 'Kaltura release 4.1.4';
 $plugin->requires = 2017111300;
 $plugin->cron       = 0;
 $plugin->maturity = MATURITY_STABLE;
