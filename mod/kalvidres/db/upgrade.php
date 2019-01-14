@@ -24,7 +24,7 @@ function xmldb_kalvidres_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2018120334) {
+    if ($oldversion < 2019011434) {
         // Changing precision of field video_title on table kalvidres to (256).
         $table = new xmldb_table('kalvidres');
         $field = new xmldb_field('video_title', XMLDB_TYPE_CHAR, '256', null, XMLDB_NOTNULL, null, null, 'entry_id');
@@ -33,7 +33,7 @@ function xmldb_kalvidres_upgrade($oldversion) {
         $dbman->change_field_precision($table, $field);
 
         // Kalvidres savepoint reached.
-        upgrade_mod_savepoint(true, 2018120334, 'kalvidres');
+        upgrade_mod_savepoint(true, 2019011434, 'kalvidres');
     }
 
     if ($oldversion < 2011110702) {

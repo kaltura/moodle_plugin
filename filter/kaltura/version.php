@@ -24,11 +24,11 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018120334; //version date YYYYMMDDXX 10 represent 3.0 for future option to moodle use 2 digit version
+$plugin->version = 2019011434; //version date YYYYMMDDXX 10 represent 3.0 for future option to moodle use 2 digit version
 $plugin->component  = 'filter_kaltura';
-$plugin->release = 'Kaltura release 4.1.4';
+$plugin->release = 'Kaltura release 4.1.5';
 $plugin->requires = 2017111300;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_kaltura' => 2018120334
+    'local_kaltura' => 2019011434
 );
