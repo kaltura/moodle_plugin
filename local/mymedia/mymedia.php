@@ -52,7 +52,8 @@ $attr = array(
     'height' => '600px',
     'width' => '100%',
     'allowfullscreen' => 'true',
-    'src' => 'lti_launch.php'
+    'src' => 'lti_launch.php',
+    'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *;',
 );
 echo html_writer::tag('iframe', '', $attr);
 
@@ -63,5 +64,6 @@ $params = array(
     'padding' => 15
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
+$PAGE->requires->js(new moodle_url('/local/kaltura/js/kea_resize.js'));
 
 echo $OUTPUT->footer();
