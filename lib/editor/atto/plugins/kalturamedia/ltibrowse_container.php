@@ -17,7 +17,6 @@
     var buttonJs = window.opener.buttonJs;
     var embedButton = Y.Node.create('<button></button>');
     embedButton.setAttribute('id', 'KalturaMediaSubmit');
-    embedButton.setAttribute('class', 'btn btn-primary');
     embedButton.setAttribute('disabled', 'disabled');
     embedButton.setHTML("<?php echo get_string('embedbuttontext', 'atto_kalturamedia'); ?>");
     embedButton.hide();
