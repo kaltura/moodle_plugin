@@ -1,4 +1,6 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -12,13 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+/**
+ * Filter post install hook
+ *
+ * @package    filter_kaltura
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-$plugin->version   = 2019111435;
-$plugin->release = 'Kaltura release 4.2.5';
-$plugin->requires  = 2018051700;
-$plugin->component = 'block_kalturamediagallery';
-$plugin->dependencies = array(
-    'local_kaltura' => 2019111435,
-    'local_kalturamediagallery' => 2019111435
-);
+function xmldb_filter_kaltura_install() {
+    global $CFG;
+    require_once("$CFG->libdir/filterlib.php");
+
+    filter_set_global_state('kaltura', TEXTFILTER_ON);
+}
