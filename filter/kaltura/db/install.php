@@ -1,4 +1,6 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -13,24 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura video resource version file.
+ * Filter post install hook
  *
- * @package    mod_kalvidres
- * @author     Remote-Learner.net Inc
+ * @package    filter_kaltura
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
  */
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');
-}
+function xmldb_filter_kaltura_install() {
+    global $CFG;
+    require_once("$CFG->libdir/filterlib.php");
 
-$plugin->version = 2019111436;
-$plugin->component  = 'mod_kalvidres';
-$plugin->release    = 'Kaltura release 4.2.5';
-$plugin->requires = 2018120300;
-$plugin->cron       = 0;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'local_kaltura' => 2019111436
-);
+    filter_set_global_state('kaltura', TEXTFILTER_ON);
+}
