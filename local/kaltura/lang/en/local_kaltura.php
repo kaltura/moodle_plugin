@@ -90,3 +90,6 @@ $string['privacy:metadata:editor'] = 'The editor of the user accessing the LTI C
 $string['privacy:metadata:module'] = 'The name of the module the user is accessing the LTI Consumer from';
 $string['privacy:metadata:source'] = 'The source URL of the media entry of the user accessing the LTI Consumer';
 $string['privacy:metadata:custompublishdata'] = 'The courses the user is enrolled in and the LTI roles the user has in the course';
+$string['kaltura_additional_hdr'] = 'Additional configuration';
+$string['icons_fontawesome'] = 'Enable fontawesome icons in navigation drawer';
+$string['icons_fontawesome_desc'] = 'If enabled Moodle will use in the navigation drawer fontawesome icons instead of the pix.';

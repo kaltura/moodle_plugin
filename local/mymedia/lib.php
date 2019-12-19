@@ -54,7 +54,15 @@ function local_mymedia_extend_navigation($navigation) {
         return;
     }
     $mymedia = get_string('nav_mymedia', 'local_mymedia');
-    $icon = new pix_icon('my-media', '', 'local_mymedia');
+    $icon = getMyMediaIcon();
     $nodemymedia = $nodehome->add($mymedia, new moodle_url('/local/mymedia/mymedia.php'), navigation_node::NODETYPE_LEAF, $mymedia, 'mymedia', $icon);
     $nodemymedia->showinflatnavigation = true;
+}
+
+function getMyMediaIcon() {
+    if (get_config('local_kaltura', 'enable_fontawesome')) {
+        return new pix_icon('t/go', '');
+    } else {
+        return new pix_icon('my-media', '', 'local_mymedia');
+    }
 }

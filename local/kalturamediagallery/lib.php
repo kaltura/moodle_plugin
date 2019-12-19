@@ -119,5 +119,9 @@ function isNodeNotEmpty(navigation_node $node) {
 }
 
 function getMediaGalleryIcon() {
-    return new pix_icon('media-gallery', '', 'local_kalturamediagallery');
+    if (get_config('local_kaltura', 'enable_fontawesome')) {
+        return new pix_icon('e/insert_edit_video', '');
+    } else {
+        return new pix_icon('media-gallery', '', 'local_kalturamediagallery');
+    }
 }

@@ -96,4 +96,13 @@ if ($hassiteconfig) {
         $adminsetting->plugin = KALTURA_PLUGIN_NAME;
         $settings->add($adminsetting);
     }
+
+    $adminsetting = new admin_setting_heading('kaltura_additional_heading', get_string('kaltura_additional_hdr', 'local_kaltura'),'');
+    $adminsetting->plugin = KALTURA_PLUGIN_NAME;
+    $settings->add($adminsetting);
+
+    $adminsetting = new admin_setting_configcheckbox('enable_fontawesome', get_string('icons_fontawesome', 'local_kaltura'),
+            get_string('icons_fontawesome_desc','local_kaltura'), 0);
+    $adminsetting->plugin = KALTURA_PLUGIN_NAME;
+    $settings->add($adminsetting);
 }
