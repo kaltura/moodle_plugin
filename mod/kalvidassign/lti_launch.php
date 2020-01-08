@@ -80,7 +80,7 @@ if ($isResubmit && $isReplaceMediaDisabled && empty($source)) {
     die;
 }
 if (!empty(get_config(KALTURA_PLUGIN_NAME, 'enable_submission'))) {
-    $launch['submission'] = 'yes';
+    $launch['assignment'] = 'yes';
 }
 if (local_kaltura_validate_browseembed_required_params($launch)) {
     $content = local_kaltura_request_lti_launch($launch, $withblocks);
