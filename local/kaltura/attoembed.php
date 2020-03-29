@@ -1,4 +1,6 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -13,23 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * My Media version file.
+ * Kaltura LTI service script used receive data sent from the Kaltura content provider.
  *
- * @package    local_mymedia
+ * @package    local_kaltura
  * @author     Remote-Learner.net Inc
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
  */
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.');
-}
-
-$plugin->version = 2020030938;
-$plugin->component = 'local_mymedia';
-$plugin->release = 'Kaltura release 4.2.7';
-$plugin->requires = 2018120300;
-$plugin->maturity = MATURITY_STABLE;
-$plugin->dependencies = array(
-    'local_kaltura' => 2020030938
-);
+$PAGE->set_pagelayout('embedded');
+echo $OUTPUT->header();
+$playurl = urldecode($url);
+?>
+<script>
+    var data = {
+        'url': "<?php echo $playurl; ?>",
+        'width': <?php echo $width; ?>,
+        'height': <?php echo $height; ?>,
+        'title': "<?php echo addcslashes($title, '"'); ?>"
+    };
+    parent.kaltura_atto_embed(data);
+</script>
