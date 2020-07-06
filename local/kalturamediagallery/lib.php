@@ -76,13 +76,13 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     $linkUrl = new moodle_url('/local/kalturamediagallery/index.php', array('courseid' => $coursecontext->instanceid));
 
     $currentCourseNode = $navigation->find('currentcourse', $navigation::TYPE_ROOTNODE);
-    if (isNodeNotEmpty($currentCourseNode)) {
+    if ($currentCourseNode && isNodeNotEmpty($currentCourseNode)) {
         // we have a 'current course' node, add the link to it.
         $currentCourseNode->add($mediaGalleryLinkName, $linkUrl, navigation_node::NODETYPE_LEAF, $mediaGalleryLinkName, 'kalturacoursegallerylink-currentcourse', $icon);
     }
 
     $myCoursesNode = $navigation->find('mycourses', $navigation::TYPE_ROOTNODE);
-    if(isNodeNotEmpty($myCoursesNode)) {
+    if($myCoursesNode && isNodeNotEmpty($myCoursesNode)) {
         $currentCourseInMyCourses = $myCoursesNode->find($coursecontext->instanceid, navigation_node::TYPE_COURSE);
         if($currentCourseInMyCourses) {
             // we found the current course in 'my courses' node, add the link to it.
@@ -91,7 +91,7 @@ function local_kalturamediagallery_extend_navigation($navigation) {
     }
 
     $coursesNode = $navigation->find('courses', $navigation::TYPE_ROOTNODE);
-    if (isNodeNotEmpty($coursesNode)) {
+    if ($coursesNode && isNodeNotEmpty($coursesNode)) {
         $currentCourseInCourses = $coursesNode->find($coursecontext->instanceid, navigation_node::TYPE_COURSE);
         if ($currentCourseInCourses) {
             // we found the current course in the 'courses' node, add the link to it.
