@@ -1,16 +1,35 @@
 <?php
-    require_once(dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))).'/config.php');
-    require_login();
-    global $PAGE;
-    $PAGE->set_context(context_system::instance());
-    $PAGE->set_pagelayout('embedded');
-    echo $OUTPUT->header();
-    $requestQueryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : "";
-    parse_str($requestQueryString, $params);
-    $ltibrowseUrl = new moodle_url('ltibrowse.php', $params);
+
+require(__DIR__.'/../../../../../config.php');
+require_login();
+
+global $PAGE;
+
+$queryparams = [
+    'elementid' => optional_param('elementid', '', PARAM_TEXT),
+    'contextid' => optional_param('contextid', 0, PARAM_INT),
+    'height' => optional_param('height', '', PARAM_TEXT),
+    'width' => optional_param('width', '', PARAM_TEXT)
+];
+
+$PAGE->set_context(context_system::instance());
+$PAGE->set_pagelayout('embedded');
+$PAGE->set_url(
+        '/lib/editor/atto/plugins/kalturamedia/ltibrowse_container.php',
+        $queryparams
+);
+
+$ltibrowseUrl = new moodle_url('/lib/editor/atto/plugins/kalturamedia/ltibrowse.php', $queryparams);
+
+/** @var core_renderer $OUTPUT */
+$OUTPUT;
+
+echo $OUTPUT->header();
 ?>
 
-<iframe allow="autoplay *; fullscreen *; encrypted-media *; camera *; microphone *;" id="kafIframe" src="<?php echo $ltibrowseUrl->out(); ?>" width="100%" height="600" style="border: 0;" allowfullscreen>
+<iframe allow="autoplay *; fullscreen *; encrypted-media *; camera *; microphone *;"
+        id="kafIframe" src="<?php echo $ltibrowseUrl->out(); ?>"
+        width="100%" height="600" style="border: 0;" allowfullscreen>
 </iframe>
 <script>
     var buttonJs = window.opener.buttonJs;
@@ -19,3 +38,6 @@
         buttonJs.embedItem(buttonJs, data);
     }
 </script>
+
+<?php
+echo $OUTPUT->footer();
