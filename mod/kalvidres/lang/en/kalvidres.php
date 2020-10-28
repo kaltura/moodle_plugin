@@ -37,3 +37,4 @@ $string['replace_video'] = 'Replace media';
 $string['kalvidres:addinstance'] = 'Add a Kaltura Video Resource';
 $string['eventvideo_resource_viewed'] = 'Video resource viewed';
 $string['privacy:metadata'] = 'Kaltura video resource plugin does not store any personal data.';
+$string['search:activity'] = 'Kaltura Video Resource';
