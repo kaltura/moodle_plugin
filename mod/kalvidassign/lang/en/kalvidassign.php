@@ -141,4 +141,4 @@ $string['privacy:metadata:kalvidassignperpage'] = 'Number of assignment submissi
 $string['privacy:metadata:kalvidassignquickgrade'] = 'Quick grading preference for assignment submissions.';
 $string['privacy:markedsubmissionspath'] = 'markedsubmissions';
 $string['privacy:submissionpath'] = 'submission';
-$string['search:activity'] = 'Kaltura Video Assign';
+$string['search:activity'] = 'Kaltura Media Assignment';
