@@ -127,8 +127,15 @@ class filter_kaltura extends moodle_text_filter {
         $kafuri = rtrim($kafuri, '/');
         $kafuri = str_replace(array('http://', 'https://', '.', '/'), array('https?://', 'https?://', '\.', '\/'), $kafuri);
 
-        $search = $search = '/<a\s[^>]*href="(((https?:\/\/'.KALTURA_URI_TOKEN.')|('.$kafuri.')))\/browseandembed\/index\/media\/entryid\/([\d]+_[a-z0-9]+)(\/([a-zA-Z0-9]+\/[a-zA-Z0-9]+\/)*)"[^>]*>([^>]*)<\/a>/is';
+        $kafurialt = 'http://appstate-moodle.kaf.kaltura.com';
+        $kafurialt = rtrim($kafurialt, '/');
+        $kafurialt = str_replace(array('http://', 'https://', '.', '/'), array('https?://', 'https?://', '\.', '\/'), $kafurialt);
+        
+        //$search = $search = '/<a\s[^>]*href="(((https?:\/\/'.KALTURA_URI_TOKEN.')|('.$kafuri.')))\/browseandembed\/index\/media\/entryid\/([\d]+_[a-z0-9]+)(\/([a-zA-Z0-9]+\/[a-zA-Z0-9]+\/)*)"[^>]*>([^>]*)<\/a>/is';
+        $search = $search = '/<a\s[^>]*href="(((https?:\/\/'.KALTURA_URI_TOKEN.')|('.$kafuri.')|('.$kafurialt.')))\/browseandembed\/index\/media\/entryid\/([\d]+_[a-z0-9]+)(\/([a-zA-Z0-9]+\/[a-zA-Z0-9]+\/)*)"[^>]*>([^>]*)<\/a>/is';
         $newtext = preg_replace_callback($search, 'filter_kaltura_callback', $newtext);
+        // callback is not getting source because of number of parts of link
+        // change config back to kaltura url and see what happens
 
         if (empty($newtext) || $newtext === $text) {
             // Error or not filtered.
@@ -151,9 +158,9 @@ function filter_kaltura_callback($link) {
     $source = '';
 
     // Convert KAF URI anchor tags into iframe markup.
-    if (9 == count($link)) {
+    if (10 == count($link)) {
         // Get the height and width of the iframe.
-        $properties = explode('||', $link[8]);
+        $properties = explode('||', $link[9]);
 
         $width = $properties[2];
         $height = $properties[3];
@@ -162,7 +169,7 @@ function filter_kaltura_callback($link) {
             return $link[0];
         }
 
-        $source = filter_kaltura::$kafuri . '/browseandembed/index/media/entryid/' . $link[5] . $link[6];
+        $source = filter_kaltura::$kafuri . '/browseandembed/index/media/entryid/' . $link[6] . $link[7];
     }
 
     // Convert v3 anchor tags into iframe markup.
