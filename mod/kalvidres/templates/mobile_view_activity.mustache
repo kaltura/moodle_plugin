@@ -1,0 +1,22 @@
+{{=<% %>=}}
+<div>
+    <core-course-module-description description="<% kalvidres.intro %>" component="mod_kalvidres" componentId="<% cmid %>"></core-course-module-description>
+
+    <ion-card>
+        <style>
+            .col-md-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+                padding: 0 15px;
+            }
+        </style>
+
+        <ion-item>
+            <div style="max-width:100%;">
+                <div style="overflow:hidden; padding-bottom:calc(56.25% + 30px); position:relative; height:0;">
+                    <%{ iframe }%>
+                </div>
+            </div>
+        </ion-item>
+    </ion-card>
+</div>

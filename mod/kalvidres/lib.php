@@ -168,7 +168,7 @@ function kalvidres_supports($feature) {
         case FEATURE_MOD_INTRO:
             return true;
         case FEATURE_COMPLETION_TRACKS_VIEWS:
-            return false;
+            return true;
         case FEATURE_GRADE_HAS_GRADE:
             return false;
         case FEATURE_GRADE_OUTCOMES:
@@ -178,4 +178,13 @@ function kalvidres_supports($feature) {
         default:
             return null;
     }
+}
+
+/**
+ * This function is used by the reset_course_userdata function in moodlelib.
+ * @param $data the data submitted from the reset course.
+ * @return array status array
+ */
+function kalvidres_reset_userdata($data) {
+    return array();
 }

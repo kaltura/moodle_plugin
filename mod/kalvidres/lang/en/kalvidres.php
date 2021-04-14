@@ -35,5 +35,6 @@ $string['invalid_launch_parameters'] = 'Invalid launch parameters';
 $string['invalid_source_parameter'] = 'Invalid source parameter';
 $string['replace_video'] = 'Replace media';
 $string['kalvidres:addinstance'] = 'Add a Kaltura Video Resource';
+$string['kalvidres:view'] = 'View kalvidres activity';
 $string['eventvideo_resource_viewed'] = 'Video resource viewed';
 $string['privacy:metadata'] = 'Kaltura video resource plugin does not store any personal data.';
