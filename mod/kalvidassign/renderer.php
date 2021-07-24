@@ -366,7 +366,7 @@ class submissions_table extends table_sql {
             $buttontext = get_string('update');
         } else {
             $class = 's0';
-            $buttontext  = get_string('grade');
+            $buttontext = get_string_manager()->string_exists('gradeverb', 'moodle') ? get_string('gradeverb') : get_string('grade');
         }
 
         if (!$submitted) {
