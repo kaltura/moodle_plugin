@@ -46,9 +46,20 @@ $PAGE->add_body_class($pageclass);
 
 echo $OUTPUT->header();
 
+
+// Request the launch content with an iframe tag.
+$attr = array(
+    'href' => 'simple_uploader.php',
+	'class' => 'btn btn-secondary',
+	'style' => 'float: right;',
+    'target' => 'contentframe',
+);
+echo html_writer::tag('a', 'Trouble Uploading?', $attr);
+
 // Request the launch content with an iframe tag.
 $attr = array(
     'id' => 'contentframe',
+    'name' => 'contentframe',
     'height' => '600px',
     'width' => '100%',
     'allowfullscreen' => 'true',
