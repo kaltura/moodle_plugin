@@ -102,6 +102,9 @@ echo '</pre>';
       <h3>Upload to My Media</h3>
       
 	  <p>This alternate uploader is intended to improve performance for users with upload speeds less than 8 mbps.</p>
+	  
+	  <p>You can drag and drop up to 5 files at once, but we recommend uploading only one file at a time for slower connections.</p>
+	  
 	  <p>If you continue to experience problems uploading media, please contact <a href="mailto:it.support@uregina.ca">it.support@uregina.ca</a>.</p>
 	  
       <script >
@@ -120,34 +123,52 @@ echo '</pre>';
 
 	  <div class="row">
 	  <div class="col-sm-8">
+		 <div class="form-group valid-row">
+	 	      <div class="resumable-progress">
+	 	        <table>
+	 	          <tr>
+	 	            <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+	 	            <td class="progress-text" nowrap="nowrap"></td>
+	 	            <td class="progress-pause" nowrap="nowrap">
+	 	              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="simple/resume.png" title="Resume upload" /></a>
+	 	              <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="simple/pause.png" title="Pause upload" /></a>
+	 	              <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="simple/cancel.png" title="Cancel upload" /></a>
+	 	            </td>
+	 	          </tr>
+	 	        </table>
+	 	      </div>
+      
+	 	    <div class="upload-speed"></div> 
+		
+	 	      <div id="report" style="color: rgb(69, 145, 58);"></div>
+
+	 	      <ul class="resumable-list">
+	 	      	<li><h4>Upload Log</h4></li>
+	 	      </ul>
+		 </div>  
+		  
+		  
 	  <div class="form-group valid-row mb-5">
 	      <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
-	        Drop video files here to upload or <a class="resumable-browse"><u>select from your computer</u></a>
+			  <div class="uploadBox__container">
+			                          <img src="https://vodcdn.ca.kaltura.com/5.105.641/public/img/upload_background.png" alt="Upload new media">                        <img src="https://vodcdn.ca.kaltura.com/5.105.641/public/img/upload_arrow.png" class="uploadBox__moving-image">                    </div>
+	        <p style="font-size: 24px;">Drag & Drop a file here</p>
+			<p class="text-muted">or</p> 
+			<p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
+			<p>All common video, audio and image formats in all resolutions are accepted.</p>
 	      </div>
 
-	      <div class="resumable-progress">
-	        <table>
-	          <tr>
-	            <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
-	            <td class="progress-text" nowrap="nowrap"></td>
-	            <td class="progress-pause" nowrap="nowrap">
-	              <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="simple/resume.png" title="Resume upload" /></a>
-	              <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="simple/pause.png" title="Pause upload" /></a>
-	              <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="simple/cancel.png" title="Cancel upload" /></a>
-	            </td>
-	          </tr>
-	        </table>
-	      </div>
-      
-	      <div id="report" style="color: rgb(0, 111, 255);"></div>
+	      
+	  </div>
+	  <div class="form-group valid-row">
+		
+<details>
+    <summary>Advanced options</summary>
+  
 
-	      <ul class="resumable-list"></ul>
-	  </div>
-	  <div class="form-group valid-row">
-	    <label for="inputSimUploads">Simultaneous uploads:</label>
-	    <input id="inputSimUploads" type="text" value="5"> 
-	  </div>
-	  <div class="form-group valid-row">
+		  <div class="card card-body">
+		<p>Selecting a smaller chunk size may help improve performance when experiencing slower upload speeds.</p>
+		
 	    <label for="inputChunkSize">Chunk size (kb):</label>
 	    <select id="inputChunkSize" name="inputChunkSize" class="form-control select">
 		<option value="Unchunked">Unchunked</option>
@@ -159,12 +180,16 @@ echo '</pre>';
 		<option value="10240">10240</option>
 		
 	    </select>
+		</div></details>
 	  </div>
 	  <div class="form-group valid-row">
+		<?php if (isset($_GET["debug"])&&$_GET["debug"]==1) { ?>
 	    <p class="text-muted">Kaltura Service URL: <?php echo $kconf->serviceUrl ?><br />
 		Partner ID: <?php echo PARTNER_ID ?><br />
 		User: <?php echo $user ?><br />
 		KS: <?php echo $ksession ?></p>
+		<?php } ?>
+	    <input id="inputSimUploads" type="hidden" value="5"> 
 	    <input class="form-control" id="serviceUrl" type="hidden" value="<?php echo $kconf->serviceUrl ?>" size="30">
 	    <input class="form-control" id="userId" type="hidden" size="30" value="<?php echo $user ?>">
 	    <input class="form-control" id="partnerId" type="hidden" size="30" value="<?php echo PARTNER_ID ?>">
@@ -252,14 +277,16 @@ echo '</pre>';
 		var reportDiv = document.getElementById("report");
 		if (response.id){
 			kalturaEntryId=response.id;
-			reportDiv.style.color="rgb(0, 111, 255)";
+			reportDiv.style.color="rgb(69, 145, 58)";
 			status_msg ="Last fully uploaded entry ID: <b>"+response.id + "</b>, Entry Name: <b>"+response.name+"</b>"; 
 			report['entry_id']=kalturaEntryId;
 			is_success = true;
+			 $('.upload-speed').hide();
 		}else{
 			reportDiv.style.color="red";
 			status_msg ='Upload ERROR! Code: ' + response.code + 'Message: ' + response.message;
 			is_success = false;
+			 $('.upload-speed').hide();
 		}
 
 		console.log('entry ID is '+kalturaEntryId);
@@ -357,6 +384,7 @@ echo '</pre>';
 
               // Show progress pabr
               $('.resumable-progress, .resumable-list').show();
+			  $('.upload-speed').show();
               // Show pause, hide resume
               $('.resumable-progress .progress-resume-link').hide();
               $('.resumable-progress .progress-pause-link').show();
@@ -416,12 +444,36 @@ echo '</pre>';
               // Handle progress for both the file and the overall upload
               $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html(Math.floor(file.progress()*100) + '%');
               $('.progress-bar').css({width:Math.floor(r.progress()*100) + '%'});
+			  
+			  // Write out upload speed
+			  //if (file.lengthComputable) {
+	              var duration = (Date.now() - lastUploadStartTime)/1000;
+	              var mbSize = file.size/1024/1024;
+	              var speed = mbSize/duration;
+				  
+			          var now = new Date().getTime();
+			          var sbytes = file.progress();
+			          var stotal = file.size;
+			          var percent = sbytes * 100;
+			          var kbytes = sbytes / 1024;
+			          var mbytes = kbytes / 1024;
+			          var uploadedkBytes = kbytes - lastKBytes;
+			          var elapsed = (now - lastNow) / 1000;
+			          var kbps =  elapsed ? uploadedkBytes / elapsed : 0 ;
+			          lastKBytes = kbytes;
+					  uploadedstr = stotal * sbytes / 1024 / 1024;
+			          lastNow = now;
+			          $('.upload-speed').text('' + duration.toFixed(1) + ' secs ' + uploadedstr.toFixed(1) + " MB (" + percent.toFixed(0) + "%) " + speed.toFixed(1) + " mb/s");
+					  //}
+			  
             });
           r.on('cancel', function(){
             $('.resumable-file-progress').html('canceled');
           });
           r.on('uploadStart', function(){
               lastUploadStartTime = Date.now();
+			  lastNow = new Date().getTime();
+			  lastKBytes = 0;
               // Show pause, hide resume
               $('.resumable-progress .progress-resume-link').hide();
               $('.resumable-progress .progress-pause-link').show();

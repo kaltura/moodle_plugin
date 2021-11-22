@@ -4,8 +4,13 @@
 
 /* Uploader: Drag & Drop */
 .resumable-error {display:none; font-size:14px; font-style:italic;}
-.resumable-drop {padding:15px; font-size:13px; text-align:center; color:#666; font-weight:bold;background-color:#eee; border:2px dashed #aaa; border-radius:10px; margin-top:40px; z-index:9999; display:none;}
-.resumable-dragover {padding:30px; color:#555; background-color:#ddd; border:1px solid #999;}
+.resumable-drop {font-size:13px; text-align:center; color:#666; font-weight:bold;background-color:#fff; border-radius:10px; margin-top:40px; z-index:9999; display:none;
+    padding: 45px 54px 54px 40px;
+    outline: #d9d9d9 dashed;
+    border: none;
+    background-color: white;
+}
+.resumable-dragover {color:#555; background-color:#ddd; border:1px solid #999;}
 
 /* Uploader: Progress bar */
 .resumable-progress {margin:30px 0 30px 0; width:100%; display:none;}
@@ -910,4 +915,81 @@ background: #ffffff !important;
 
   background: #a6a6a6 !important;
 
+}
+.page {
+	background-color: #fff;
+}
+.center {
+    float: none;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+.uploadBox__container {
+height: auto;
+max-width: 100%;
+vertical-align: middle;
+border: 0;
+}
+.uploadBox__moving-image {
+    position: relative;
+    left: 0;
+    right: 0;
+    bottom: 27px;
+    transition: transform 0.2s ease-out;
+}
+button.btn.btn-primary, button.btn.btn-small.btn-primary, a.btn.btn-primary, a.btn.btn-small.btn-primary, input.btn.btn-primary, input.btn.btn-small.btn-primary, div.btn.btn-primary, div.btn.btn-small.btn-primary, span.btn.btn-primary, span.btn.btn-small.btn-primary, label.btn.btn-primary, label.btn.btn-small.btn-primary {
+    background-color: #008297;
+    border-color: #008297 !important;
+    color: white;
+}
+button.btn:hover:not(.btn-link, button.btn .button--transparent), button.btn.btn-small:hover:not(.btn-link, button.btn.btn-small .button--transparent), a.btn:hover:not(.btn-link, a.btn .button--transparent), a.btn.btn-small:hover:not(.btn-link, a.btn.btn-small .button--transparent), input.btn:hover:not(.btn-link, input.btn .button--transparent), input.btn.btn-small:hover:not(.btn-link, input.btn.btn-small .button--transparent), div.btn:hover:not(.btn-link, div.btn .button--transparent), div.btn.btn-small:hover:not(.btn-link, div.btn.btn-small .button--transparent), span.btn:hover:not(.btn-link, span.btn .button--transparent), span.btn.btn-small:hover:not(.btn-link, span.btn.btn-small .button--transparent), label.btn:hover:not(.btn-link, label.btn .button--transparent), label.btn.btn-small:hover:not(.btn-link, label.btn.btn-small .button--transparent) {
+    color: #666;
+    background-color: rgba(0,0,0,0.1);
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+    transition: background-color 0.2s;
+}
+button.btn.btn-primary:hover, button.btn.btn-primary:focus, button.btn.btn-small.btn-primary:hover, button.btn.btn-small.btn-primary:focus, a.btn.btn-primary:hover, a.btn.btn-primary:focus, a.btn.btn-small.btn-primary:hover, a.btn.btn-small.btn-primary:focus, input.btn.btn-primary:hover, input.btn.btn-primary:focus, input.btn.btn-small.btn-primary:hover, input.btn.btn-small.btn-primary:focus, div.btn.btn-primary:hover, div.btn.btn-primary:focus, div.btn.btn-small.btn-primary:hover, div.btn.btn-small.btn-primary:focus, span.btn.btn-primary:hover, span.btn.btn-primary:focus, span.btn.btn-small.btn-primary:hover, span.btn.btn-small.btn-primary:focus, label.btn.btn-primary:hover, label.btn.btn-primary:focus, label.btn.btn-small.btn-primary:hover, label.btn.btn-small.btn-primary:focus {
+    border-color: #006878 !important;
+    background-color: #006878;
+    color: white;
+}
+.btn:hover, .btn:focus {
+    color: #333;
+    text-decoration: none;
+    background-position: 0 -15px;
+    -webkit-transition: background-position .1s linear;
+    -moz-transition: background-position .1s linear;
+    -o-transition: background-position .1s linear;
+    transition: background-position .1s linear;
+}
+details {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: .5em .5em 0;
+}
+
+summary {
+    font-weight: bold;
+    margin: -.5em -.5em 0;
+    padding: .5em;
+	display: list-item !important;
+}
+
+details[open] {
+    padding: .5em;
+}
+
+details[open] summary {
+    border-bottom: 1px solid #aaa;
+    margin-bottom: .5em;
+}
+.upload-speed{
+	margin: auto;
+	text-align: center;
+	font-weight: bold;
 }
