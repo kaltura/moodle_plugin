@@ -51,7 +51,7 @@ echo $OUTPUT->header();
 $attr = array(
     'href' => 'simple_uploader.php',
 	'class' => 'btn btn-secondary',
-	'style' => 'float: right;',
+	'style' => 'float: right; margin-top: -1em; margin-bottom: 0.5em',
     'target' => 'contentframe',
 );
 echo html_writer::tag('a', 'Trouble Uploading?', $attr);
