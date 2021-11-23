@@ -167,7 +167,7 @@ echo '</pre>';
   
 
 		  <div class="card card-body">
-		<p>Selecting a smaller chunk size may help improve performance when experiencing slower upload speeds.</p>
+		<p>Selecting a larger chunk size may help improve performance when experiencing slow upload speeds.</p>
 		
 	    <label for="inputChunkSize">Chunk size (kb):</label>
 	    <select id="inputChunkSize" name="inputChunkSize" class="form-control select">
