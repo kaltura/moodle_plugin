@@ -57,7 +57,7 @@ function kalvidassign_add_instance($kalvidassign) {
         $event->timestart   = $kalvidassign->timedue;
         $event->timeduration = 0;
 
-        calendar_event::create($event);
+        calendar_event::create($event, false);
     }
 
     kalvidassign_grade_item_update($kalvidassign);
@@ -107,7 +107,7 @@ function kalvidassign_update_instance($kalvidassign) {
             $event->timestart   = $kalvidassign->timedue;
             $event->timeduration = 0;
 
-            calendar_event::create($event);
+            calendar_event::create($event, false);
         }
     } else {
         $DB->delete_records('event', array('modulename' => 'kalvidassign', 'instance' => $kalvidassign->id));
