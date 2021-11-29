@@ -35,6 +35,7 @@ $height = required_param('height', PARAM_INT);
 $width = required_param('width', PARAM_INT);
 $withblocks = optional_param('withblocks', 0, PARAM_INT);
 $source = optional_param('source', '', PARAM_URL);
+$embedcontextid = optional_param('embedcontextid', 0, PARAM_INT);
 
 // If a course id of zero is passed, then we must be in the system context.
 if (0 != $courseid) {
@@ -47,8 +48,8 @@ if (0 != $courseid) {
 if ($context instanceof context_course) {
     $course = get_course($courseid);
 
-    // Check if the user has the capability to view comments in Moodle.
-    if (!has_capability('moodle/comment:view', $context)) {
+    // Check if the user has the capability to view kaltura media.
+    if (!has_capability('filter/kaltura:view', $context)) {
         echo get_string('nocapabilitytousethisservice', 'error');
         die();
     }
@@ -76,6 +77,12 @@ if (false === local_kaltura_url_contains_configured_hostname($source) && !empty(
 if (local_kaltura_validate_browseembed_required_params($launch)) {
     $content = local_kaltura_request_lti_launch($launch, $withblocks);
     echo $content;
+    // Check if Moodle logging is enabled.
+    $enablemoodlelogging = get_config(KALTURA_PLUGIN_NAME, 'enable_moodle_logging');
+    if (!empty($enablemoodlelogging) && $embedcontextid) {
+        $event = filter_kaltura\event\kaltura_media_viewed::create(['sourceurl' => $source, 'contextid' => $embedcontextid]);
+        $event->trigger();
+    }
 } else {
     echo get_string('invalid_launch_parameters', 'mod_kalvidres');
 }

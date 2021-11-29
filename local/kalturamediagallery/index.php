@@ -69,5 +69,14 @@ $params = array(
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 $PAGE->requires->js(new moodle_url('/local/kaltura/js/kea_resize.js'));
-
+$event = \local_kalturamediagallery\event\media_gallery_viewed::create(
+        [
+                'context' => $context,
+                'other' => [
+                        'coursename' => $course->fullname,
+                        'courseid' => $courseid
+                ]
+        ]
+);
+$event->trigger();
 echo $OUTPUT->footer();

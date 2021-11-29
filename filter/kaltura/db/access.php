@@ -15,20 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura filter settings script.
- *
  * @package    filter_kaltura
- * @author     Remote-Learner.net Inc
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  (C) 2014 Remote-Learner.net Inc (http://www.remote-learner.net)
  */
 
-defined('MOODLE_INTERNAL') || die;
-
-if ($ADMIN->fulltree) {
-    $settings->add(new admin_setting_configcheckbox('filter_kaltura_enable', get_string('enable', 'filter_kaltura'), get_string('enable_help', 'filter_kaltura'), 1));
-
-    $adminsetting = new admin_setting_configcheckbox('enable_moodle_logging', get_string('moodle_trace_log', 'filter_kaltura'),
-            get_string('moodle_trace_log_desc', 'filter_kaltura'), 0);
-    $settings->add($adminsetting);
-}
+$capabilities = [
+    'filter/kaltura:view' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ]
+    ]
+];
