@@ -15,16 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for component 'atto_kalturamedia', language 'en'.
- *
- * @package    atto_media
- * @copyright  2013 Damyon Wiese  <damyon@moodle.com>
+ * @package    filter_kaltura
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Embed Kaltura Media';
-$string['popuptitle'] = 'Select Media';
-$string['embedbuttontext'] = 'Embed';
-$string['browse_and_embed'] = 'Browse and Embed';
-$string['privacy:metadata'] = 'The atto_kalturamedia plugin does not store any personal data.';
-$string['kalturamedia:view'] = 'Permission to use Embed Kaltura Media atto plugin';
+$capabilities = [
+    'filter/kaltura:view' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'teacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW
+        ]
+    ]
+];

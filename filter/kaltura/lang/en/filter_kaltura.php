@@ -24,9 +24,14 @@
  */
 
 $string['filtername'] = 'Kaltura Media';
+$string['pluginname'] = 'Kaltura Media Filter';
 $string['enable'] = 'Embed Kaltura Video Links';
 $string['enable_help'] = 'Convert Kaltura video links to embed code';
+$string['moodle_trace_log'] = 'Enable moodle trace logging';
+$string['moodle_trace_log_desc'] = 'If enabled, all requests and responses to and from Kaltura are logged into Moodle logging system.';
+$string['kalturamediaviewed'] = 'Kaltura media viewed';
 $string['uris'] = 'Alternate KAF URIs';
 $string['uris_help'] = 'Enter alternate KAF URIs to filter, one per line';
 $string['unable'] = 'Unable to convert video at this time';
 $string['privacy:metadata'] = 'The Kaltura Media filter does not store any personal data.';
+$string['kaltura:view'] = 'Permission for user can filter Embed Kaltura Video Links';

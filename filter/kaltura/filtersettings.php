@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('filter_kaltura_enable', get_string('enable', 'filter_kaltura'), get_string('enable_help', 'filter_kaltura'), 1));
 
-    $settings->add(new admin_setting_configtextarea('filter_kaltura_uris',
-        get_string('uris', 'filter_kaltura'),
-        get_string('uris_help', 'filter_kaltura'), ''));
+    $adminsetting = new admin_setting_configcheckbox('enable_moodle_logging', get_string('moodle_trace_log', 'filter_kaltura'),
+            get_string('moodle_trace_log_desc', 'filter_kaltura'), 0);
+    $settings->add($adminsetting);
 }

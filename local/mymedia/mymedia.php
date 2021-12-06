@@ -65,5 +65,13 @@ $params = array(
 );
 $PAGE->requires->yui_module('moodle-local_kaltura-lticontainer', 'M.local_kaltura.init', array($params), null, true);
 $PAGE->requires->js(new moodle_url('/local/kaltura/js/kea_resize.js'));
-
+$event = \local_mymedia\event\mymedia_viewed::create(
+        [
+                'context' => \context_system::instance(),
+                'other' => [
+                        'page' => get_string('heading_mymedia', 'local_mymedia'),
+                ]
+        ]
+);
+$event->trigger();
 echo $OUTPUT->footer();

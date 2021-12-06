@@ -36,4 +36,27 @@ $capabilities = array(
             'manager' => CAP_ALLOW,
         )
     ),
+    'local/kaltura:lti_admin_role' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'manager' => CAP_ALLOW,
+        ]
+    ],
+    'local/kaltura:lti_instructor_role' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'editingteacher' => CAP_ALLOW,
+        ],
+        'clonepermissionsfrom' => 'moodle/course:manageactivities'
+    ],
+    'local/kaltura:lti_learner_role' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'student' => CAP_ALLOW,
+        ]
+    ],
 );
