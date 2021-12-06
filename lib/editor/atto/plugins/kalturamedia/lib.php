@@ -39,8 +39,11 @@ function atto_kalturamedia_params_for_js($elementid, $options, $fpoptions) {
     if (!$context) {
         $context = context_system::instance();
     }
-    
+
+    $active = has_capability('atto/kalturamedia:view', $context);
+
     return array(
+        'active' => $active,
         'contextid' => $context->id,
         'kafuri' => local_kaltura_get_config()->kaf_uri
         );
