@@ -338,7 +338,7 @@ function local_kaltura_strip_querystring($endpoint, $params) {
  * @return string Returns HTML required to initiate an LTI launch.
  */
 function local_kaltura_request_lti_launch($ltirequest, $withblocks = true, $editor = null) {
-    global $CFG, $USER;
+    global $CFG, $USER, $SESSION;
 
     if(is_null($editor))
     {
@@ -387,7 +387,13 @@ function local_kaltura_request_lti_launch($ltirequest, $withblocks = true, $edit
     $requestparams['lis_outcome_service_url'] = $serviceurl->out(false);
 
     // Add custom parameters
-    $requestparams['custom_publishdata'] = local_kaltura_get_kaf_publishing_data();
+    // Add json course data $SESSION for performance.
+    if (!empty($SESSION->local_kaltura_custom_publishdata)) {
+        $requestparams['custom_publishdata'] = $SESSION->local_kaltura_custom_publishdata;
+    } else {
+        $requestparams['custom_publishdata'] = local_kaltura_get_kaf_publishing_data();
+        $SESSION->local_kaltura_custom_publishdata = $requestparams['custom_publishdata'];
+    }
     $requestparams['custom_publishdata_encoded'] = '1';
     $requestparams['custom_moodle_plugin_version'] = local_kaltura_get_config()->version;
 
@@ -465,42 +471,54 @@ function local_kaltura_format_uri($uri) {
 /**
  * This function creates a JSON string of the courses the user is enrolled in and the LTI roles the user has in the course.
  * The JSON string is cached in the user's session global for efficiency purposes.
+ * @throws \coding_exception
  * @return string A JSON data structure outlining the user's LTI roles in all of their enroled courses.
  */
 function local_kaltura_get_kaf_publishing_data() {
-    global $USER, $SITE;
+    global $USER, $SITE, $COURSE;
 
-    $role = is_siteadmin($USER->id) ? KALTURA_LTI_ADMIN_ROLE : KALTURA_LTI_INSTRUCTOR_ROLE;
     $json = new stdClass();
     $json->courses = array();
-    $hascap = false;
+    $courses = [];
 
-    // If the user is not an admin then retrieve all of the user's enroled courses.
-    if (KALTURA_LTI_ADMIN_ROLE != $role) {
-        $courses = enrol_get_users_courses($USER->id, true, 'id,fullname,shortname', 'fullname ASC');
-    } else {
-        // Calling refactored code that allows for a limit on the number of courses returned.
-        $courses = local_kaltura_get_user_capability_course('moodle/course:manageactivities', $USER->id, true, 'id,fullname,shortname', 'fullname ASC');
+    $capabilities = [
+            KALTURA_LTI_ADMIN_ROLE => 'local/kaltura:lti_admin_role',
+            KALTURA_LTI_INSTRUCTOR_ROLE => 'local/kaltura:lti_instructor_role',
+            KALTURA_LTI_LEARNER_ROLE => 'local/kaltura:lti_learner_role',
+    ];
+    foreach ($capabilities as $capability) {
+        if ($coursebycapability = get_user_capability_course($capability, $USER->id, false, 'id,fullname,shortname,timemodified', 'id DESC,timemodified DESC', 200)) {
+            $courses = array_merge($courses, $coursebycapability);
+        }
     }
+    $courses = array_unique($courses, SORT_REGULAR);
+    usort($courses, function($a, $b) {
+        return $a->id < $b->id ? 1 : -1;
+    });
+    $courses = array_splice($courses, 0, 200);
+    array_unshift($courses, $COURSE);
 
     foreach ($courses as $course) {
         if ($course->id === $SITE->id) {
             // Don't want to include the site id in this list
             continue;
         }
-
-        if (KALTURA_LTI_ADMIN_ROLE != $role) {
-            // Check if the user has the manage capability in the course.
-            $hascap = has_capability('moodle/course:manageactivities', context_course::instance($course->id), $USER->id, false);
-            $role = $hascap ? KALTURA_LTI_INSTRUCTOR_ROLE : KALTURA_LTI_LEARNER_ROLE;
+        $courserole = '';
+        foreach ($capabilities as $role => $capability) {
+            if (has_capability($capability, context_course::instance($course->id), $USER->id, false)) {
+                $courserole = $role;
+                break;
+            }
         }
-
+        if (empty($courserole)) {
+            continue;
+        }
         // The properties must be nameed "courseId", "courseName" and "roles".
         $data = new stdClass();
         $data->courseId = $course->id;
         $data->courseName = $course->fullname;
         $data->courseShortName = $course->shortname;
-        $data->roles = $role;
+        $data->roles = $courserole;
         $json->courses[$course->id] = $data;
     }
 

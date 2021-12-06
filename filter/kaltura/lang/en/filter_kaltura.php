@@ -24,6 +24,7 @@
  */
 
 $string['filtername'] = 'Kaltura Media';
+$string['pluginname'] = 'Kaltura Media Filter';
 $string['enable'] = 'Embed Kaltura Video Links';
 $string['enable_help'] = 'Convert Kaltura video links to embed code';
 $string['moodle_trace_log'] = 'Enable moodle trace logging';
