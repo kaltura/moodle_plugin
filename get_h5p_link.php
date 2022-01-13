@@ -24,7 +24,7 @@ if (!isset($ks)) {
 ?>
 
 <div class="container">
-<form method="post" action="getflavorurl.php">
+<form method="post" action="get_h5p_link.php">
 <div class="mt-2 mb-2 input-group">
 <label for="entryidlabel" class="col-form-label p-2">Entry ID</label>
 <input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="entryId" value="<?php isset($_POST['entryId']) ? $_POST['entryId'] : '' ?>">
