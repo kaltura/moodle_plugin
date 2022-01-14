@@ -16,7 +16,7 @@ require_once('../../config.php');
 //require_once('locallib.php');
 
 # Globals
-global $CFG, $USER, $DB, $PAGE;
+global $CFG, $USER, $DB, $PAGE, $stat;
 
 $PAGE->set_url('/local/mymedia/get_h5p_link');
 $PAGE->set_context(context_system::instance());
@@ -66,26 +66,26 @@ if (!isset($ks)) {
 <div class="container">
   <div class="card mt-2">
     <div class="card-header text-center">
-        <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="...">
+        <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="H5P Icon">
       Interactive Video
     </div>
     <div class="card-body">
       <h5 class="card-title"></h5>
-      <p class="card-text">Please fill the entry id and click submit button to populate the different video quality that is associated with your video.
+      <p class="card-text">Please fill the <strong>Entry ID</strong> and click submit button to populate the different video quality that is associated with your video.
    </p>
    <div class="card mb-2 w-50">
      <div class="card-header">
    <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
   </div>
    <div class="card-body pt-1">
-     <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p">how to upload a Interactive video in UR Courses</a>.</p>
+     <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to upload a Interactive video in UR Courses</a>.</p>
    </div>
 </div>
 
 <form method="post" action="get_h5p_link.php">
 <div class="mt-3 mb-2 input-group">
 <label for="entryidlabel" class="col-form-label p-2">Entry ID</label>
-<input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="<?php $_POST['entryId'] ?>" value="<?php isset($_POST['entryId']) ? htmlspecialchars($_POST['entryId'], ENT_QUOTES) : '' ?>">
+<input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="" value="<?php isset($_POST['entryId']) ? htmlspecialchars($_POST['entryId'], ENT_QUOTES) : '' ?>">
 <input name="set" value ="submit" class="btn btn-secondary" type="submit">
 </div>
 
@@ -93,7 +93,10 @@ if (!isset($ks)) {
 
 <?php
 
-if (isset($_POST['entryId'])) {
+if (!isset($_POST['entryId'])) {
+   $eid ="0_tempvar"; //looks like the script will run right away when the button (URL for H5P) has been clik for the 1st time
+   //work around assign temp variable to entryid for the 1st run to avoid null values error coming from Kaltura API.
+ } else {
     $eid = $_POST['entryId']; //pass entry id coming from Input entryId
 
 }
@@ -101,14 +104,6 @@ if (isset($_POST['entryId'])) {
   $client->setKS($ks);
   $filter = new KalturaAssetFilter();
   $pager = new KalturaFilterPager();
-  //$pager->pageSize = 500;
-  //$pager->pageIndex = 1;
-
-//looks like the script will run right away when the button (URL for H5P) has been clik for the 1st time
-//work around add a 0_temp variable for the 1st run to avoid null values error.
- if (empty($eid)) {
-   $eid ="0_temp";
- }
 
   $filter->entryIdEqual = $eid; //entryId being pass to kaltura api call
   $result = $client->flavorAsset->listAction($filter, $pager);
@@ -140,7 +135,7 @@ if (isset($_POST['entryId'])) {
                   $entry->size="";
                   $stat ="disabled";
              }elseif ($entry->status == 1) {
-                  $flavorlink = "Flavor Stuck in convertion Error, Please Notify IT Support";
+                  $flavorlink = "Flavor Stuck in conversion Error, Please Notify IT Support";
              }
 // display the table
    echo "<tr>
