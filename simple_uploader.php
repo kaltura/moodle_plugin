@@ -148,10 +148,19 @@ echo '</pre>';
 		 </div>  
 		  
 		  
+
+     
+
+
+
+     
+
+
 	  <div class="form-group valid-row mb-5">
 	      <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
 			  <div class="uploadBox__container">
-			                          <img src="https://vodcdn.ca.kaltura.com/5.105.641/public/img/upload_background.png" alt="Upload new media">                        <img src="https://vodcdn.ca.kaltura.com/5.105.641/public/img/upload_arrow.png" class="uploadBox__moving-image">                    </div>
+			                          <img src="https://vodcdn.ca.kaltura.com/5.106.300/public/img/upload_background.png" alt="Upload new media">                      
+                                <img src="https://vodcdn.ca.kaltura.com/5.106.300/public/img/upload_arrow.png" class="uploadBox__moving-image">                  </div>
 	        <p style="font-size: 24px;">Drag & Drop a file here</p>
 			<p class="text-muted">or</p> 
 			<p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
