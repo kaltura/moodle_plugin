@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg32" sodipodi:docname="icon.svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:version="0.92.2 5c3e80d, 2017-08-06" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px"
+	 viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="g164" transform="matrix(1.5287022,0,0,1.5287022,-27.088427,-27.418952)">
+	<path fill="#2575BE" d="M32.07,30.91c0,0.542-0.44,0.981-0.981,0.981H20.05c-0.542,0-0.981-0.439-0.981-0.981V20.662
+		c0-0.542,0.439-0.981,0.981-0.981h11.039c0.542,0,0.981,0.439,0.981,0.981V30.91z"/>
+	<g id="g139" transform="matrix(0.04586586,0,0,0.04586586,29.054667,30.481329)">
+		<path id="path135" inkscape:connector-curvature="0" fill="#FFFFFF" d="M14.717-138.496c-4.819-4.61-12.062-6.838-21.728-6.838
+			h-25.794h-6.964v17.521h-38.936l-3.196,13.51c2.667-1.247,6.428-2.326,9.046-2.953c2.619-0.627,5.202-0.432,7.765-0.432
+			c8.663,0,15.655,2.688,21.059,7.925c5.404,5.237,8.079,11.853,8.079,19.812c0,5.571-1.393,10.947-4.151,16.101
+			c-2.786,5.181-6.713,9.22-11.811,11.95c-1.811,0.975-3.816,0.892-6.045,2.479h25.154h6.964v-31.672h15.878
+			c10.752,0,18.775-2.423,24.04-7.347c5.265-4.917,7.883-11.713,7.883-20.446C21.96-127.381,19.537-133.885,14.717-138.496z
+			 M-7.205-111.406c-2.089,1.811-5.71,2.549-10.892,2.549h-7.744v-18.956h8.831c4.986,0,8.413,0.913,10.223,2.807
+			s2.729,4.102,2.729,6.818C-4.058-115.403-5.116-113.203-7.205-111.406z"/>
+		<path id="path137" inkscape:connector-curvature="0" fill="#FFFFFF" d="M-73.718-102.06c-4.673,0-8.705,2.716-10.648,6.616
+			l-23.427-3.189l10.585-46.7h-13.99h-7.758v36.477h-28.079v-36.477h-26.881v85.914h26.881v-31.672h28.079v31.672h7.758h24.882
+			c-3.983-1.587-7.389-2.786-10.195-4.875c-2.855-2.145-5.161-4.652-6.937-7.354c-1.775-2.702-3.168-5.766-4.345-9.805l23.448-3.398
+			c1.943,3.9,5.975,6.546,10.627,6.546c6.567,0,11.915-5.32,11.915-11.895C-61.831-96.726-67.151-102.06-73.718-102.06z"/>
+	</g>
+</g>
+</svg>

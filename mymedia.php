@@ -47,6 +47,7 @@ $PAGE->add_body_class($pageclass);
 echo $OUTPUT->header();
 
 
+
 // Request the launch content with an iframe tag.
 $attr = array(
     'href' => 'simple_uploader.php',
@@ -55,6 +56,16 @@ $attr = array(
     'target' => 'contentframe',
 );
 echo html_writer::tag('a', 'Trouble Uploading?', $attr);
+
+
+// Request the launch content with an iframe tag.
+$attr = array(
+    'href' => 'get_h5p_link.php',
+	'class' => 'btn btn-secondary',
+	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
+    'target' => 'contentframe',
+);
+echo html_writer::tag('a', 'URLs for H5P', $attr);
 
 // Request the launch content with an iframe tag.
 $attr = array(
