@@ -57,8 +57,8 @@ curl_setopt_array($curl, array(
   $response = curl_exec($curl);
 
 curl_close($curl);
-echo '<h3>Succesfully Added Request</h3>' "<br>";
-echo "Meeting ID: ".$response;
+echo '<h3>Succesfully Added Request</h3>';
+echo "\n Meeting ID: ".$response;
 echo $meeting_id;
 
 }
