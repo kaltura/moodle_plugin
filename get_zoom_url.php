@@ -1,11 +1,11 @@
 <?php
 
 require_once "zoom_data.php";
+require_once "bootstrap5.php";
 require_once('../../config.php');
-require_once($CFG->libdir . '/moodlelib.php');
 require_once($CFG->dirroot.'/mod/zoom/lib.php');
 require_once($CFG->dirroot.'/mod/zoom/locallib.php');
-require_once($CFG->dirroot.'/mod/zoom/classes/webservice.php');
+
 //require_once('locallib.php');
 global $CFG;
 
@@ -35,46 +35,6 @@ if ( (!isloggedin()) ) {
 
 
  ?>
-
-<!doctype html>
-<html lang="en">
-
-<head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-
-<style>
-  .accordion-button:not(.collapsed) {
-    color: inherit;
-    background: rgb(77, 77, 79);
-    color: #e8e8e8;
-  }
-  .accordion-button {
-    background: #d7d7d7;
-  }
-  .accordion-item {
- border: 1px solid rgba(35, 65, 100, .15) !important;
-  }
-  .accordion-button:not(.collapsed)::after {
-   filter: brightness(0%) invert(80%);
-  }
-  .accordion-button:focus{
-    box-shadow: inherit;
-  }
-  .accordion-border {
-    border: 1px solid rgba(35, 65, 100, .1) !important;
-  }
-
-  </style>
-</head>
 
 <body onload="">
 
@@ -203,11 +163,11 @@ function getAlert($alertname){
             </div>
         </div>
         <div class="p-2">
-        <input name="set" value ="submit" class="btn btn-secondary firstload" type="submit" <?php echo $tagasett; ?> >
+        <input name="set" value ="submit" class="btn btn-secondary getZoomails" type="submit" <?php echo $tagasett; ?> >
       </div>
 
   </form>
-  <p class="p-2">Please allow all the results to be loaded. </p>
+  
   </div>
   <div class="col-md-6 col-lg-6 bg-light ">
     <div class="mt-2">
@@ -216,44 +176,61 @@ function getAlert($alertname){
       </p>
       <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong>Zoom recording date:(date)</strong>} will be used.</p>
   </div>
-    <div class="card mt-2">
-    <div class="card-header">
-    <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
-    </div>
-    <div class="card-body">
-    <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
-    </div>
-    </div>
+        <div class="card mt-2">
+          <div class="card-header">
+            <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
+            </div>
+            <div class="card-body">
+            <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
+            </div>
+        </div>
   </div>
-
-  <div class="progress">
-    <script>    
-      var current_progress =0;
-      var interval = setInterval(function() {
-        $('.accordion-body').each(function() {
-          current_progress += 1;
-          
-        })
-          console.log(current_progress)
-          if (current_progress > 99) {
-            current_progress = 100;
+  
+    <div class="row">
+      <div class="m-2">
+        <?php
+        if ($_POST['dateto'] != null) {
+          # code...
+       
+        ?>
+      <p class="resultxt m-0">Loading results..</p>
+      <div class="progress">
+        <script>    
+        var current_progress =0;
+          var interval = setInterval(function() {
             
-          }
-          $(".progress-bar")
-          .css("width", current_progress + "%")
-          .attr("aria-valuenow", current_progress)
-          .text(current_progress + "% Complete");
-          
-          if (current_progress > 99) {
-            clearInterval(interval);
-            $('.progress').hide();
-          }
+            $('.accordion-body').each(function() {
+              current_progress += 2;
               
-      }, 1000);
-   
-      </script>
-  <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
+            })
+              console.log(current_progress)
+              if (current_progress  >= 99) {
+                current_progress = 100;
+                $('.resultxt').text('Please wait..')
+              }
+              $(".progress-bar")
+              .css("width", current_progress + "%")
+              .attr("aria-valuenow", current_progress)
+              .text(current_progress + "% Complete");
+            
+              if (current_progress  >= 100) {
+              
+                $('.resultxt').delay(4000).fadeOut('slow');
+                $('.progress-bar').delay(4000).fadeOut('slow');
+                clearInterval(interval);
+              }
+            
+          }, 1000);
+      
+          </script>
+        <div class="p-2 progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <?php
+        }
+      ?>
+        </div>
+
+    </div>
 </div>
 
     <?php
@@ -275,13 +252,8 @@ function getAlert($alertname){
         });
 
         $(document).ready(function() {
-       
-              $('.spinner-grow').hide();
-                $('.spinner-text').hide();
-                  $('.uploadurl').hide();
-                  $('.progress').hide();
-                  
-        });
+              $('.uploadurl').hide();
+          });
 </script>
 
 </div> 
@@ -293,7 +265,7 @@ function firstLoad($visited) {
     ?>
      <script>
       $(document).ready(function() {
-      $('.firstload').trigger('click');
+      $('.getZoomails').trigger('click');
       });
     
     </script>
@@ -304,19 +276,11 @@ function firstLoad($visited) {
 return $visited;
 }
 ?>
-<script>
-          
-    
 
- $(document).ready(function() {
-           $('.progress').show();
-           
-         
-});
- </script>
 <?php
 
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
+  $datenow = date('Y-m-d');
   $_SESSION["dateto"] = $_POST['dateto'];
   $_SESSION["datefrom"] = $_POST['datefrom'];
   $start    = new DateTime($_POST['datefrom']);
@@ -325,6 +289,11 @@ if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
   $interval = DateInterval::createFromDateString('1 month');
   $period   = new DatePeriod($start, $interval, $end);
   
+  if ($_POST['dateto'] > $datenow) {
+    # code...
+    $_POST['dateto'] = $datenow;
+    
+  }
 $count =0;
 foreach ($period as $xcount => $dateval) {
 
@@ -351,9 +320,7 @@ $resulta = array_values($response->meetings);
 
 ?>
 
-
-
-  <?php
+<?php
 
 foreach ($resulta as $x => $records) {
 
@@ -448,7 +415,7 @@ foreach ($resulta as $x => $records) {
 
               </div>
                
-                  <p class="card-text bg-light">
+                  <p class="bg-light">
                   <strong>Recording type:</strong>
                   <?php
                   echo $recfiles->recording_type;
@@ -466,10 +433,7 @@ foreach ($resulta as $x => $records) {
        
 <?php
 
- 
 }
-
-
 }
 
 curl_close($curl);
@@ -487,17 +451,14 @@ curl_close($curl);
 <script>
         $(document).ready(function() {
                  $('.uploadurl').show();
-                
-
         });
         </script>
 <div class="submit-control mt-2">
 <input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to kaltura" <?php echo $stat; ?>>
- 
+
 </div>
 
 <script type="text/javascript">
-$(document).ready(function () {
 $('.enablevmode').on( 'click', function(e) {
     e.preventDefault();
     var origData = $(this).val();
