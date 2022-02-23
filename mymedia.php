@@ -74,7 +74,7 @@ $attr = array(
 	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
     'target' => 'contentframe',
 );
-echo html_writer::tag('a', 'Import Zoomm Recordings', $attr);
+echo html_writer::tag('a', 'Import Zoom Recordings', $attr);
 
 $attr = array(
     'href' => 'zoom_license.php',
@@ -82,7 +82,7 @@ $attr = array(
 	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
     'target' => 'contentframe',
 );
-echo html_writer::tag('a', 'Zoomm Licensing', $attr);
+echo html_writer::tag('a', 'Zoom Licensing', $attr);
 
 // Request the launch content with an iframe tag.
 $attr = array(

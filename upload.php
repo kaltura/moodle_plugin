@@ -1,20 +1,8 @@
-
-<html lang="en">
-
-<head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </head>
-
-<body>
-
 <?php
 require_once('../../config.php');
 //require_once('locallib.php');
 # Globals
-global $CFG, $USER, $DB, $PAGE, $sett;
+global $CFG, $USER, $DB, $PAGE;
 
 $PAGE->set_url('/local/mymedia/upload');
 $PAGE->set_context(context_system::instance());
@@ -63,44 +51,44 @@ $kclient->setKs($ksession);
 if (isset($_POST['chooser'])) {
 
   $state = $_POST['chooser'];
-  $title = array_values($_POST['title']);
-  foreach ($title as $key => $sett) {
-    // code...
-  }
-  foreach ($state as $key => $result) {
-
+  foreach ($state as  $key => $result) {
           $kconf->format = KalturaClientBase::KALTURA_SERVICE_FORMAT_PHP;
           $entry = new KalturaMediaEntry();
            $uploadURL = $result;
-            if (!empty($title[$key])) {
-               $entry->name = $title[$key];
+           $titulo = $_POST['title'][$key];
 
-            } else {
-              $entry->name = $username."-uploaded from Zoom URL";
-            }
+           //echo $titulo;
+             if (empty($titulo)) {
+               $entry->name = "Zoom recording date: ". $_POST['zoomdate'][$key]."-Uploaded from Zoom URL";
 
+              }else {
+                 $entry->name = $titulo;
+
+              }
           $entry->mediaType = KalturaMediaType::VIDEO;
-          $result1 = $kclient->media->addFromUrl($entry, $uploadURL);
+          $results = $kclient->media->addFromUrl($entry, $uploadURL);
 
-  }
-  ?>
-  <div class="container">
-    <div class="card">
-      <div class="" id="#results">
-        <h4> Uploaded Entry </h4>
-        <?php
-        print_r($state);
-        ?>
-      </div>
-    </div>
-  </div>
-  <php>
-//print_r($state);
-
-//print_r($title);
-<?php
-   }
 
 ?>
-</body>
-</html>
+  <div  class="card mb-2">
+  <div class="card-header">
+  Uploaded Entry
+  </div>
+  <div class="card-body">
+    <?php
+    $date=date_create();
+    date_timestamp_set($date,$results->createdAt);
+     echo "<b>Entry ID: </b>".$results->id."<br>";
+     echo "<b>Video Title: </b>".$results->name."<br>";
+     echo "<b>Download_url: </b>".$results->downloadUrl."<br>";
+     echo "<b>Date created: </b>".date_format($date,"Y-M-d H:i:s")."<br>";
+     ?>
+       </div>
+  </div>
+
+
+<?php
+
+}
+}
+?>

@@ -1,18 +1,24 @@
 <?php
-//include "../../getsettings.php";
+
+require_once "zoom_data.php";
 require_once('../../config.php');
+require_once($CFG->libdir . '/moodlelib.php');
+require_once($CFG->dirroot.'/mod/zoom/lib.php');
+require_once($CFG->dirroot.'/mod/zoom/locallib.php');
+require_once($CFG->dirroot.'/mod/zoom/classes/webservice.php');
 //require_once('locallib.php');
+global $CFG;
 
 # Globals
-global $CFG, $USER, $DB, $PAGE, $stat, $vmode, $setvmode, $sett, $tigsett;
+global $CFG, $USER, $DB, $PAGE, $stat, $sett, $tagasett, $zoomMails, $count;
 //$sett='';
 $PAGE->set_url('/local/mymedia/upload');
 $PAGE->set_context(context_system::instance());
 
 # Check security - special privileges are required to use this script
 $currentcontext = context_system::instance();
-$username = $USER->username;
-$zoomemail = $USER->email;
+$ur_username = $USER->username;
+$ur_email = $USER->email;
 $lastname = $USER->lastname;
 $firstname = $USER->firstname;
 
@@ -26,7 +32,6 @@ if ( (!isloggedin()) ) {
     print_error("You need to be logged in to access this page.");
     exit;
 }
-
 
 
  ?>
@@ -45,27 +50,136 @@ if ( (!isloggedin()) ) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+<style>
+  .accordion-button:not(.collapsed) {
+    color: inherit;
+    background: rgb(77, 77, 79);
+    color: #e8e8e8;
+  }
+  .accordion-button {
+    background: #d7d7d7;
+  }
+  .accordion-item {
+ border: 1px solid rgba(35, 65, 100, .15) !important;
+  }
+  .accordion-button:not(.collapsed)::after {
+   filter: brightness(0%) invert(80%);
+  }
+  .accordion-button:focus{
+    box-shadow: inherit;
+  }
+  .accordion-border {
+    border: 1px solid rgba(35, 65, 100, .1) !important;
+  }
+
+  </style>
 </head>
 
-<body>
+<body onload="">
 
-    <section class="container-fluid mb-2 card">
+  <?php
 
-      <div class="row">
-  <div class=" col-md-6 col-lg-6 bg-light">
-   <div class="mt-2">
+//for alternative use-case zoom_data.php list of zoom users, if zoom plugin function is not available.
+//$list_users_response = json_decode($zoom_data);
+//$users_info = array_values($list_users_response->users);
+
+//using zoom plugin function to match the user
+$service = new mod_zoom_webservice();
+$user = $USER;
+$get_usersInfo = zoom_get_user_zoomemail($user,$service);
+$visited = isset($_SESSION['visited']);
+
+
+if ($get_usersInfo->email == $ur_email) {
+  
+  if ($visited == false) {
+      
+    $datebefore = new \DateTime('1 month ago');
+    $datenow = date('Y-m-d');
+
+    $begin = new \DateTime('1 month ago');
+    $end = new DateTime($datenow);
+
+    $interval = DateInterval::createFromDateString('1 day');
+    $period = new DatePeriod($begin, $interval, $end);
+
+    foreach($period as $dt) {
+        $_SESSION["datefrom"]= $datebefore->format('Y-m-d');
+        $_SESSION["dateto"]=   $datenow = $dt->format("Y-m-d");
+
+    }
+    $zoomMails = $get_usersInfo->id;
+    firstLoad($visited); 
+   
+  }elseif ($visited == true)  {
+    $zoomMails = $get_usersInfo->id;
+  }
+
+}else{
+  $alertname = "invaliduser";
+  getAlert($alertname);
+  //break;
+}
+
+
+
+
+function getAlert($alertname){
+  if ($alertname == "invaliduser") {
+    $tagasett = "disabled";
+  ?>
+  <div class="alert alert-warning" role="alert">
+  Your username and  email address does not match your zoom account. Please email or call IS support to report this issue.
+  </div>
+  <?php
+  }
+
+  if ($alertname =="results") {
+    ?>
+    <div class="alert alert-info" role="alert">
+    Nothing to display!
+    </div>
+    <?php
+  }
+
+ return($alertname);
+}
+
+
+  ?>
+    <div class="container-fluid mt-2 card mb-2">
+
+    <div class="row">
+    <div class=" col-md-6 col-lg-6 bg-light">
+     <div class="mt-2">
+
     <h4>
       Upload Zoom
-      <small class="text-muted">videos recordings to Kaltura</small>
+      <small class="text-muted">video recordings to Kaltura</small>
     </h4>
-  </div>
+    </div>
     <p class="text"></p>
-    <form method="post" action="get_zoom_url.php">
+    <form  name="getfirstload" method="post" action="get_zoom_url.php">
         <div class="row p-2 form-group">
             <label for="date" class=" col-form-label">From</label>
             <div class="col">
                 <div class="input-group date" id="datepickerfrom">
-                    <input type="text" name="datefrom" class="form-control">
+
+               <?php
+
+               if ($visited == false) {
+                  
+                  $loadval =   $_SESSION["datefrom"];
+                  $loadval2 = $_SESSION["dateto"];
+                  $_SESSION['visited'] = true;
+                }else {
+                    $loadval = $_POST['datefrom'];
+                     $loadval2 = $_POST['dateto'];
+                  }
+
+               ?>
+                    <input type="text" name="datefrom" id="datefrom" value ="<?php echo $loadval; ?>" class="form-control">
                     <span class="input-group-append">
                         <span class="input-group-text bg-white d-block">
                             <i class="fa fa-calendar"></i>
@@ -79,7 +193,7 @@ if ( (!isloggedin()) ) {
             <label for="date" class=" col-form-label">To</label>
             <div class="col">
                 <div class="input-group date" id="datepickerto">
-                    <input type="text" name="dateto" class="form-control">
+                    <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control">
                     <span class="input-group-append">
                         <span class="input-group-text bg-white d-block">
                             <i class="fa fa-calendar"></i>
@@ -89,10 +203,10 @@ if ( (!isloggedin()) ) {
             </div>
         </div>
         <div class="p-2">
-        <input name="set" value ="submit" class="btn btn-secondary" type="submit">
+        <input name="set" value ="submit" class="btn btn-secondary firstload" type="submit" <?php echo $tagasett; ?> >
       </div>
-    </form>
 
+  </form>
   <p class="p-2">Please allow all the results to be loaded. </p>
   </div>
   <div class="col-md-6 col-lg-6 bg-light ">
@@ -100,7 +214,7 @@ if ( (!isloggedin()) ) {
     <p>Fill in the dates <b>From</b> and <b>To</b>, to retrieve your zoom recordings.
       This tool will allow you to get all your Zoom recordings base on your date filters.
       </p>
-      <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong><?php echo $username; ?>-uploaded from Zooom URL</strong>} will be used.</p>
+      <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong>Zoom recording date:(date)</strong>} will be used.</p>
   </div>
     <div class="card mt-2">
     <div class="card-header">
@@ -111,11 +225,43 @@ if ( (!isloggedin()) ) {
     </div>
     </div>
   </div>
+
+  <div class="progress">
+    <script>    
+      var current_progress =0;
+      var interval = setInterval(function() {
+        $('.accordion-body').each(function() {
+          current_progress += 1;
+          
+        })
+          console.log(current_progress)
+          if (current_progress > 99) {
+            current_progress = 100;
+            
+          }
+          $(".progress-bar")
+          .css("width", current_progress + "%")
+          .attr("aria-valuenow", current_progress)
+          .text(current_progress + "% Complete");
+          
+          if (current_progress > 99) {
+            clearInterval(interval);
+            $('.progress').hide();
+          }
+              
+      }, 1000);
+   
+      </script>
+  <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
 </div>
 
-    </section>
+    <?php
+//}
 
+?>
     <script type="text/javascript">
+
 
         $(function() {
             $('#datepickerfrom').datepicker({
@@ -129,48 +275,63 @@ if ( (!isloggedin()) ) {
         });
 
         $(document).ready(function() {
+       
               $('.spinner-grow').hide();
                 $('.spinner-text').hide();
                   $('.uploadurl').hide();
+                  $('.progress').hide();
+                  
         });
 </script>
 
-
-
-<!--
-<div class="d-flex align-items-center bg-secondary m-3">
-  <span class="spinner-text m-2 text-white">Loading results</span>
-<div class="spinner-grow spinner-grow-sm text-light m-1" role="status" id="spinner">
- <span class="visually-hidden">Loading...</span>
-</div>
-<div class="spinner-grow text-light spinner-grow-sm m-1" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>
-<div class="spinner-grow text-light spinner-grow-sm m-1" role="status">
-  <span class="visually-hidden">Loading...</span>
-</div>
-</div> -->
+</div> 
 
 <?php
 
+function firstLoad($visited) {
+  if ($visited == false) {
+    ?>
+     <script>
+      $(document).ready(function() {
+      $('.firstload').trigger('click');
+      });
+    
+    </script>
+    <?php
 
-if (empty($_POST['datefrom'])) {
-  // code...
-  $stat ="disabled";
+  }
+
+return $visited;
 }
-if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
+?>
+<script>
+          
+    
 
+ $(document).ready(function() {
+           $('.progress').show();
+           
+         
+});
+ </script>
+<?php
+
+if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
+  $_SESSION["dateto"] = $_POST['dateto'];
+  $_SESSION["datefrom"] = $_POST['datefrom'];
   $start    = new DateTime($_POST['datefrom']);
   $end      = new DateTime($_POST['dateto']);
+  $end = $end->modify( '+1 month' );
   $interval = DateInterval::createFromDateString('1 month');
   $period   = new DatePeriod($start, $interval, $end);
+  
+$count =0;
+foreach ($period as $xcount => $dateval) {
 
-foreach ($period as $dateval) {
-
-  $xdate = $dateval->format("Y-m-d");
+  $countdate = $dateval->format("Y-m-d");
 
     $curl = curl_init();
-    $url ="https://api.zoom.us/v2/users/$zoomemail/recordings?page_size=30&mc=false&trash=false&from=".$_POST['datefrom']."&to=".$xdate;
+    $url ="https://api.zoom.us/v2/users/$zoomMails/recordings?page_size=30&mc=false&trash=false&from=".$_POST['datefrom']."&to=".$countdate;
     curl_setopt_array($curl, array(
       CURLOPT_URL => $url,
       CURLOPT_RETURNTRANSFER => true,
@@ -190,136 +351,189 @@ $resulta = array_values($response->meetings);
 
 ?>
 
-  <div class="container-fluid">
+
 
   <?php
-foreach ($resulta as  $records) {
 
-  foreach (array_values($records->recording_files) as  $recfiletype) {
-    $tigsett = $recfiletype->meeting_id;
-  }
-
+foreach ($resulta as $x => $records) {
 
 ?>
 
-<div class="card mb-4">
-  <div class="card-header text-white bg-secondary p-3">
-   <form>
-   <input type="hidden" name="form" value="A">
-    <button name="enable" id="send" value ="<?php echo $recfiletype->meeting_id; ?>" class="btn btn-light enablevmode float-end" type="submit" >Allow upload to Kaltura</button>
-    <input type="hidden" name="name"  value="<?php echo $recfiletype->meeting_id; ?>">
-   </form>
-  <?php
+<div class="accordion" id="accordionTab">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading<?php echo $count; $count++;?>">
+      <button class="accordion-button <?php if ($count != 1) {echo 'collapsed';} ?> " type="button" data-bs-toggle="collapse" data-bs-target="#collapseId<?php echo $count; ?>" aria-expanded="<?php if($count==1){echo true;}else{ echo false;} ?>" aria-controls="collapseId<?php echo $count; ?>">
+     
+        Zoom Meeting Topic: <?php echo $records->topic; ?><br>
+       Zoom Recorded Date:  <?php echo date('Y-M-d h:i:s', strtotime($records->start_time)); ?>
+      
+      </button>
+    </h2>
 
-   echo "<strong>Meeting Topic: </strong>".$records->topic ."<br>";
-   echo "<strong>Date: </strong>".$records->start_time;
-   ?>
-</div>
-  <form  method="post" id="uploadfrm">
-<?php
-foreach (array_values($records->recording_files) as  $recfiles) {
+                <?php
+              
+                  foreach (array_values($records->recording_files) as  $recfiles) {
+                  
+                          $sett = $recfiles->meeting_id;
+                          $_SESSION['trash_mid'] = $recfiles->meeting_id;
+                          $curl = curl_init();
+                          $url="https://api.zoom.us/v2/meetings/$sett/recordings/settings";
+                      
+                            curl_setopt_array($curl, array(
+                            CURLOPT_URL => $url,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'PATCH',
+                            CURLOPT_POSTFIELDS =>'{
+                              "viewer_download": true,
+                              "password": ""
+                          }
+                          ',
+                            CURLOPT_HTTPHEADER => array(
+                              'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImRhUkFPOUV6UjFxWjFvN2U2N2VkU3ciLCJleHAiOjE2OTk4OTU1MDcsImlhdCI6MTU5OTE0MDEwN30.U4esT6f1c-W-DNun5yah66B3zoap-jOXFXDvveGuEdQ',
+                              'Content-Type: application/json',
+                              'Cookie: cred=7A4AC1161FF93912001DD2812965B420'
+                            ),
+                          ));
 
-        $sett = $recfiles->meeting_id;
-        $curl = curl_init();
-        $url ="https://api.zoom.us/v2/meetings/$sett/recordings/settings";
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $url,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImRhUkFPOUV6UjFxWjFvN2U2N2VkU3ciLCJleHAiOjE2OTk4OTU1MDcsImlhdCI6MTU5OTE0MDEwN30.U4esT6f1c-W-DNun5yah66B3zoap-jOXFXDvveGuEdQ',
-            'Cookie: cred=4E75F9DFC231F95504A761C70C977CC4'
-          ),
-        ));
+                          $json =curl_exec($curl);
 
-        $json =curl_exec($curl);
+                          $json_response = json_decode($json, true);
 
-        $json_response = json_decode($json, true);
-
-         if ($json_response['viewer_download']==0) {
-           $setvmode ="disabled";
-         }else {
-             // code...
-             $setvmode ="";
-           }
-
-    ?>
-
-      <div class="card-body">
+                      ?>
+    <div id="collapseId<?php echo $count; ?>" class="accordion-collapse collapse <?php if($count==1) {echo 'show'; } ?>" aria-labelledby="heading<?php echo $count; ?>" >
+ 
+      <div class="accordion-body accordion-border">
         <fieldset class="uploadfrm5">
+
+          <div class="">
+          
+            <form  action ="" method="post" id="uploadfrm">
               <div class="form-floating mb-3 tit1">
-                <input type="text" name="title" class="form-control tit" id="floatingInput" placeholder="Media Title">
+                <input type="hidden" name="zoomdate[]" value="<?php echo date('Y-M-d h:i:s', strtotime($records->start_time)); ?>" class="date_created" id="" >
+                <input type="text" name="title[]" value="" class="form-control tit" id="floatingInput" placeholder="Media Title">
                 <label for="floatingInput">Media Title</label>
               </div>
+             
               <div class="form-check m-2">
-                <input class="form-check-input" name="chooser[]" type="checkbox" value="<?php echo $recfiles->download_url; ?>" id="flexCheckDefault" <?php echo $setvmode; ?>>
+                <input class="form-check-input" name="chooser[]" type="checkbox" value="<?php echo $recfiles->download_url; ?>" id="flexCheckDefault">
                   <label class="form-check-label" for="flexCheckDefault">
-                      <?php
-                      echo "<p class=\"card-text\">".$recfiles->download_url."</p>";
+                    <?php
+                    echo "<p>".$recfiles->download_url."</p>";
+                    if ($recfiles->recording_type == "audio_only") {
                       ?>
+                      <video width="300" height="40" controls>
+                        <?php
+                        echo "<source src=".$recfiles->download_url.">";
+                        ?>
+                      <p>Your browser does not support the video tag </p>.
+                      </video>
+                      <?php
+                    }else {
+                    ?>
+                    <video width="300" height="220" controls>
+                      <?php
+                      echo "<source src=".$recfiles->download_url.">";
+                      ?>
+                    <p>Your browser does not support the video tag. </p>
+                    </video>
+                      <?php
+                      }
+                       ?>
                   </label>
-            </div>
-            <div class="">
-            <p class="card-text bg-light">
-            <strong>Recording type:</strong>
-            <?php
-            echo $recfiles->recording_type;
-            ?>
-            </p>
+
+              </div>
+               
+                  <p class="card-text bg-light">
+                  <strong>Recording type:</strong>
+                  <?php
+                  echo $recfiles->recording_type;
+                  ?>
+                  </p>
+                </form> 
+          
           </div>
         </fieldset>
-        </div>
-
-        <script>
-        $(document).ready(function() {
-                 $('.uploadurl').show();
-        });
-        </script>
+      </div>
+   </div>
+ </div>
+</div>
+ 
+       
 <?php
+
+ 
+}
 
 
 }
-?>
-
-<div class="card-footer text-white bg-secondary">
-
-</div>
-</div>
-
-<?php
-}
-?>
-</div>
-<?php
 
 curl_close($curl);
 }
-} else {
 
 }
 
-?>
+    if (empty($resulta)) {
+      $alertname = "results";
+      getAlert($alertname);
+      
+    }
+    ?>
+</div>
+<script>
+        $(document).ready(function() {
+                 $('.uploadurl').show();
+                
 
-<div class="container-fluid">
-<input form="uploadfrm" type="submit" class="btn btn-secondary uploadurl" name="upload" value="Upload to kaltura" <?php echo $stat; ?>>
-  </form>
+        });
+        </script>
+<div class="submit-control mt-2">
+<input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to kaltura" <?php echo $stat; ?>>
+ 
 </div>
 
+<script type="text/javascript">
+$(document).ready(function () {
+$('.enablevmode').on( 'click', function(e) {
+    e.preventDefault();
+    var origData = $(this).val();
+    var formData1 = origData.replace(/name=/,"");
+    var formData2 = formData1.replace(/%2B/,"+");
+    var formData = formData1.replace(/%3D%3D/,"==");
+  $.ajax({
+    type: 'post',
+    url: 'enabledownload.php',
+    data: {'name':formData},
+     success: function (data) {
+        console.log(data);
+        }
+  });
+
+e.preventDefault();
+
+});
+  });
+
+
+</script>
 <script type="text/javascript">
 $(document).ready(function () {
 $('.uploadurl').click(function (e) {
 
 var list =[]
 var title =[]
+var date_created =[]
 
  $("[name='chooser[]']:checked").each(function () {
                var current =  $(this).val();
-              title.push($(this).parents("fieldset").find(".tit").val())
+               title.push($(this).parents("fieldset").find(".tit").val())
+               title.push($(this).parents("fieldset").find(".tit").val())
+               date_created.push($(this).parents("fieldset").find(".date_created").val())
+
                list.push(current)
 
 });
@@ -327,46 +541,47 @@ var title =[]
   $.ajax({
     type: 'post',
     url: 'upload.php',
-    datatype: 'jason',
-    data:{'chooser': list, 'title': title},
-    //processData:false,
-     success: function (response) {
-       alert(response);
-           //$("#results").html(response);
+    datatype: 'html',
+    //async:false,
+    data:{'chooser': list, 'title': title, 'zoomdate': date_created},
+    beforeSend: function(){
+				//$('.submit-control').html("<img src='LoaderIcon.gif' /> Ajax Request is Processing!");
+			},
+			success: function(data){
+			//	setInterval(function(){ $('.submit-control').html("Form submited Successfully!") },1000);
+        $("#results").html(data);
+         $('#add_data_Modal').modal('show');
+        //console.log(data)
+			},
 
-        }
+ error: function(data) {
+     alert('Function error!');
+ }
   });
-
-e.preventDefault();
 
 });
 });
 
 </script>
-<script type="text/javascript">
-$(document).ready(function () {
-$('.enablevmode').click(function (e) {
+<div class="modal " tabindex="-1" id="add_data_Modal" >
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Your Zoom recordings that have been uploaded succesfully</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="results">
 
-    var origData = $(this).val();
-    var formData1 = origData.replace(/name=/,"");
-    var formData2 = formData1.replace(/%2B/,"+");
-    //alert(origData);
-    var formData = formData1.replace(/%3D%3D/,"==");
-  $.ajax({
-    type: 'post',
-    url: 'enabledownload.php',
-    data: {'name':formData},
-     success: function (data) {
-          alert(data);
-        }
-  });
-
-e.preventDefault();
-
-});
-});
-
-</script>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <!--  <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
 </html>
