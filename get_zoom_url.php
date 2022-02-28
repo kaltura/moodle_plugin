@@ -55,10 +55,10 @@ if ($get_usersInfo->email == $ur_email) {
   
   if ($visited == false) {
       
-    $datebefore = new \DateTime('1 month ago');
+    $datebefore = new \DateTime('2 month ago');
     $datenow = date('Y-m-d');
 
-    $begin = new \DateTime('1 month ago');
+    $begin = new \DateTime('2 month ago');
     $end = new DateTime($datenow);
 
     $interval = DateInterval::createFromDateString('1 day');
@@ -89,17 +89,24 @@ function getAlert($alertname){
   if ($alertname == "invaliduser") {
     $tagasett = "disabled";
   ?>
-  <div class="alert alert-warning" role="alert">
+  <div class="alert alert-danger d-flex align-items-center" role="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+  <div>
   Your username and  email address does not match your zoom account. Please email or call IS support to report this issue.
   </div>
+  </div>
+  
   <?php
   }
 
   if ($alertname =="results") {
     ?>
-    <div class="alert alert-info" role="alert">
-    Nothing to display!
-    </div>
+  <div class="alert alert-primary d-flex align-items-center" role="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+  <div>
+   Nothing to display!.
+  </div>
+  </div>
     <?php
   }
 
@@ -134,9 +141,16 @@ function getAlert($alertname){
                   $loadval2 = $_SESSION["dateto"];
                   $_SESSION['visited'] = true;
                 }else {
+                  $datenow = date("Y-m-d");
+                  if ($_POST['dateto'] > $datenow) {  
                     $loadval = $_POST['datefrom'];
-                     $loadval2 = $_POST['dateto'];
+                     $loadval2 = $datenow;
+                  }else { 
+                    $loadval = $_POST['datefrom'];
+                    $loadval2 = $_POST['dateto'];
                   }
+              
+                }
 
                ?>
                     <input type="text" name="datefrom" id="datefrom" value ="<?php echo $loadval; ?>" class="form-control">
@@ -189,22 +203,22 @@ function getAlert($alertname){
     <div class="row">
       <div class="m-2">
         <?php
-        if ($_POST['dateto'] != null) {
-          # code...
-       
+      if (isset($_POST["dateto"])) {
         ?>
       <p class="resultxt m-0">Loading results..</p>
       <div class="progress">
         <script>    
         var current_progress =0;
+        
           var interval = setInterval(function() {
             
             $('.accordion-body').each(function() {
-              current_progress += 2;
+              current_progress += 1;
               
-            })
+            });
               console.log(current_progress)
-              if (current_progress  >= 99) {
+              if (current_progress  >= 100) {
+                clearInterval(interval);
                 current_progress = 100;
                 $('.resultxt').text('Please wait..')
               }
@@ -212,13 +226,21 @@ function getAlert($alertname){
               .css("width", current_progress + "%")
               .attr("aria-valuenow", current_progress)
               .text(current_progress + "% Complete");
-            
-              if (current_progress  >= 100) {
-              
+                
+              document.addEventListener('DOMContentLoaded', (event) => {
+                if( current_progress < 20) {
+                  setTimeout(function(){
+                    current_progress = 100;
+                    console.log(current_progress)
+                  
+                }, 1000);
+                }
+                
                 $('.resultxt').delay(4000).fadeOut('slow');
                 $('.progress-bar').delay(4000).fadeOut('slow');
-                clearInterval(interval);
-              }
+                console.log('DOM fully loaded and parsed');
+                
+              });
             
           }, 1000);
       
@@ -233,10 +255,6 @@ function getAlert($alertname){
     </div>
 </div>
 
-    <?php
-//}
-
-?>
     <script type="text/javascript">
 
 
@@ -280,20 +298,35 @@ return $visited;
 <?php
 
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
-  $datenow = date('Y-m-d');
-  $_SESSION["dateto"] = $_POST['dateto'];
-  $_SESSION["datefrom"] = $_POST['datefrom'];
-  $start    = new DateTime($_POST['datefrom']);
-  $end      = new DateTime($_POST['dateto']);
-  $end = $end->modify( '+1 month' );
-  $interval = DateInterval::createFromDateString('1 month');
-  $period   = new DatePeriod($start, $interval, $end);
-  
-  if ($_POST['dateto'] > $datenow) {
-    # code...
-    $_POST['dateto'] = $datenow;
+  $datenow = date("Y-m-d");
+  if ($_POST['dateto'] > $datenow) {  
+    $_SESSION["dateto"] = $datenow;
+    $_SESSION["datefrom"] = $_POST['datefrom'];
+    $start    = new DateTime($_POST['datefrom']);
+    $end      = new DateTime($datenow);
+    //print_r($end);
+    $end = $end->modify( '+1 month' );
+    //print_r($end);
+    $interval = DateInterval::createFromDateString('1 month');
+    $period   = new DatePeriod($start, $interval, $end);               
+    
+   }else { 
+    $_SESSION["dateto"] = $_POST['dateto'];
+    $_SESSION["datefrom"] = $_POST['datefrom'];
+    $start    = new DateTime($_POST['datefrom']);
+    $end      = new DateTime($_POST['dateto']);
+    //print_r($end);
+    //$begin = new \DateTime('2 month ago');
+    //$end = new DateTime($datenow);
+    $end = $end->modify( '+1 month' );
+    //print_r($end);
+    $interval = DateInterval::createFromDateString('1 month');
+    $period   = new DatePeriod($start, $interval, $end);
     
   }
+  
+  
+
 $count =0;
 foreach ($period as $xcount => $dateval) {
 
@@ -331,7 +364,7 @@ foreach ($resulta as $x => $records) {
     <h2 class="accordion-header" id="heading<?php echo $count; $count++;?>">
       <button class="accordion-button <?php if ($count != 1) {echo 'collapsed';} ?> " type="button" data-bs-toggle="collapse" data-bs-target="#collapseId<?php echo $count; ?>" aria-expanded="<?php if($count==1){echo true;}else{ echo false;} ?>" aria-controls="collapseId<?php echo $count; ?>">
      
-        Zoom Meeting Topic: <?php echo $records->topic; ?><br>
+       Zoom Meeting Topic: <?php echo $records->topic; ?><br>
        Zoom Recorded Date:  <?php echo date('Y-M-d h:i:s', strtotime($records->start_time)); ?>
       
       </button>
@@ -441,7 +474,7 @@ curl_close($curl);
 
 }
 
-    if (empty($resulta)) {
+    if (empty($resulta) && empty($_POST['dateto'])) {
       $alertname = "results";
       getAlert($alertname);
       
@@ -477,7 +510,7 @@ $('.enablevmode').on( 'click', function(e) {
 e.preventDefault();
 
 });
-  });
+
 
 
 </script>
@@ -488,7 +521,7 @@ $('.uploadurl').click(function (e) {
 var list =[]
 var title =[]
 var date_created =[]
-
+var nothing ="default";
  $("[name='chooser[]']:checked").each(function () {
                var current =  $(this).val();
                title.push($(this).parents("fieldset").find(".tit").val())
@@ -504,7 +537,7 @@ var date_created =[]
     url: 'upload.php',
     datatype: 'html',
     //async:false,
-    data:{'chooser': list, 'title': title, 'zoomdate': date_created},
+    data:{'chooser': list, 'title': title, 'zoomdate': date_created, 'nothing': nothing },
     beforeSend: function(){
 				//$('.submit-control').html("<img src='LoaderIcon.gif' /> Ajax Request is Processing!");
 			},
@@ -528,7 +561,7 @@ var date_created =[]
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Your Zoom recordings that have been uploaded succesfully</h5>
+        <h5 class="modal-title">  </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
