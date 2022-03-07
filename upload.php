@@ -52,7 +52,10 @@ if (isset($_POST['chooser'])) {
   $_POST['nothing'] = "Your Zoom recordings that have been uploaded successfully!";
   $nothing = $_POST['nothing'];
   $state = $_POST['chooser'];
+  $uuid = array_values($_POST['meetingId']); 
+           moveZoomRecordings($uuid);
   foreach ($state as  $key => $result) {
+           
           $kconf->format = KalturaClientBase::KALTURA_SERVICE_FORMAT_PHP;
           $entry = new KalturaMediaEntry();
            $uploadURL = $result;
@@ -119,4 +122,31 @@ if (isset($_POST['chooser'])) {
 
 <?php
 }
+function moveZoomRecordings($uuid) {
+  foreach ($uuid as $key => $meetingid) {
+    # code...
+  
+  $curl = curl_init();
+  $url = "https://api.zoom.us/v2/meetings/$meetingid/recordings?action=trash";
+  curl_setopt_array($curl, array(
+    CURLOPT_URL => $url,
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'DELETE',
+    CURLOPT_HTTPHEADER => array(
+      'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImRhUkFPOUV6UjFxWjFvN2U2N2VkU3ciLCJleHAiOjE3OTk4OTU1MDcsImlhdCI6MTU5OTE0MDEwN30.h99YcQzNnvBHU5ztOi2PjZ5cYSCrFzZyUh1T-9DV_Vo'
+    ),
+  ));
+  
+  $response = curl_exec($curl);
+}
+  curl_close($curl);
+  echo $response;
+  
+}
+
 ?>

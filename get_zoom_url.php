@@ -115,6 +115,7 @@ function getAlert($alertname){
 
 
   ?>
+  <button type="button" class="btn btn-primary">Back to Mymedia </button>
     <div class="container-fluid mt-2 card mb-2">
 
     <div class="row">
@@ -363,7 +364,7 @@ foreach ($resulta as $x => $records) {
   <div class="accordion-item">
     <h2 class="accordion-header" id="heading<?php echo $count; $count++;?>">
       <button class="accordion-button <?php if ($count != 1) {echo 'collapsed';} ?> " type="button" data-bs-toggle="collapse" data-bs-target="#collapseId<?php echo $count; ?>" aria-expanded="<?php if($count==1){echo true;}else{ echo false;} ?>" aria-controls="collapseId<?php echo $count; ?>">
-     
+      
        Zoom Meeting Topic: <?php echo $records->topic; ?><br>
        Zoom Recorded Date:  <?php echo date('Y-M-d h:i:s', strtotime($records->start_time)); ?>
       
@@ -414,6 +415,7 @@ foreach ($resulta as $x => $records) {
           
             <form  action ="" method="post" id="uploadfrm">
               <div class="form-floating mb-3 tit1">
+              <input type="hidden" name="mid[]" value="<?php echo $records->uuid; ?>"  class="meetingid" >
                 <input type="hidden" name="zoomdate[]" value="<?php echo date('Y-M-d h:i:s', strtotime($records->start_time)); ?>" class="date_created" id="" >
                 <input type="text" name="title[]" value="" class="form-control tit" id="floatingInput" placeholder="Media Title">
                 <label for="floatingInput">Media Title</label>
@@ -522,10 +524,13 @@ var list =[]
 var title =[]
 var date_created =[]
 var nothing ="default";
+var  uuid=[]
  $("[name='chooser[]']:checked").each(function () {
                var current =  $(this).val();
                title.push($(this).parents("fieldset").find(".tit").val())
-               title.push($(this).parents("fieldset").find(".tit").val())
+               //title.push($(this).parents("fieldset").find(".tit").val())
+               uuid.push($(this).parents("fieldset").find(".meetingid").val())
+
                date_created.push($(this).parents("fieldset").find(".date_created").val())
 
                list.push(current)
@@ -537,7 +542,7 @@ var nothing ="default";
     url: 'upload.php',
     datatype: 'html',
     //async:false,
-    data:{'chooser': list, 'title': title, 'zoomdate': date_created, 'nothing': nothing },
+    data:{'chooser': list, 'title': title, 'zoomdate': date_created, 'nothing': nothing, "meetingId": uuid },
     beforeSend: function(){
 				//$('.submit-control').html("<img src='LoaderIcon.gif' /> Ajax Request is Processing!");
 			},
@@ -546,6 +551,7 @@ var nothing ="default";
         $("#results").html(data);
          $('#add_data_Modal').modal('show');
         //console.log(data)
+       // alert(data);
 			},
 
  error: function(data) {
