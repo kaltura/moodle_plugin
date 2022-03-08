@@ -52,15 +52,16 @@ if (isset($_POST['chooser'])) {
   $_POST['nothing'] = "Your Zoom recordings that have been uploaded successfully!";
   $nothing = $_POST['nothing'];
   $state = $_POST['chooser'];
-  $uuid = array_values($_POST['meetingId']); 
-           moveZoomRecordings($uuid);
+  //$uuid = array_values($_POST['meetingId']); 
+          
   foreach ($state as  $key => $result) {
            
           $kconf->format = KalturaClientBase::KALTURA_SERVICE_FORMAT_PHP;
           $entry = new KalturaMediaEntry();
            $uploadURL = $result;
            $titulo = $_POST['title'][$key];
-
+           $uuid = ($_POST['meetingId'])[$key];
+           moveZoomRecordings($uuid);
            //echo $titulo;
              if (empty($titulo)) {
                $entry->name = "Zoom recording date: ". $_POST['zoomdate'][$key]."-Uploaded from Zoom URL tool";
@@ -123,11 +124,11 @@ if (isset($_POST['chooser'])) {
 <?php
 }
 function moveZoomRecordings($uuid) {
-  foreach ($uuid as $key => $meetingid) {
+ // foreach ($uuid as $key => $meetingid) {
     # code...
   
   $curl = curl_init();
-  $url = "https://api.zoom.us/v2/meetings/$meetingid/recordings?action=trash";
+  $url = "https://api.zoom.us/v2/meetings/$uuid/recordings?action=trash";
   curl_setopt_array($curl, array(
     CURLOPT_URL => $url,
     CURLOPT_RETURNTRANSFER => true,
@@ -143,9 +144,9 @@ function moveZoomRecordings($uuid) {
   ));
   
   $response = curl_exec($curl);
-}
+//}
   curl_close($curl);
-  echo $response;
+ 
   
 }
 

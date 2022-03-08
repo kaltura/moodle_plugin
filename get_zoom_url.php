@@ -55,10 +55,11 @@ if ($get_usersInfo->email == $ur_email) {
   
   if ($visited == false) {
       
-    $datebefore = new \DateTime('2 month ago');
+    $datebefore = new \DateTime('1 month ago');
     $datenow = date('Y-m-d');
 
-    $begin = new \DateTime('2 month ago');
+    $begin = new \DateTime('1 month ago');
+    $begin->modify('first day of this month');
     $end = new DateTime($datenow);
 
     $interval = DateInterval::createFromDateString('1 day');
@@ -115,7 +116,7 @@ function getAlert($alertname){
 
 
   ?>
-  <button type="button" class="btn btn-primary">Back to Mymedia </button>
+  <button type="button" class="btn btn-primary" onClick="parent.location='mymedia.php'" >Back to Mymedia </button>
     <div class="container-fluid mt-2 card mb-2">
 
     <div class="row">
@@ -212,36 +213,35 @@ function getAlert($alertname){
         var current_progress =0;
         
           var interval = setInterval(function() {
+            if (document.readyState === "complete") {
             
-            $('.accordion-body').each(function() {
-              current_progress += 1;
-              
-            });
-              console.log(current_progress)
-              if (current_progress  >= 100) {
-                clearInterval(interval);
-                current_progress = 100;
-                $('.resultxt').text('Please wait..')
-              }
+                  console.log('DOM fully loaded and parsed');
+                  current_progress = 100;
+                  $('.resultxt').delay(2000).fadeOut('slow');
+                  $('.progress-bar').delay(2000).fadeOut('slow');
+                  clearInterval(interval);
+                }
+           
+            if (document.readyState !== "complete") {
+            
+                $('.accordion-body').each(function() {
+                  current_progress = current_progress + 1; 
+                });
+            }
+
+             if (current_progress  <= 100){
               $(".progress-bar")
               .css("width", current_progress + "%")
               .attr("aria-valuenow", current_progress)
               .text(current_progress + "% Complete");
-                
-              document.addEventListener('DOMContentLoaded', (event) => {
-                if( current_progress < 20) {
-                  setTimeout(function(){
-                    current_progress = 100;
-                    console.log(current_progress)
-                  
-                }, 1000);
-                }
-                
-                $('.resultxt').delay(4000).fadeOut('slow');
-                $('.progress-bar').delay(4000).fadeOut('slow');
-                console.log('DOM fully loaded and parsed');
-                
-              });
+
+              }else {
+                current_progress = 99;
+                $(".progress-bar").text(current_progress + "% Please wait");
+              }
+            
+              
+              console.log(current_progress)
             
           }, 1000);
       
@@ -304,10 +304,8 @@ if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
     $_SESSION["dateto"] = $datenow;
     $_SESSION["datefrom"] = $_POST['datefrom'];
     $start    = new DateTime($_POST['datefrom']);
+    $start->modify('first day of this month');
     $end      = new DateTime($datenow);
-    //print_r($end);
-    $end = $end->modify( '+1 month' );
-    //print_r($end);
     $interval = DateInterval::createFromDateString('1 month');
     $period   = new DatePeriod($start, $interval, $end);               
     
@@ -315,12 +313,8 @@ if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
     $_SESSION["dateto"] = $_POST['dateto'];
     $_SESSION["datefrom"] = $_POST['datefrom'];
     $start    = new DateTime($_POST['datefrom']);
+    $start->modify('first day of this month');
     $end      = new DateTime($_POST['dateto']);
-    //print_r($end);
-    //$begin = new \DateTime('2 month ago');
-    //$end = new DateTime($datenow);
-    $end = $end->modify( '+1 month' );
-    //print_r($end);
     $interval = DateInterval::createFromDateString('1 month');
     $period   = new DatePeriod($start, $interval, $end);
     
