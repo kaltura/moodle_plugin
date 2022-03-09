@@ -63,18 +63,12 @@ $kclient->setKs($ksession);
 // KALTURA_SERVICE_FORMAT_XML   xml
 // KALTURA_SERVICE_FORMAT_PHP   php
 $kconf->format = KalturaClientBase::KALTURA_SERVICE_FORMAT_PHP;
-
 $movie = "flow_in_the_sky.mp4";
-
 $token = $kclient->media->upload($movie);
-
 $entry = new KalturaMediaEntry();
-
 $entry->name = "Flower in the sky - apr 18";
 $entry->mediaType = KalturaMediaType::VIDEO;
-
 $result = $kclient->media->addFromUploadedFile($entry, $token);
-
 echo '<h3>Media entry structure returned</h3>';
 echo '<pre>';
 print_r($result);
@@ -96,63 +90,68 @@ echo '</pre>';
 	  <p class="mt-1"><a href="javascript:window.history.back()" class="btn btn-primary" style="float: right">Back to My Media</a></p>
       <div class="content">
         <div id="frame">
-         <fieldset>
-          <h3>Upload to My Media</h3>
-	        <p>This alternate uploader is intended to improve performance for users with upload speeds less than 8 mbps.</p>
-	        <p>You can drag and drop up to 5 files at once, but we recommend uploading only one file at a time for slower connections.</p>
-	        <p>If you continue to experience problems uploading media, please contact <a href="mailto:it.support@uregina.ca">it.support@uregina.ca</a>.</p>
-	  
-          <script >
-              function setInputValue(id, value) {
-                  document.getElementById(id).value=value;
-              }
-              function getInputValue(id) {
-                  return document.getElementById(id).value;
-              }
-              var VERY_BIG_CHUNK = Math.pow(2,100);
-          </script>
-
-          <div class="resumable-error">
-            <p>Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.</p>
-          </div>
-
-	        <div class="row">
+        <div class="row">
 	          <div class="col-sm-8">
-		          <div class="form-group valid-row">
-	 	            <div class="resumable-progress">
-	 	              <table>
-	 	                <tr>
-	 	                  <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
-	 	                  <td class="progress-text" nowrap="nowrap"></td>
-	 	                  <td class="progress-pause" nowrap="nowrap">
-	 	                    <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="simple/resume.png" title="Resume upload" /></a>
-	 	                    <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="simple/pause.png" title="Pause upload" /></a>
-	 	                    <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="simple/cancel.png" title="Cancel upload" /></a>
-	 	                  </td>
-	 	                </tr>
-	 	              </table>
-	 	            </div>
-      
-	 	            <div class="upload-speed"></div> 
-	 	            <div id="report" style="color: rgb(69, 145, 58);"></div>
+              <fieldset>
+                <h3>Upload to My Media</h3>
+                <p>This alternate uploader is intended to improve performance for users with upload speeds less than 8 mbps.</p>
+                <p>You can drag and drop up to 5 files at once, but we recommend uploading only one file at a time for slower connections.</p>
+                <p>If you continue to experience problems uploading media, please contact <a href="mailto:it.support@uregina.ca">it.support@uregina.ca</a>.</p>
+          
+                <script >
+                    function setInputValue(id, value) {
+                        document.getElementById(id).value=value;
+                    }
+                    function getInputValue(id) {
+                        return document.getElementById(id).value;
+                    }
+                    var VERY_BIG_CHUNK = Math.pow(2,100);
+                </script>
 
-	 	            <ul class="resumable-list">
-	 	      	      <li><h4>Upload Log</h4></li>
-	 	            </ul>
-		          </div>  
+                <div class="resumable-error">
+                  <p>Your browser, unfortunately, is not supported by Resumable.js. The library requires support for <a href="http://www.w3.org/TR/FileAPI/">the HTML5 File API</a> along with <a href="http://www.w3.org/TR/FileAPI/#normalization-of-params">file slicing</a>.</p>
+                </div>
+
+	        
+                <div class="form-group valid-row">
+                  <div class="resumable-progress">
+                    <table>
+                      <tr>
+                        <td width="100%"><div class="progress-container"><div class="progress-bar"></div></div></td>
+                        <td class="progress-text" nowrap="nowrap"></td>
+                        <td class="progress-pause" nowrap="nowrap">
+                          <a href="#" onclick="r.upload(); return(false);" class="progress-resume-link"><img src="simple/resume.png" title="Resume upload" /></a>
+                          <a href="#" onclick="r.pause(); return(false);" class="progress-pause-link"><img src="simple/pause.png" title="Pause upload" /></a>
+                          <a href="#" onclick="r.cancel(); return(false);" class="progress-cancel-link"><img src="simple/cancel.png" title="Cancel upload" /></a>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+      
+                  <div class="upload-speed"></div> 
+
+                  <div id="report" style="color: rgb(69, 145, 58);"></div>
+
+                  <ul class="resumable-list">
+                    <li><h4>Upload Log</h4></li>
+                  </ul>
+                </div>  
 		  
-	            <div class="form-group valid-row mb-5">
-	              <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
-			            <div class="uploadBox__container">
-			              <img src="https://vodcdn.ca.kaltura.com/5.106.300/public/img/upload_background.png" alt="Upload new media">                      
-                    <img src="https://vodcdn.ca.kaltura.com/5.106.300/public/img/upload_arrow.png" class="uploadBox__moving-image">                  </div>
-	                  <p style="font-size: 24px;">Drag & Drop a file here</p>
-			              <p class="text-muted">or</p> 
-			              <p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
-			              <p>All common video, audio and image formats in all resolutions are accepted.</p>
-	                </div>
-	              </div>
-	              <div class="form-group valid-row">
+                <div class="form-group valid-row mb-5">
+                  <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
+                  <div class="position-relative m-5 p-2">
+                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_background.png" alt="Upload new media">
+                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
+                  </div>
+                  <div class="mt-5 p-3">
+                      <h2>Drag & Drop a file here</h2>
+                      <p class="text-muted">or</p> 
+                      <p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
+                      <p>All common video, audio and image formats in all resolutions are accepted.</p>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="form-group valid-row">
 		
                   <details>
                   <summary>Advanced options</summary>
@@ -263,7 +262,7 @@ echo '</pre>';
       function kAddUploadToNewMedia(server, ks, uploadToken, name, report) {
             
         kDoJSONRequest(server, ks, "/service/media/action/addFromUploadedFile", 
-          "mediaEntry:name=" + encodeURIComponent(name) + "&mediaEntry:mediaType=1" +
+          "mediaEntry:name=" + name +"&mediaEntry:mediaType=1" +
           "&uploadTokenId=" + uploadToken, function(response) {
 
 		      var kalturaEntryId=null;
@@ -282,7 +281,7 @@ echo '</pre>';
             $('.upload-speed').hide();
           }
 
-		      console.log('entry ID is '+kalturaEntryId);
+		      //console.log('entry ID is '+kalturaEntryId);
 		      reportDiv.innerHTML=status_msg;
 		      report['last_status']=status_msg;
 		      // Reflect that the file upload has completed
@@ -422,8 +421,9 @@ echo '</pre>';
                   chunk_size: r.opts.chunkSize,
                   file_size: file.size,
                   filename: file.fileName, 
+
             };
-            kAddUploadToNewMedia(kalturaServerBase, kalturaSessionKey, uploadToken[file.uniqueIdentifier], file.uniqueIdentifier, report);
+            kAddUploadToNewMedia(kalturaServerBase, kalturaSessionKey, uploadToken[file.uniqueIdentifier], file.fileName, report);
         });
         r.on('fileError', function(file, message){
           // Reflect that the file upload has resulted in error
