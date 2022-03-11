@@ -56,6 +56,11 @@ if (!isset($ksession)) {
 
 $kclient->setKs($ksession);
 
+//only add a the category if site is not UR Courses and is CCE Community
+$category = false;
+if($SITE->fullname == "CCE Community" || $SITE->fullname == "UR Community"){
+  $category = true;
+}
 
 /*
 // Set the response format
@@ -84,6 +89,7 @@ echo '</pre>';
     <link rel="stylesheet" href="simple/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="simple/resumable.js"></script>
+    <script src="simple/KalturaFullClient.min.js"></script>
   </head>
   <body class="page">
     
@@ -179,6 +185,7 @@ echo '</pre>';
                 Partner ID: <?php echo PARTNER_ID ?><br />
                 User: <?php echo $user ?><br />
                 KS: <?php echo $ksession ?></p>
+                Category: <?php echo $category ?></p>
                 <?php } ?>
 
                 <input id="inputSimUploads" type="hidden" value="5"> 
@@ -186,6 +193,7 @@ echo '</pre>';
                 <input class="form-control" id="userId" type="hidden" size="30" value="<?php echo $user ?>">
                 <input class="form-control" id="partnerId" type="hidden" size="30" value="<?php echo PARTNER_ID ?>">
                 <input class="form-control" id="inputKS" type="hidden" size="30" value="<?php echo $ksession ?>">
+                <input class="form-control" id="category" type="hidden" size="30" value="<?php echo $category ?>">
 	            </div>
 	          </div>
 	        </div>
@@ -273,6 +281,29 @@ echo '</pre>';
             status_msg ="Last fully uploaded entry ID: <b>"+response.id + "</b>, Entry Name: <b>"+response.name+"</b>"; 
             report['entry_id']=kalturaEntryId;
             is_success = true;
+
+            var iscategory = document.getElementById("category").value;
+            //set category
+            if(iscategory){
+
+              var config = new KalturaConfiguration();
+              config.serviceUrl = 'https://api.ca.kaltura.com';
+              var client = new KalturaClient(config);
+
+              client.setKs(ks);
+             
+              var mediaEntry = {objectType: "KalturaMediaEntry"};
+              mediaEntry.categories = "CCE Community";
+              mediaEntry.categoriesIds = "13583"
+
+              KalturaMediaService.update(kalturaEntryId, mediaEntry)
+                .execute(client, function(success, results) {
+                  if (!success || (results && results.code && results.message)) {
+                    console.log('Kaltura Error', success, results);
+                  } 
+              });
+            }
+
             $('.upload-speed').hide();
           }else{
             reportDiv.style.color="red";
@@ -300,8 +331,9 @@ echo '</pre>';
         kDoJSONRequest(server, ks, "/service/uploadToken/action/add",
           "uploadToken:objectType=KalturaUploadToken" +
           "&uploadToken:fileName=" + encodeURIComponent(fileName) +
-          "&uploadToken:fileSize=" + fileSize, function(response) {
+          "&uploadToken:fileSize=" + fileSize,function(response) {
 
+            //console.log(response);
 		        if (!response.id){
               var reportDiv = document.getElementById("report");
               reportDiv.style.color="red";
@@ -327,7 +359,7 @@ echo '</pre>';
                             resumeAt: chunk.startByte,
                             finalChunk: chunk.offset+1 == file.chunks.length ? 1 : 0,
                         };
-              console.log("uploadToken.upload(): ", params);
+              //console.log("uploadToken.upload(): ", params);
               return params;
             };
             resumable.opts.query = query;
@@ -382,6 +414,8 @@ echo '</pre>';
           $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
           $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
           // add upload to new media
+          var iscategory = document.getElementById("category").value;
+
           var report = {
                   user_id: kalturaUserId, 
                   token_id: uploadToken[file.uniqueIdentifier], 
@@ -390,7 +424,9 @@ echo '</pre>';
                   chunk_size: r.opts.chunkSize,
                   file_size: file.size,
                   filename: file.fileName, 
+                  category: iscategory
           };
+
           // Actually start the upload
           kUpload(kalturaServerBase, kalturaSessionKey, file.fileName, file.uniqueIdentifier, file.size, r, report);
         });
