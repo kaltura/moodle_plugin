@@ -58,7 +58,7 @@ $kclient->setKs($ksession);
 
 //only add a the category if site is not UR Courses and is CCE Community
 $category = false;
-if($SITE->fullname == "CCE Community" || $SITE->fullname == "UR Community"){
+if($SITE->shortname == "CCE Community" || $SITE->shortname == "UR Community"){
   $category = true;
 }
 
