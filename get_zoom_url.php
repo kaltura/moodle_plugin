@@ -1,6 +1,6 @@
 <?php
 
-require_once "zoom_data.php";
+//require_once "zoom_data.php";
 require_once "bootstrap5.php";
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/zoom/lib.php');
