@@ -1,6 +1,6 @@
 <?php
 
-require_once "zoom_data.php";
+//require_once "zoom_data.php";
 require_once "bootstrap5.php";
 require_once('../../config.php');
 require_once($CFG->dirroot.'/mod/zoom/lib.php');
@@ -51,7 +51,7 @@ $get_usersInfo = zoom_get_user_zoomemail($user,$service);
 $visited = isset($_SESSION['visited']);
 
 
-if ($get_usersInfo->email == $ur_email) {
+if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
   
   if ($visited == false) {
       
