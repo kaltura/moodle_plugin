@@ -51,7 +51,7 @@ $get_usersInfo = zoom_get_user_zoomemail($user,$service);
 $visited = isset($_SESSION['visited']);
 
 
-if ($get_usersInfo->email == $ur_email) {
+if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
   
   if ($visited == false) {
       
