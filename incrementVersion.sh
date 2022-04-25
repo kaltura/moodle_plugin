@@ -4,7 +4,7 @@ EXPECTED_ARGS=4
 
 if [ $# -ne $EXPECTED_ARGS ]; then
 	echo "Missing arguments!"
-	printf "Usage: \n \t$0 {existing build number} {new biuld number} {existing release number} {new release number}"
+	printf "Usage: \n \t$0 {existing build number} {new build number} {existing release number} {new release number}"
 	printf "\nExample: \n \t$0 2014102807 2015012507 4.0.02 4.0.03\n\n"
 	exit 1;
 fi
