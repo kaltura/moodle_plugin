@@ -62,9 +62,7 @@ if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
     $datebefore = new \DateTime('1 month ago');
     $datenow = date('Y-m-d');
 
-
     $period = new dateperiod(new datetime('1 month ago'), new dateinterval('P1M'), (new datetime($datenow))->modify('1 month'));
-  
 
     foreach($period as $dt) {
         $_SESSION["datefrom"]= $datebefore->format('Y-m-d');
@@ -314,14 +312,14 @@ return $visited;
 
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
   $datenow = date("Y-m-d");
-
+ if ($_POST['dateto'] > $datenow) {
+  $_POST['dateto'] = $datenow;
+ }
    $_SESSION["dateto"] = $_POST['dateto'];
     $_SESSION["datefrom"] = $_POST['datefrom'];
  
   $period = new dateperiod(new datetime($_POST['datefrom']), new dateinterval('P1M'), (new datetime($_POST['dateto']))->modify('1 month'));
   
-  
-
 $count =0;
 foreach ($period as $xcount => $dateval) {
 
