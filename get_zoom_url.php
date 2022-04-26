@@ -62,12 +62,9 @@ if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
     $datebefore = new \DateTime('1 month ago');
     $datenow = date('Y-m-d');
 
-    $begin = new \DateTime('1 month ago');
-    $begin->modify('first day of this month');
-    $end = new DateTime($datenow);
 
-    $interval = DateInterval::createFromDateString('1 day');
-    $period = new DatePeriod($begin, $interval, $end);
+    $period = new dateperiod(new datetime('1 month ago'), new dateinterval('P1M'), (new datetime($datenow))->modify('1 month'));
+  
 
     foreach($period as $dt) {
         $_SESSION["datefrom"]= $datebefore->format('Y-m-d');
@@ -153,7 +150,7 @@ function getAlert($alertname){
                   if (!empty($_POST['dateto']) > $datenow) {  
                     $loadval = $_POST['datefrom'];
                      $loadval2 = $datenow;
-                  }else { 
+                  }else if (!empty($_POST['datefrom'])){ 
                     $loadval = $_POST['datefrom'];
                     $loadval2 = $_POST['dateto'];
                   }
@@ -317,25 +314,11 @@ return $visited;
 
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
   $datenow = date("Y-m-d");
-  if ($_POST['dateto'] > $datenow) {  
-    $_SESSION["dateto"] = $datenow;
+
+   $_SESSION["dateto"] = $_POST['dateto'];
     $_SESSION["datefrom"] = $_POST['datefrom'];
-    $start    = new DateTime($_POST['datefrom']);
-    $start->modify('first day of this month');
-    $end      = new DateTime($datenow);
-    $interval = DateInterval::createFromDateString('1 month');
-    $period   = new DatePeriod($start, $interval, $end);               
-    
-   }else { 
-    $_SESSION["dateto"] = $_POST['dateto'];
-    $_SESSION["datefrom"] = $_POST['datefrom'];
-    $start    = new DateTime($_POST['datefrom']);
-    $start->modify('first day of this month');
-    $end      = new DateTime($_POST['dateto']);
-    $interval = DateInterval::createFromDateString('1 month');
-    $period   = new DatePeriod($start, $interval, $end);
-    
-  }
+ 
+  $period = new dateperiod(new datetime($_POST['datefrom']), new dateinterval('P1M'), (new datetime($_POST['dateto']))->modify('1 month'));
   
   
 
