@@ -11,7 +11,7 @@ global $CFG;
 
 # Globals
 global $CFG, $USER, $DB, $PAGE, $stat, $sett, $tagasett, $zoomMails, $count;
-//$sett='';
+
 $PAGE->set_url('/local/mymedia/upload');
 $PAGE->set_context(context_system::instance());
 
@@ -49,7 +49,11 @@ $service = new mod_zoom_webservice();
 $user = $USER;
 $get_usersInfo = zoom_get_user_zoomemail($user,$service);
 $visited = isset($_SESSION['visited']);
-
+?>
+<!-- hidden fields for emails accounts--> 
+<input type="hidden" name="ur_email" value ="<?php echo $get_usersInfo->email; ?>"> <br>
+<input type="hidden" name="zoom_email" value ="<?php echo $ur_email; ?>">
+<?php
 
 if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
   
@@ -58,12 +62,7 @@ if (strtolower($get_usersInfo->email) == strtolower($ur_email)) {
     $datebefore = new \DateTime('1 month ago');
     $datenow = date('Y-m-d');
 
-    $begin = new \DateTime('1 month ago');
-    $begin->modify('first day of this month');
-    $end = new DateTime($datenow);
-
-    $interval = DateInterval::createFromDateString('1 day');
-    $period = new DatePeriod($begin, $interval, $end);
+    $period = new dateperiod(new datetime('1 month ago'), new dateinterval('P1M'), (new datetime($datenow))->modify('1 month'));
 
     foreach($period as $dt) {
         $_SESSION["datefrom"]= $datebefore->format('Y-m-d');
@@ -116,7 +115,9 @@ function getAlert($alertname){
 
 
   ?>
-  <button type="button" class="btn btn-primary" onClick="parent.location='mymedia.php'" >Back to Mymedia </button>
+  
+  <button type="button" class="btn btn-secondary float-end mb-2" onClick="parent.location='mymedia.php'" >Back to Mymedia </button>
+
     <div class="container-fluid mt-2 card mb-2">
 
     <div class="row">
@@ -144,18 +145,22 @@ function getAlert($alertname){
                   $_SESSION['visited'] = true;
                 }else {
                   $datenow = date("Y-m-d");
-                  if ($_POST['dateto'] > $datenow) {  
+                  if (!empty($_POST['dateto']) > $datenow) {  
                     $loadval = $_POST['datefrom'];
                      $loadval2 = $datenow;
-                  }else { 
+                  }else if (!empty($_POST['datefrom'])){ 
                     $loadval = $_POST['datefrom'];
                     $loadval2 = $_POST['dateto'];
                   }
               
                 }
+                if ($visited == true && empty($_POST['dateto']) ) {
+                  $loadval =   $_SESSION["datefrom"];
+                  $loadval2 = $_SESSION["dateto"];
+                }
 
                ?>
-                    <input type="text" name="datefrom" id="datefrom" value ="<?php echo $loadval; ?>" class="form-control">
+                    <input type="text" name="datefrom" id="datefrom" value ="<?php echo $loadval; ?>" class="form-control datefrom">
                     <span class="input-group-append">
                         <span class="input-group-text bg-white d-block">
                             <i class="fa fa-calendar"></i>
@@ -169,7 +174,7 @@ function getAlert($alertname){
             <label for="date" class=" col-form-label">To</label>
             <div class="col">
                 <div class="input-group date" id="datepickerto">
-                    <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control">
+                    <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control  dateto">
                     <span class="input-group-append">
                         <span class="input-group-text bg-white d-block">
                             <i class="fa fa-calendar"></i>
@@ -217,9 +222,13 @@ function getAlert($alertname){
             
                   console.log('DOM fully loaded and parsed');
                   current_progress = 100;
+                 
+
                   $('.resultxt').delay(2000).fadeOut('slow');
                   $('.progress-bar').delay(2000).fadeOut('slow');
+                 
                   clearInterval(interval);
+                  $('.alert_results').show();
                 }
            
             if (document.readyState !== "complete") {
@@ -249,6 +258,7 @@ function getAlert($alertname){
         <div class="p-2 progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
       <?php
+         
         }
       ?>
         </div>
@@ -271,7 +281,8 @@ function getAlert($alertname){
         });
 
         $(document).ready(function() {
-              $('.uploadurl').hide();
+          $('.alert_results').hide();
+          $('.uploadurl').hide();
           });
 </script>
 
@@ -285,8 +296,9 @@ function firstLoad($visited) {
      <script>
       $(document).ready(function() {
       $('.getZoomails').trigger('click');
+     
       });
-    
+     
     </script>
     <?php
 
@@ -300,28 +312,14 @@ return $visited;
 
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
   $datenow = date("Y-m-d");
-  if ($_POST['dateto'] > $datenow) {  
-    $_SESSION["dateto"] = $datenow;
+ if ($_POST['dateto'] > $datenow) {
+  $_POST['dateto'] = $datenow;
+ }
+   $_SESSION["dateto"] = $_POST['dateto'];
     $_SESSION["datefrom"] = $_POST['datefrom'];
-    $start    = new DateTime($_POST['datefrom']);
-    $start->modify('first day of this month');
-    $end      = new DateTime($datenow);
-    $interval = DateInterval::createFromDateString('1 month');
-    $period   = new DatePeriod($start, $interval, $end);               
-    
-   }else { 
-    $_SESSION["dateto"] = $_POST['dateto'];
-    $_SESSION["datefrom"] = $_POST['datefrom'];
-    $start    = new DateTime($_POST['datefrom']);
-    $start->modify('first day of this month');
-    $end      = new DateTime($_POST['dateto']);
-    $interval = DateInterval::createFromDateString('1 month');
-    $period   = new DatePeriod($start, $interval, $end);
-    
-  }
+ 
+  $period = new dateperiod(new datetime($_POST['datefrom']), new dateinterval('P1M'), (new datetime($_POST['dateto']))->modify('1 month'));
   
-  
-
 $count =0;
 foreach ($period as $xcount => $dateval) {
 
@@ -468,13 +466,23 @@ foreach ($resulta as $x => $records) {
 curl_close($curl);
 }
 
+}else  {
+
+
+    $_POST['datefrom'] = $_SESSION["datefrom"];
+    $_POST['dateto'] = $_SESSION["dateto"];
+
+      ?>
+     
+      <script>  
+
+      $('.getZoomails').trigger('click');
+     
+     </script>
+      <?php
+   
 }
 
-    if (empty($resulta) && empty($_POST['dateto'])) {
-      $alertname = "results";
-      getAlert($alertname);
-      
-    }
     ?>
 </div>
 <script>
@@ -482,6 +490,16 @@ curl_close($curl);
                  $('.uploadurl').show();
         });
         </script>
+<div class="alert_results">
+  <?php
+if (empty($count)) {
+ 
+     $alertname = "results";
+       getAlert($alertname);
+   
+          }  
+          ?>
+<div>        
 <div class="submit-control mt-2">
 <input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to kaltura" <?php echo $stat; ?>>
 
