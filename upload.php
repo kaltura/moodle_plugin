@@ -61,8 +61,7 @@ if (isset($_POST['chooser'])) {
            $uploadURL = $result;
            $titulo = $_POST['title'][$key];
            $uuid = ($_POST['meetingId'])[$key];
-           moveZoomRecordings($uuid);
-           //echo $titulo;
+        
              if (empty($titulo)) {
                $entry->name = "Zoom recording date: ". $_POST['zoomdate'][$key]."-Uploaded from Zoom URL tool";
 
@@ -70,9 +69,23 @@ if (isset($_POST['chooser'])) {
                  $entry->name = $titulo;
 
               }
+
           $entry->mediaType = KalturaMediaType::VIDEO;
           $results = $kclient->media->addFromUrl($entry, $uploadURL);
+          //setcookie("cookieUid", $uuid);
+          // read json file
+          $data = file_get_contents('moverecordings.json');
 
+          // decode json
+          $json_arr = json_decode($data, true);
+
+          // add data
+          $json_arr[] =  array("meetingid"=>$uuid);
+          //$jsonval = array_unique($json_arr);
+          // encode json and save to file
+          file_put_contents('moverecordings.json', json_encode($json_arr));
+
+           // echo $_COOKIE["cookieUid"];
 
 ?>
   <div  class="card mb-2">
@@ -97,8 +110,9 @@ if (isset($_POST['chooser'])) {
      echo "<b>Date created: </b>".date_format($date,"Y-M-d H:i:s")."<br>";
      ?>
        </div>
+       
   </div>
-
+  
   <script>
   $('.modal-title').text("<?php echo $nothing; ?>")
   </script>
@@ -123,31 +137,8 @@ if (isset($_POST['chooser'])) {
 
 <?php
 }
-function moveZoomRecordings($uuid) {
- // foreach ($uuid as $key => $meetingid) {
-    # code...
-  
-  $curl = curl_init();
-  $url = "https://api.zoom.us/v2/meetings/$uuid/recordings?action=trash";
-  curl_setopt_array($curl, array(
-    CURLOPT_URL => $url,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'DELETE',
-    CURLOPT_HTTPHEADER => array(
-      'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOm51bGwsImlzcyI6ImRhUkFPOUV6UjFxWjFvN2U2N2VkU3ciLCJleHAiOjE3OTk4OTU1MDcsImlhdCI6MTU5OTE0MDEwN30.h99YcQzNnvBHU5ztOi2PjZ5cYSCrFzZyUh1T-9DV_Vo'
-    ),
-  ));
-  
-  $response = curl_exec($curl);
-//}
-  curl_close($curl);
- 
-  
-}
+
+
+
 
 ?>
