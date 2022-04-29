@@ -132,7 +132,7 @@ function getAlert($alertname){
     <p class="text"></p>
     <form  name="getfirstload" method="post" action="get_zoom_url.php">
         <div class="row p-2 form-group">
-            <label for="date" class=" col-form-label">From</label>
+            <label for="date" class=" col-form-label">Start date</label>
             <div class="col">
                 <div class="input-group date" id="datepickerfrom">
 
@@ -171,7 +171,7 @@ function getAlert($alertname){
         </div>
 
         <div class="row p-2 form-group">
-            <label for="date" class=" col-form-label">To</label>
+            <label for="date" class=" col-form-label">End date</label>
             <div class="col">
                 <div class="input-group date" id="datepickerto">
                     <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control  dateto">
@@ -192,7 +192,7 @@ function getAlert($alertname){
   </div>
   <div class="col-md-6 col-lg-6 bg-light ">
     <div class="mt-2">
-    <p>Fill in the dates <b>From</b> and <b>To</b>, to retrieve your zoom recordings.
+    <p>Fill in the dates <b>Start date</b> and <b>End date</b>, to retrieve your zoom recordings.
       This tool will allow you to get all your Zoom recordings base on your date filters.
       </p>
       <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong>Zoom recording date:(date)</strong>} will be used.</p>
@@ -248,8 +248,7 @@ function getAlert($alertname){
                 current_progress = 99;
                 $(".progress-bar").text(current_progress + "% Please wait");
               }
-            
-              
+
               console.log(current_progress)
             
           }, 1000);
