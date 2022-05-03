@@ -338,7 +338,7 @@ function local_kaltura_strip_querystring($endpoint, $params) {
  * @return string Returns HTML required to initiate an LTI launch.
  */
 function local_kaltura_request_lti_launch($ltirequest, $withblocks = true, $editor = null) {
-    global $CFG, $USER;
+    global $CFG, $USER, $SESSION;
 
     if(is_null($editor))
     {
@@ -387,7 +387,13 @@ function local_kaltura_request_lti_launch($ltirequest, $withblocks = true, $edit
     $requestparams['lis_outcome_service_url'] = $serviceurl->out(false);
 
     // Add custom parameters
-    $requestparams['custom_publishdata'] = local_kaltura_get_kaf_publishing_data();
+    // Add json course data $SESSION for performance.
+    if (!empty($SESSION->local_kaltura_custom_publishdata)) {
+        $requestparams['custom_publishdata'] = $SESSION->local_kaltura_custom_publishdata;
+    } else {
+        $requestparams['custom_publishdata'] = local_kaltura_get_kaf_publishing_data();
+        $SESSION->local_kaltura_custom_publishdata = $requestparams['custom_publishdata'];
+    }
     $requestparams['custom_publishdata_encoded'] = '1';
     $requestparams['custom_moodle_plugin_version'] = local_kaltura_get_config()->version;
 
