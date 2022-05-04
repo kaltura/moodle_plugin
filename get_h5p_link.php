@@ -74,7 +74,7 @@ if (!isset($ks)) {
 }
 ?>
 
-<div class="container">
+<div class="container-fluid">
   <div class="card mt-2">
     <div class="card-header text-center">
         <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="H5P Icon">
@@ -118,26 +118,61 @@ if (!isset($_POST['entryId'])) {
 
 <?php
  }else {
-    $eid = $_POST['entryId']; //pass entry id coming from Input entryId
+
+  $eid = $_POST['entryId']; //pass entry id coming from Input entryId
   $client->setKS($ks);
   $filter = new KalturaAssetFilter();
   $pager = new KalturaFilterPager();
 
   $filter->entryIdEqual = $eid; //entryId being pass to kaltura api call
   $result = $client->flavorAsset->listAction($filter, $pager);
+  if ($result->totalCount == 0) {
+    # code...
+    ?> 
+    <div class="alert alert-info d-flex align-items-center" role="alert">
+     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+     <div>
+    Entry ID: <strong><?php echo $eid; ?></strong> is invalid <strong>or</strong> cannot be found in the server.
+   </div>
+   
+   <?php
+  }else {
+
+
 
      ?>
 <div class="table-responsive">
-       <table class="m-auto table table-striped table-hover table-responsive "><tr><th></th><th>Video quality URL</th><th>Format</th><th>Dimension</th><th>Size(kb)</th></tr>
+       <table class="m-auto table table-striped table-hover table-responsive "><tr><th></th><th>Quality</th><th>Video URL</th><th>Format</th><th>Dimension</th><th>Size(kb)</th></tr>
 
 
      <?php
+    
 
      $ta = 0; // var id for the copy flavor url button
    foreach ($result->objects as $entry) { //iterate on the flavor assets objects
+    //print_r($entry->totalcount);
           $ta += 1;
           $dimension = $entry->width."X".$entry->height;
-
+          if ($entry->flavorParamsId  == 2) {
+            $quality = "Basic/Small - WEB/MBL (H264/400)";
+            # code...
+          }elseif ($entry->flavorParamsId  == 3) {
+            $quality = "Basic/Small - WEB/MBL (H264/600)";
+            # code...
+          }elseif ($entry->flavorParamsId  == 4) {
+            $quality = "SD/Small - WEB/MBL (H264/900)";
+            # code...
+          }elseif ($entry->flavorParamsId  == 5) {
+            $quality = "HD/720 - WEB (H264/2500)";
+            # code...
+          }elseif ($entry->flavorParamsId  == 6) {
+            $quality = "SD/Large - WEB/MBL (H264/1500)";
+            # code...
+          }elseif ($entry->flavorParamsId  == 7) {
+            $quality = "HD/1080 - WEB (H264/4000)";
+            # code...
+          }
+          
           //create the flavor url link
           $flavorlink="https://vodcdn.ca.kaltura.com/p/103/sp/10300/serveFlavor/entryId/$eid/v/2/ev/3/flavorId/$entry->id/forceproxy/true/name/a.mp4";
 
@@ -155,15 +190,22 @@ if (!isset($_POST['entryId'])) {
              }elseif ($entry->status == 1) {
                   $flavorlink = "Flavor Stuck in conversion Error, Please Notify IT Support";
              }
+            if ($entry->flavorParamsId > 0) {
+              # code...
+           
 // display the table
    echo "<tr>
         <td><input data-bs-toggle=\"tooltip\" data-bs-placement=\"left\" title=\"Copy Flavor Url\"
         class=\"btn btn-secondary\" type=\"button\" value=\"Copy URL\" onclick=\"selectElementContents( document.getElementById('$ta') );\" $stat></td>
+        <td> ".$quality."
+         </td> 
         <td id='$ta'> ".$flavorlink."</td>
         <td> ".$entry->fileExt."</td>
         <td>".$dimension."</td>
         <td>".$entry->size."</td>
         </tr>";
+            }
+   }
 }
 ?>
 </div>

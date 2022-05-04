@@ -58,6 +58,12 @@ $attr = array(
 echo html_writer::tag('a', 'Trouble Uploading?', $attr);
 
 
+$roleassh5p = $DB->get_record('role_assignments', array('userid' => $USER->id), '*', MUST_EXIST);
+?>
+<input  type="hidden" value ="<?php echo $roleassh5p->roleid; ?>" >
+<?php
+// Request the launch content with an iframe tag.
+if ($roleassh5p->roleid != 5) {
 // Request the launch content with an iframe tag.
 $attr = array(
     'href' => 'get_h5p_link.php',
@@ -66,7 +72,7 @@ $attr = array(
     'target' => 'contentframe',
 );
 echo html_writer::tag('a', 'URLs for H5P', $attr);
-
+}
 // Request the launch content with an iframe tag.
 $attr = array(
     'id' => 'contentframe',
