@@ -25,7 +25,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
-global $USER;
+global $USER, $SITE;
 
 require_login();
 
@@ -67,15 +67,18 @@ $attr = array(
 );
 echo html_writer::tag('a', 'URLs for H5P', $attr);
 
-// Request the launch content with an iframe tag.
-$attr = array(
-    'href' => 'get_zoom_url.php',
-	'class' => 'btn btn-secondary',
-	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
-    'target' => 'contentframe',
-);
-echo html_writer::tag('a', 'Import Zoom Recordings', $attr);
-
+//Quick hack for CCE Community, will need to think how it should work for them
+error_log(print_r($SITE->shortname,TRUE));
+if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
+    // Request the launch content with an iframe tag.
+    $attr = array(
+        'href' => 'get_zoom_url.php',
+        'class' => 'btn btn-secondary',
+        'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
+        'target' => 'contentframe',
+    );
+    echo html_writer::tag('a', 'Import Zoom Recordings', $attr);
+}
 // Request the launch content with an iframe tag.
 $attr = array(
     'id' => 'contentframe',
