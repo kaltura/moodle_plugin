@@ -32,10 +32,19 @@ if ( (!isloggedin()) ) {
     print_error("You need to be logged in to access this page.");
     exit;
 }
-
-
  ?>
 
+<head> 
+<?php
+//check if dark mode is enabled and if so add the style sheet
+if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$USER->id, 'darkmode'=>1))) {
+  //changes url to opposite of whatever the toggle currently is to set dark mode in db under columns2.php
+  $css = new moodle_url(('/theme/urcourses_default/style/darkmode.css'));
+  echo '<link rel="stylesheet" type="text/css" href="'.$css.'">';
+} 
+?>
+
+</head>
 <body onload="">
 
   <?php
@@ -116,199 +125,176 @@ function getAlert($alertname){
 
   ?>
   
-  <button type="button" class="btn btn-secondary float-end mb-2" onClick="parent.location='mymedia.php'" >Back to Mymedia </button>
+  <button type="button" class="btn btn-primary m-2" style="float: right; background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
 
-    <div class="container-fluid mt-2 card mb-2">
+  <div class="container-fluid mt-2 mb-2">
+    <div class="card mt-2">
+      <div class="card-header text-center">
+        <h4>
+          Upload Zoom
+          <small class="text-muted">video recordings to Kaltura</small>
+        </h4>
+      </div>
 
-    <div class="row">
-    <div class=" col-md-6 col-lg-6 bg-light">
-     <div class="mt-2">
-
-    <h4>
-      Upload Zoom
-      <small class="text-muted">video recordings to Kaltura</small>
-    </h4>
-    </div>
-    <p class="text"></p>
-    <form  name="getfirstload" method="post" action="get_zoom_url.php">
-        <div class="row p-2 form-group">
-            <label for="date" class=" col-form-label">Start date</label>
-            <div class="col">
+      <div class="card-body">
+        <div class="row">
+          <p class="text"></p>
+          <form  class= "col-md-6" name="getfirstload" method="post" action="get_zoom_url.php">
+            <div class="row p-2 form-group">
+              <label for="date" class=" col-form-label">Start date</label>
+              <div class="col">
                 <div class="input-group date" id="datepickerfrom">
-
-               <?php
-
-               if ($visited == false) {
-                  
-                  $loadval =   $_SESSION["datefrom"];
-                  $loadval2 = $_SESSION["dateto"];
-                  $_SESSION['visited'] = true;
-                }else {
-                  $datenow = date("Y-m-d");
-                  if (!empty($_POST['dateto']) > $datenow) {  
-                    $loadval = $_POST['datefrom'];
-                     $loadval2 = $datenow;
-                  }else if (!empty($_POST['datefrom'])){ 
-                    $loadval = $_POST['datefrom'];
-                    $loadval2 = $_POST['dateto'];
-                  }
-              
-                }
-                if ($visited == true && empty($_POST['dateto']) ) {
-                  $loadval =   $_SESSION["datefrom"];
-                  $loadval2 = $_SESSION["dateto"];
-                }
-
-               ?>
+                    <?php
+                    if ($visited == false) {
+                        
+                        $loadval =   $_SESSION["datefrom"];
+                        $loadval2 = $_SESSION["dateto"];
+                        $_SESSION['visited'] = true;
+                      }else {
+                        $datenow = date("Y-m-d");
+                        if (!empty($_POST['dateto']) > $datenow) {  
+                          $loadval = $_POST['datefrom'];
+                          $loadval2 = $datenow;
+                        }else if (!empty($_POST['datefrom'])){ 
+                          $loadval = $_POST['datefrom'];
+                          $loadval2 = $_POST['dateto'];
+                        }
+                    
+                      }
+                      if ($visited == true && empty($_POST['dateto']) ) {
+                        $loadval =   $_SESSION["datefrom"];
+                        $loadval2 = $_SESSION["dateto"];
+                      }
+                    ?>
                     <input type="text" name="datefrom" id="datefrom" value ="<?php echo $loadval; ?>" class="form-control datefrom">
                     <span class="input-group-append">
-                        <span class="input-group-text bg-white d-block">
-                            <i class="fa fa-calendar"></i>
-                        </span>
+                      <span class="input-group-text bg-white d-block">
+                        <i class="fa fa-calendar"></i>
+                      </span>
                     </span>
                 </div>
+              </div>
             </div>
-        </div>
 
-        <div class="row p-2 form-group">
-            <label for="date" class=" col-form-label">End date</label>
-            <div class="col">
+            <div class="row p-2 form-group">
+              <label for="date" class=" col-form-label">End date</label>
+              <div class="col">
                 <div class="input-group date" id="datepickerto">
-                    <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control  dateto">
-                    <span class="input-group-append">
-                        <span class="input-group-text bg-white d-block">
-                            <i class="fa fa-calendar"></i>
-                        </span>
+                  <input type="text" name="dateto" id="dateto" value="<?php echo $loadval2; ?>" class="form-control  dateto">
+                  <span class="input-group-append">
+                    <span class="input-group-text bg-white d-block">
+                      <i class="fa fa-calendar"></i>
                     </span>
+                  </span>
                 </div>
+              </div>
             </div>
-        </div>
-        <div class="p-2">
-        <input name="set" value ="submit" class="btn btn-secondary getZoomails" type="submit" <?php echo $tagasett; ?> >
-      </div>
+            <div class="p-2">
+              <input name="set" value ="Submit" class="btn btn-secondary getZoomails" type="submit" <?php echo $tagasett; ?> >
+            </div>
 
-  </form>
+          </form>
   
-  </div>
-  <div class="col-md-6 col-lg-6 bg-light ">
-    <div class="mt-2">
-    <p>Fill in the dates <b>Start date</b> and <b>End date</b>, to retrieve your zoom recordings.
-      This tool will allow you to get all your Zoom recordings base on your date filters.
-      </p>
-      <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong>Zoom recording date:(date)</strong>} will be used.</p>
-  </div>
-        <div class="card mt-2">
-          <div class="card-header">
-            <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
+          <div class="col-lg-5 bg-light p-2">
+            <div class="mt-2">
+              <p>Fill in the dates <b>Start date</b> and <b>End date</b>, to retrieve your zoom recordings.
+                This tool will allow you to get all your Zoom recordings base on your date filters.
+              </p>
+              <p><b>Note:</b> If the Media Title is not filled, the default media title {<strong>Zoom recording date:(date)</strong>} will be used.</p>
             </div>
-            <div class="card-body">
-            <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
+            <div class="card mt-2">
+              <div class="card-header">
+                <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
+              </div>
             </div>
-        </div>
-  </div>
+          </div>
+   
   
-    <div class="row">
-      <div class="m-2">
-        <?php
-      if (isset($_POST["dateto"])) {
-        ?>
-      <p class="resultxt m-0">Loading results..</p>
-      <div class="progress">
-        <script>    
-        var current_progress =0;
-        
-          var interval = setInterval(function() {
-            if (document.readyState === "complete") {
+          <div class="row">
+            <div class="m-2">
+              <?php
+                if (isset($_POST["dateto"])) {
+              ?>
+              <p class="resultxt m-0">Loading results..</p>
+              <div class="progress">
+                <script>    
+                  var current_progress =0;
+                  var interval = setInterval(function() {
+                    if (document.readyState === "complete") {
             
-                  console.log('DOM fully loaded and parsed');
-                  current_progress = 100;
-                 
-
-                  $('.resultxt').delay(2000).fadeOut('slow');
-                  $('.progress-bar').delay(2000).fadeOut('slow');
-                 
-                  clearInterval(interval);
-                  $('.alert_results').show();
-                }
-           
-            if (document.readyState !== "complete") {
+                      current_progress = 100;
+                      $('.resultxt').delay(2000).fadeOut('slow');
+                      $('.progress-bar').delay(2000).fadeOut('slow');
+                      clearInterval(interval);
+                      $('.alert_results').show();
+                    }
             
-                $('.accordion-body').each(function() {
-                  current_progress = current_progress + 1; 
-                });
-            }
+                    if (document.readyState !== "complete") {
+                        $('.accordion-body').each(function() {
+                          current_progress = current_progress + 1; 
+                        });
+                    }
 
-             if (current_progress  <= 100){
-              $(".progress-bar")
-              .css("width", current_progress + "%")
-              .attr("aria-valuenow", current_progress)
-              .text(current_progress + "% Complete");
-
-              }else {
-                current_progress = 99;
-                $(".progress-bar").text(current_progress + "% Please wait");
+                    if (current_progress  <= 100){
+                      $(".progress-bar")
+                      .css("width", current_progress + "%")
+                      .attr("aria-valuenow", current_progress)
+                      .text(current_progress + "% Complete");
+                    }else {
+                    current_progress = 99;
+                    $(".progress-bar").text(current_progress + "% Please wait");
+                    }
+                  }, 1000);
+                </script>
+                <div class="p-2 progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <?php
               }
-
-              console.log(current_progress)
-            
-          }, 1000);
-      
-          </script>
-        <div class="p-2 progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
-      <?php
-         
-        }
-      ?>
+              ?>
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
-</div>
+  </div>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
+    $(function() {
+      $('#datepickerfrom').datepicker({
+        format: 'yyyy-mm-dd'
+      });
+      $('#datepickerto').datepicker({
+        format: 'yyyy-mm-dd'
+      });
+    });
 
-
-        $(function() {
-            $('#datepickerfrom').datepicker({
-              format: 'yyyy-mm-dd'
-
-            });
-            $('#datepickerto').datepicker({
-              format: 'yyyy-mm-dd'
-
-            });
-        });
-
-        $(document).ready(function() {
-          $('.alert_results').hide();
-          $('.uploadurl').hide();
-          });
-</script>
-
+    $(document).ready(function() {
+      $('.alert_results').hide();
+      $('.uploadurl').hide();
+    });
+  </script>
 </div> 
 
 <?php
 
-function firstLoad($visited) {
-  if ($visited == false) {
-    ?>
-     <script>
-      $(document).ready(function() {
-      $('.getZoomails').trigger('click');
-     
-      });
-     
-    </script>
-    <?php
-
+  function firstLoad($visited) {
+    if ($visited == false) {
+?>
+<script>
+  $(document).ready(function() {
+    $('.getZoomails').trigger('click');
+  });
+</script>
+<?php
+    }
+  return $visited;
   }
-
-return $visited;
-}
 ?>
 
 <?php
-
 if (isset($_POST['datefrom']) && isset($_POST['dateto'])) {
   $datenow = date("Y-m-d");
  if ($_POST['dateto'] > $datenow) {
@@ -500,7 +486,7 @@ if (empty($count)) {
           ?>
 <div>        
 <div class="submit-control mt-2">
-<input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to kaltura" <?php echo $stat; ?>>
+<input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to Kaltura" <?php echo $stat; ?>>
 
 </div>
 
@@ -561,8 +547,6 @@ var  uuid=[]
 			//	setInterval(function(){ $('.submit-control').html("Form submited Successfully!") },1000);
         $("#results").html(data);
          $('#add_data_Modal').modal('show');
-        //console.log(data)
-       // alert(data);
 			},
 
  error: function(data) {

@@ -62,8 +62,21 @@ if (!isset($ks)) {
   die("Could not establish Kaltura session. Please verify that you are using valid Kaltura partner credentials.");
 }
 ?>
+<head> 
+<?php
+//check if dark mode is enabled and if so add the style sheet
+if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$USER->id, 'darkmode'=>1))) {
+  //changes url to opposite of whatever the toggle currently is to set dark mode in db under columns2.php
+  $css = new moodle_url(('/theme/urcourses_default/style/darkmode.css'));
+  echo '<link rel="stylesheet" type="text/css" href="'.$css.'">';
+} 
+?>
 
-<div class="container">
+</head>
+<button type="button" class="btn btn-primary m-2" style="float: right; background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
+
+<div class="container mt-2">
+
   <div class="card mt-2">
     <div class="card-header text-center">
         <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="H5P Icon">
@@ -86,7 +99,7 @@ if (!isset($ks)) {
 <div class="mt-3 mb-2 input-group">
 <label for="entryidlabel" class="col-form-label p-2">Entry ID</label>
 <input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="" value="<?php isset($_POST['entryId']) ? htmlspecialchars($_POST['entryId'], ENT_QUOTES) : '' ?>">
-<input name="set" value ="submit" class="btn btn-secondary" type="submit">
+<input name="set" value ="Submit" class="btn btn-secondary" type="submit">
 </div>
 
 </form>
