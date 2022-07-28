@@ -23,7 +23,7 @@ FILES=`grep $EXISTING_BUILD_NUMBER ./* -R -l`
 
 for filename in $FILES; do
 	echo $filename
-	sed -i "" -e "s/$EXISTING_BUILD_NUMBER/$NEW_BUILD_NUMBER/g" $filename
+	sed -i "" -e "s/\$plugin->version\ \=\ $EXISTING_BUILD_NUMBER/\$plugin->version\ \=\ $NEW_BUILD_NUMBER/g" $filename
 	sed -i "" -e "s/$EXISTING_RELEASE_NUMBER/$NEW_RELEASE_NUMBER/g" $filename
 done
 
