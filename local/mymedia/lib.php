@@ -44,23 +44,18 @@ function local_mymedia_extend_navigation($navigation) {
         }
     }
 
-    $nodehome = $navigation->get('home');
-    if (empty($nodehome)){
-        $nodehome = $navigation;
-    }
     $context = context_user::instance($USER->id);
 
     if (!has_capability('local/mymedia:view', $context, $USER)) {
         return;
     }
 
-    $menuHeaderStr = get_string('nav_mymedia', 'local_mymedia');
+    $myMediaStr = "\r\nnav_mymedia,local_mymedia|/local/mymedia/mymedia.php";
 
-    if (strpos($CFG->custommenuitems,$menuHeaderStr) !== false) {
-		//My Media is already part of the config, no need to add it again.
+    if (strpos($CFG->customusermenuitems,$myMediaStr) !== false) {
+		// My Media is already part of the config, no need to add it again.
 		return;
 	}
 
-	$myMediaStr = "\n$menuHeaderStr|/local/mymedia/mymedia.php";
-	$CFG->custommenuitems .= $myMediaStr;
+	$CFG->customusermenuitems .= $myMediaStr;
 }
