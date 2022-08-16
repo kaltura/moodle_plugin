@@ -42,6 +42,11 @@ class tinymce_kalturamedia extends editor_tinymce_plugin {
      * @param array $options Options for this editor
      */
     protected function update_init_params(array &$params, context $context, array $options = null) {
+        // Check user has media insert capability.
+        if (!has_capability('tinymce/kalturamedia:insert', $context)) {
+            return;
+        }
+
         $params['lti_launch_context_id'] = $context->id;
 
         // Add button after 'unlink' in Moodlemedia

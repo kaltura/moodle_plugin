@@ -28,3 +28,4 @@ $string['kalturamedia:insertbtn'] = 'Insert media';
 $string['kalturamedia:cancelbtn'] = 'Cancel';
 $string['kalturamedia:bse'] = 'Browse and Embed';
 $string['privacy:metadata'] = 'The TinyMCE Kaltura Media plugin does not store any personal data.';
+$string['kalturamedia:insert'] = 'Insert media from Kaltura in TinyMCE editor';
