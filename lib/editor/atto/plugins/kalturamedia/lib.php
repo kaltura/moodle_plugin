@@ -39,9 +39,10 @@ function atto_kalturamedia_params_for_js($elementid, $options, $fpoptions) {
     if (!$context) {
         $context = context_system::instance();
     }
-    
+
     return array(
+        'enabled' => has_capability('atto/kalturamedia:insert', $context),
         'contextid' => $context->id,
         'kafuri' => local_kaltura_get_config()->kaf_uri
-        );
+    );
 }

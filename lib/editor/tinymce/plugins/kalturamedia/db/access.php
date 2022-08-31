@@ -13,19 +13,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Kaltura media language file.
+ * Kaltura video embedding TinyMCE button accesslib.
  *
  * @package    tinymce_kalturamedia
- * @author     Remote-Learner.net Inc
+ * @author     https://github.com/estevebadia
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
+ * @copyright  (C) 2022 switch.ch
  */
 
-$string['pluginname'] = 'Kaltura media';
-/* All lang strings used from TinyMCE JavaScript code must be named 'pluginname:stringname', no need to create langs/en_dlg.js */
-$string['kalturamedia:desc'] = 'Embed Kaltura Media';
-$string['kalturamedia:insertbtn'] = 'Insert media';
-$string['kalturamedia:cancelbtn'] = 'Cancel';
-$string['kalturamedia:bse'] = 'Browse and Embed';
-$string['privacy:metadata'] = 'The TinyMCE Kaltura Media plugin does not store any personal data.';
-$string['kalturamedia:insert'] = 'Insert media from Kaltura in TinyMCE editor';
+$capabilities = array(
+  'tinymce/kalturamedia:insert' => array(
+    'captype' => 'write',
+    'contextlevel' => CONTEXT_COURSE,
+    'archetypes' => array(
+      'student' => CAP_ALLOW,
+      'teacher' => CAP_ALLOW,
+      'editingteacher' => CAP_ALLOW,
+      'manager' => CAP_ALLOW,
+    ),
+  ),
+);

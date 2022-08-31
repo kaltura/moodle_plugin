@@ -27,3 +27,4 @@ $string['popuptitle'] = 'Select Media';
 $string['embedbuttontext'] = 'Embed';
 $string['browse_and_embed'] = 'Browse and Embed';
 $string['privacy:metadata'] = 'The atto_kalturamedia plugin does not store any personal data.';
+$string['kalturamedia:insert'] = 'Insert media from Kaltura in Atto editor';
