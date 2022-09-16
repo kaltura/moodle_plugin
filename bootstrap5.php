@@ -35,6 +35,22 @@
   .accordion-border {
     border: 1px solid rgba(35, 65, 100, .1) !important;
   }
+  .container-fluid {
+    padding: 0px;
+  }
+
+  .backbutton {
+    border-radius: 0.5rem !important;
+    background: #ced4da;
+  }
+
+  .bdr {
+    border-radius: 0.5rem !important;
+  }
+
+  .clarete {
+    vertical-align: unset;
+  }
 
   </style>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"> 

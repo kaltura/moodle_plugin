@@ -23,6 +23,7 @@
  * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
  */
 
+
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 
 global $USER, $SITE;
@@ -37,7 +38,7 @@ $header =  fullname($USER) . ": " . get_string('heading_mymedia', 'local_mymedia
 
 $PAGE->set_url('/local/mymedia/mymedia.php');
 $PAGE->set_pagetype('mymedia-index');
-$PAGE->set_pagelayout('standard');
+$PAGE->set_pagelayout('report');
 $PAGE->set_title($header);
 $PAGE->set_heading($header);
 
@@ -46,9 +47,45 @@ $PAGE->add_body_class($pageclass);
 
 echo $OUTPUT->header();
 
+?>
+<div class="secondary-navigation pl-0">
+ <nav class="moremenu navigation observed"> 
+<ul role ="menubar" class="nav more-nav nav-tabs">
+  <li class="nav-item ">
+    <a class="nav-link activate" aria-current="page" target ="contentframe" href="simple_uploader.php">Trouble uploading?</a>
+  </li>
+  <li class="nav-item ">
+    <a class="nav-link  activate" target ="contentframe" href="get_h5p_link.php">URLs for H5P</a>
+  </li>
+  <li class="nav-item ">
+    <?php
+    //Quick hack for CCE Community, will need to think how it should work for them
+    error_log(print_r($SITE->shortname,TRUE));
+    if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
+    ?>
+    <a class="nav-link activate" target ="contentframe" href="get_zoom_url.php">Import Zoom Recordings</a>
+  <?php
+    }
+    ?>
+  </li>
+</ul>
+</nav>
+</div>
+<script>
+let links = document.querySelectorAll('.nav-link');
+for(let i=0; i<links.length; i++){
+  links[i].addEventListener('click', function() {
+    for(let j=0; j<links.length; j++)
+      links[j].classList.remove('active');
+    this.classList.add('active');
+  });
+}
+  </script>
 
 
-// Request the launch content with an iframe tag.
+<?php
+ 
+/** Request the launch content with an iframe tag.
 $attr = array(
     'href' => 'simple_uploader.php',
 	'class' => 'btn btn-secondary',
@@ -58,7 +95,7 @@ $attr = array(
 echo html_writer::tag('a', 'Trouble Uploading?', $attr);
 
 
-// Request the launch content with an iframe tag.
+ Request the launch content with an iframe tag.
 $attr = array(
     'href' => 'get_h5p_link.php',
 	'class' => 'btn btn-secondary',
@@ -79,6 +116,7 @@ if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
     );
     echo html_writer::tag('a', 'Import Zoom Recordings', $attr);
 }
+**/
 // Request the launch content with an iframe tag.
 $attr = array(
     'id' => 'contentframe',

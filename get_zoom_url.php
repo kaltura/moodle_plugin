@@ -14,7 +14,7 @@ global $CFG, $USER, $DB, $PAGE, $stat, $sett, $tagasett, $zoomMails, $count;
 
 $PAGE->set_url('/local/mymedia/upload');
 $PAGE->set_context(context_system::instance());
-
+$PAGE->set_pagelayout('report');
 # Check security - special privileges are required to use this script
 $currentcontext = context_system::instance();
 $ur_username = $USER->username;
@@ -101,7 +101,7 @@ function getAlert($alertname){
   <div class="alert alert-danger d-flex align-items-center" role="alert">
   <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
   <div>
-  Your username and  email address does not match your zoom account. Please email or call IS support to report this issue.
+  Your <strong>username</strong> and <strong>email address</strong> does not match your registered <strong>zoom account</strong>. Please contact <a target="_blank" href="https://www.uregina.ca/is/contact/index.html">IT Support Centre</a> to report this issue.
   </div>
   </div>
   
@@ -110,12 +110,12 @@ function getAlert($alertname){
 
   if ($alertname =="results") {
     ?>
-  <div class="alert alert-primary d-flex align-items-center" role="alert">
-  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-  <div>
-   Nothing to display!.
-  </div>
-  </div>
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+              <div>
+                Nothing to display!.
+              </div>
+      </div>
     <?php
   }
 
@@ -125,7 +125,9 @@ function getAlert($alertname){
 
   ?>
   
-  <button type="button" class="btn btn-primary m-2" style="float: right; background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
+  <button type="button" class="btn btn-light backbutton"  onClick="parent.location='mymedia.php'" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
+  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+  </svg> BACK TO MY MEDIA </button>
 
   <div class="container-fluid mt-2 mb-2">
     <div class="card mt-2">
@@ -190,7 +192,7 @@ function getAlert($alertname){
               </div>
             </div>
             <div class="p-2">
-              <input name="set" value ="Submit" class="btn btn-secondary getZoomails" type="submit" <?php echo $tagasett; ?> >
+              <input name="set" value ="Submit" class="btn btn-secondary getZoomails bdr" type="submit" <?php echo $tagasett; ?> >
             </div>
 
           </form>
@@ -207,7 +209,7 @@ function getAlert($alertname){
                 <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
               </div>
               <div class="card-body">
-                <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
+                <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/zoom-importer" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
               </div>
             </div>
           </div>
@@ -276,7 +278,7 @@ function getAlert($alertname){
       $('.uploadurl').hide();
     });
   </script>
-</div> 
+
 
 <?php
 
@@ -486,7 +488,7 @@ if (empty($count)) {
           ?>
 <div>        
 <div class="submit-control mt-2">
-<input form="uploadfrm" type="" class="btn btn-secondary uploadurl" name="upload" value="Upload to Kaltura" <?php echo $stat; ?>>
+<input form="uploadfrm" type="" class="btn btn-secondary uploadurl bdr" name="upload" value="Upload to Kaltura" <?php echo $stat; ?>>
 
 </div>
 

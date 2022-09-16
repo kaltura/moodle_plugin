@@ -2,6 +2,7 @@
 
 
 # Moodle Includes
+require_once "bootstrap5.php";
 require_once('../../config.php');
 //require_once('locallib.php');
 
@@ -26,9 +27,9 @@ if ( (!isloggedin()) ) {
 }
 
 $PAGE->set_title("simple uploader");
-$PAGE->set_pagelayout('base');
+$PAGE->set_pagelayout('report');
 $PAGE->set_heading($site->fullname);
-$PAGE->navbar->ignore_active();
+//$PAGE->navbar->ignore_active();
 
 
 // Upload a file to the KMC
@@ -104,11 +105,14 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
   </head>
   <body class="page">
     
-	  <p class="mt-1"><a href="javascript:window.history.back()" class="btn btn-primary" style="float: right">Back to My Media</a></p>
+  <button type="button" class="btn btn-light backbutton mt-4"  onClick="parent.location='mymedia.php'" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
+  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+  </svg> BACK TO MY MEDIA </button>
+
       <div class="content">
         <div id="frame">
         <div class="row">
-	          <div class="col-sm-8">
+	          <div class="col-sm-12 d-flex align-items-center">
               <fieldset>
                 <h3>Upload to My Media</h3>
                 <p>This alternate uploader is intended to improve performance for users with upload speeds less than 8 mbps.</p>
@@ -156,14 +160,14 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 		  
                 <div class="form-group valid-row mb-5">
                   <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
-                  <div class="position-relative m-5 p-2">
+                  <div class="position-relative m-5 p-4">
                     <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_background.png" alt="Upload new media">
                     <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
                   </div>
-                  <div class="mt-5 p-3">
+                  <div class="mt-2 p-4">
                       <h2>Drag & Drop a file here</h2>
                       <p class="text-muted">or</p> 
-                      <p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
+                      <p><a class="resumable-browse btn btn-primary bdr">Choose a file to upload</a></p>
                       <p>All common video, audio and image formats in all resolutions are accepted.</p>
                     </div>
                   </div>
