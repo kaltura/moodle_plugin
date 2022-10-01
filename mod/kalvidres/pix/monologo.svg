@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.25 18.05">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 1.701px;
+      }
+    </style>
+  </defs>
+  <rect x=".85" y="2.55" width="18.8" height="1.7"/>
+  <rect x=".85" y="11.55" width="14.8" height="1.7"/>
+  <path d="M8.15,11.35V4.35l5.7,3.5-5.7,3.5Zm1.8-4v.9l.7-.5-.7-.4Z"/>
+  <polygon points="19.25 15.15 18.45 15.15 18.45 14.15 17.45 14.15 17.45 13.35 18.45 13.35 18.45 12.25 19.25 12.25 19.25 13.35 20.35 13.35 20.35 14.15 19.25 14.15 19.25 15.15"/>
+  <path d="M18.85,18.05c-2.4,0-4.4-2-4.4-4.4s2-4.4,4.4-4.4,4.4,2,4.4,4.4-2,4.4-4.4,4.4Zm0-7.1c-1.5,0-2.7,1.2-2.7,2.7s1.2,2.7,2.7,2.7,2.7-1.2,2.7-2.7-1.2-2.7-2.7-2.7Z"/>
+  <rect x="3.35" y="14" width="12.3" height="1.7"/>
+  <rect x="3.35" y="0" width="13.8" height="1.7"/>
+  <rect x="0" y="3.3" width="1.7" height="9.05"/>
+  <rect x="18.8" y="3.35" width="1.7" height="7.3"/>
+  <path class="cls-1" d="M3.35,.85C1.95,.85,.85,1.95,.85,3.35"/>
+  <path class="cls-1" d="M.85,12.35c0,1.4,1.1,2.5,2.5,2.5"/>
+  <path class="cls-1" d="M17.15,.85c1.4,0,2.5,1.1,2.5,2.5"/>
+</svg>
