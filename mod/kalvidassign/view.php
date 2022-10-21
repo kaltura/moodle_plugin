@@ -64,9 +64,17 @@ echo $OUTPUT->header();
 
 $renderer = $PAGE->get_renderer('mod_kalvidassign');
 
+if ($CFG->branch < 400) {
+    echo $OUTPUT->heading(format_string($kalvidassign->name, true, array('context' => $context)));
+}
+
 echo $OUTPUT->box_start('generalbox');
 
 echo $renderer->display_mod_info($kalvidassign, $context);
+
+if ($CFG->branch < 400) {
+    echo format_module_intro('kalvidassign', $kalvidassign, $cm->id);
+}
 
 echo $OUTPUT->box_end();
 
