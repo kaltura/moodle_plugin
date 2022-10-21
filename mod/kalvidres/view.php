@@ -69,6 +69,15 @@ $completion->set_module_viewed($cm);
 $PAGE->requires->css('/mod/kalvidres/styles.css');
 echo $OUTPUT->header();
 
+$description = format_module_intro('kalvidres', $kalvidres, $cm->id);
+if ($CFG->branch < 400) {
+    if (!empty($description)) {
+        echo $OUTPUT->box_start('generalbox');
+        echo $description;
+        echo $OUTPUT->box_end();
+    }
+}
+
 $renderer = $PAGE->get_renderer('mod_kalvidres');
 
 // Require a YUI module to make the object tag be as large as possible.
