@@ -207,7 +207,7 @@ function getAlert($alertname){
                 <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
               </div>
               <div class="card-body">
-                <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
+                <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/zoom-importer" target="_blank">how to import zoom url recordings in Kaltura using mymedia tool</a>.</p>
               </div>
             </div>
           </div>
