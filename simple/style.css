@@ -1003,9 +1003,12 @@ details[open] summary {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   display: inline-flex;
  
 }
+
+ 
 
 @media only screen and (max-width: 510px) {
   .btn {

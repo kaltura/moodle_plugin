@@ -152,7 +152,7 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
                     <p class="upload-speed"> </p>
                   </div> 
 
-                  <div id="report mt-2" style="color: rgb(69, 145, 58);"></div>
+                  <div id="report" style="color: rgb(69, 145, 58);"></div>
                   <div class="resumable-list">
                     <h4 >Upload Log</h4>
                   </div>
@@ -161,8 +161,8 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
                 <div class="mb-3">
                   <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
                   <div class="position-relative m-5 p-2">
-                    <img class = "p-2 img_center position-absolute  img-fluid" src="simple/upload_background.png" alt="Upload new media">
-                    <img class = "p-2 img_size img_center position-absolute  img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
+                    <img class = "p-2 img_safari img_center position-absolute  img-fluid" src="simple/upload_background.png" alt="Upload new media">
+                    <img class = "p-2 img_safari img_size img_center position-absolute  img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
                   </div>
                   <div class="mt-5 p-3">
                       <h2>Drag & Drop a file here</h2>
@@ -426,7 +426,7 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
           $('.resumable-progress .progress-resume-link').hide();
           $('.resumable-progress .progress-pause-link').show();
           // Add the file to the list
-          $('.resumable-list').append('<div class="resumable-file-'+file.uniqueIdentifier+'">Uploading <p class="resumable-file-name"></p> <span class="spinner-border text-info mr-2"></span><span class ="resumable-file-progress text-success"> </span>');
+          $('.resumable-list').append('<div class="resumable-file-'+file.uniqueIdentifier+'">Uploading <p class="resumable-file-name"></p> <span class="spinner-border text-info mr-2"></span><span class ="resumable-file-progress text-danger"> </span>');
           $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
           // add upload to new media
           var iscategory = document.getElementById("category").value;
