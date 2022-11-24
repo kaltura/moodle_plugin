@@ -3,7 +3,6 @@
 
 # Moodle Includes
 require_once('../../config.php');
-//require_once('locallib.php');
 
 # Globals
 global $CFG, $USER, $DB, $PAGE;
@@ -82,7 +81,7 @@ echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
+ 
   <head> 
 <?php
 //check if dark mode is enabled and if so add the style sheet
@@ -93,23 +92,27 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 } 
 ?>
 
-</head>
+
     <title>Alternate Upload to Kaltura</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" type="text/css" href="simple/style.css" />
-    <link rel="stylesheet" href="simple/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"> -->
+  
+   <link rel="stylesheet" href="simple/bootstrap.css">
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="simple/resumable.js"></script>
     <script src="simple/KalturaFullClient.min.js"></script>
   </head>
-  <body class="page">
-    
-	  <p class="mt-1"><a href="javascript:window.history.back()" class="btn btn-primary" style="float: right">Back to My Media</a></p>
-      <div class="content">
-        <div id="frame">
+ 
+   <div> 
+  <button type="button" class="btn btn-primary mt-2" style=" background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
+</div>
+  <div class="container-fluid">
+       
         <div class="row">
-	          <div class="col-sm-8">
-              <fieldset>
+	          <div class="col-sm|md|lg m-2 p-2 mx-auto">
+             
                 <h3>Upload to My Media</h3>
                 <p>This alternate uploader is intended to improve performance for users with upload speeds less than 8 mbps.</p>
                 <p>You can drag and drop up to 5 files at once, but we recommend uploading only one file at a time for slower connections.</p>
@@ -145,25 +148,26 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
                     </table>
                   </div>
       
-                  <div class="upload-speed"></div> 
+                  <div>
+                    <p class="upload-speed"> </p>
+                  </div> 
 
-                  <div id="report" style="color: rgb(69, 145, 58);"></div>
-
-                  <ul class="resumable-list">
-                    <li><h4>Upload Log</h4></li>
-                  </ul>
+                  <div id="report mt-2" style="color: rgb(69, 145, 58);"></div>
+                  <div class="resumable-list">
+                    <h4 >Upload Log</h4>
+                  </div>
                 </div>  
 		  
-                <div class="form-group valid-row mb-5">
+                <div class="mb-3">
                   <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
                   <div class="position-relative m-5 p-2">
-                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_background.png" alt="Upload new media">
-                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
+                    <img class = "p-2 img_center position-absolute  img-fluid" src="simple/upload_background.png" alt="Upload new media">
+                    <img class = "p-2 img_size img_center position-absolute  img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
                   </div>
                   <div class="mt-5 p-3">
                       <h2>Drag & Drop a file here</h2>
                       <p class="text-muted">or</p> 
-                      <p><a class="resumable-browse btn btn-primary"><u>Choose a file to upload</u></a></p>
+                      <p><a class="resumable-browse btn btn-primary">Choose a file to upload</a></p>
                       <p>All common video, audio and image formats in all resolutions are accepted.</p>
                     </div>
                   </div>
@@ -208,8 +212,8 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 	            </div>
 	          </div>
 	        </div>
-	      </fieldset>
-      </div>
+	     
+      
 	  </div>
 
     <script>
@@ -422,7 +426,7 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
           $('.resumable-progress .progress-resume-link').hide();
           $('.resumable-progress .progress-pause-link').show();
           // Add the file to the list
-          $('.resumable-list').append('<li class="resumable-file-'+file.uniqueIdentifier+'">Uploading <span class="resumable-file-name"></span> <span class="resumable-file-progress"></span>');
+          $('.resumable-list').append('<div class="resumable-file-'+file.uniqueIdentifier+'">Uploading <p class="resumable-file-name"></p> <span class="spinner-border text-info mr-2"></span><span class ="resumable-file-progress text-success"> </span>');
           $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-name').html(file.fileName);
           // add upload to new media
           var iscategory = document.getElementById("category").value;
@@ -449,13 +453,13 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
         });
         r.on('complete', function(){
           // Hide pause/resume when the upload has completed
-          $('.resumable-progress .progress-resume-link, .resumable-progress .progress-pause-link').hide();
+          $('.resumable-progress .progress-resume-link, .spinner-border, .resumable-progress .progress-pause-link').hide();
         });
         r.on('fileSuccess', function(file,message){
           var duration = (Date.now() - lastUploadStartTime)/1000;
           var mbSize = file.size/1024/1024;
           var speed = mbSize/duration;
-          $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('completed! File size: ' + mbSize.toFixed(3) + 'MB , Upload duration: ' + duration.toFixed(1) + ' secs, Speed: '+ speed.toFixed(1)+ ' mb/s');
+          $('.resumable-file-'+file.uniqueIdentifier+' .resumable-file-progress').html('Completed! File size: ' + mbSize.toFixed(3) + 'MB , Upload duration: ' + duration.toFixed(1) + ' secs, Speed: '+ speed.toFixed(1)+ ' mb/s');
 	      
           // add upload to new media
           var report = {
@@ -504,7 +508,8 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
         });
 
         r.on('cancel', function(){
-          $('.resumable-file-progress').html('canceled');
+          $('.resumable-file-progress').html('Canceled!');
+          $('.spinner-border').hide();
         });
 
         r.on('uploadStart', function(){
@@ -527,5 +532,5 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 	</div>
     </footer-->
 
-  </body>
+ 
 </html>

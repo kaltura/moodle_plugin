@@ -1,3 +1,4 @@
+
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
@@ -47,13 +48,18 @@ $PAGE->add_body_class($pageclass);
 echo $OUTPUT->header();
 
 
+?>
+ <link rel="stylesheet" type="text/css" href="simple/mymedia.css" />
+
+<?php
 
 // Request the launch content with an iframe tag.
 $attr = array(
+    
     'href' => 'simple_uploader.php',
-	'class' => 'btn btn-secondary',
-	'style' => 'float: right; margin-top: -1em; margin-bottom: 0.5em',
+	'class' => 'btn btn-secondary btn-custom float-right',
     'target' => 'contentframe',
+  
 );
 echo html_writer::tag('a', 'Trouble Uploading?', $attr);
 
@@ -61,8 +67,7 @@ echo html_writer::tag('a', 'Trouble Uploading?', $attr);
 // Request the launch content with an iframe tag.
 $attr = array(
     'href' => 'get_h5p_link.php',
-	'class' => 'btn btn-secondary',
-	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
+	'class' => 'btn btn-secondary btn-custom float-right',
     'target' => 'contentframe',
 );
 echo html_writer::tag('a', 'URLs for H5P', $attr);
@@ -73,8 +78,8 @@ if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
     // Request the launch content with an iframe tag.
     $attr = array(
         'href' => 'get_zoom_url.php',
-        'class' => 'btn btn-secondary',
-        'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
+        'class' => 'btn btn-secondary btn-custom float-right',
+        
         'target' => 'contentframe',
     );
     echo html_writer::tag('a', 'Import Zoom Recordings', $attr);

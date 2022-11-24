@@ -1,0 +1,24 @@
+@media only screen and (max-width: 510px) {
+  .btn {
+    width: 100%;
+    margin: 3px 0px 3px 0px;
+   
+  }
+  .card-size {
+    width: 100% !important;
+  }
+}
+
+.btn-custom {
+  border-radius: 0.25rem;
+}
+@media only screen and (min-width: 511px) {
+  .btn-custom { 
+   
+   margin-right: 5px !important;
+   margin-bottom: 5px;
+  }
+  .card-size {
+    width: 50% !important;
+  }
+}

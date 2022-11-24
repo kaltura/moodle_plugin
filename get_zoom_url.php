@@ -60,7 +60,7 @@ $get_usersInfo = zoom_get_user_zoomemail($user,$service);
 $visited = isset($_SESSION['visited']);
 ?>
 <!-- hidden fields for emails accounts--> 
-<input type="hidden" name="ur_email" value ="<?php echo $get_usersInfo->email; ?>"> <br>
+<input type="hidden" name="ur_email" value ="<?php echo $get_usersInfo->email; ?>"> 
 <input type="hidden" name="zoom_email" value ="<?php echo $ur_email; ?>">
 <?php
 
@@ -125,7 +125,7 @@ function getAlert($alertname){
 
   ?>
   
-  <button type="button" class="btn btn-primary m-2" style="float: right; background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
+  <button type="button" class="btn btn-primary mt-2 " style=" background-color: #008297; border-color: #008297 !important;" onClick="parent.location='mymedia.php'" >BACK TO MY MEDIA </button>
 
   <div class="container-fluid mt-2 mb-2">
     <div class="card mt-2">
@@ -136,7 +136,7 @@ function getAlert($alertname){
         </h4>
       </div>
 
-      <div class="card-body">
+      <div class="card-body d-block">
         <div class="row">
           <p class="text"></p>
           <form  class= "col-md-6" name="getfirstload" method="post" action="get_zoom_url.php">

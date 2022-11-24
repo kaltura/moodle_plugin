@@ -36,6 +36,14 @@
     border: 1px solid rgba(35, 65, 100, .1) !important;
   }
 
+  @media only screen and (max-width: 470px) {
+  .btn {
+    width: 100%;
+    margin: 3px 0px 3px 0px;
+   
+  }
+}
+
   </style>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"> 
         <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
