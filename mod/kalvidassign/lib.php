@@ -245,33 +245,18 @@ function kalvidassign_scale_used_anywhere($scaleid) {
  */
 function kalvidassign_supports($feature) {
     switch($feature) {
-        case FEATURE_GROUPS:
-            return true;
-            break;
         case FEATURE_GROUPINGS:
-            return true;
-            break;
+        case FEATURE_GROUPS:
         case FEATURE_GROUPMEMBERSONLY:
-            return true;
-            break;
         case FEATURE_MOD_INTRO:
-            return true;
-            break;
         case FEATURE_COMPLETION_TRACKS_VIEWS:
-            return true;
-            break;
         case FEATURE_GRADE_HAS_GRADE:
-            return true;
-            break;
         case FEATURE_GRADE_OUTCOMES:
-            return true;
-            break;
         case FEATURE_BACKUP_MOODLE2:
+        CASE FEATURE_ADVANCED_GRADING:
             return true;
-            break;
         default:
             return null;
-            break;
     }
 }
 
