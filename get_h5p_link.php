@@ -75,179 +75,183 @@ if (!isset($ks)) {
 }
 ?>
 
-<button type="button" class="btn btn-light backbutton mt-4"  onClick="parent.location='mymedia.php'" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
-  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-  </svg> BACK TO MY MEDIA </button>
 
 <div class="container-fluid">
   <div class="card mt-2">
-    <div class="card-header text-center">
-        <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="H5P Icon">
-      Interactive Video
-    </div>
-    <div class="card-body">
-      <h5 class="card-title"></h5>
-      <p class="card-text">Please fill the <strong>Entry ID</strong> and click submit button to populate the different video quality that is associated with your video.
-   </p>
-   <div class="card mb-2 w-50">
-     <div class="card-header">
-   <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
-  </div>
-   <div class="card-body pt-1">
-     <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to upload a Interactive video in UR Courses</a>.</p>
-   </div>
-</div>
+      <div class="card-header text-center">
+          <img src="../mymedia/h5p/icon.svg" class="img-thumbnail" alt="H5P Icon">
+        Interactive Video
+      </div>
+      <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">Please fill the <strong>Entry ID</strong> and click submit button to populate the different video quality that is associated with your video.
+          </p>
+          <div class="card mb-2 w-50">
+            <div class="card-header">
+          <h6><i class="fa fa-info-circle p-1"></i>For more information</h6>
+          </div>
+          <div class="card-body pt-1">
+            <p class="card-text">Please visit UR Courses Instuctor guides on <a href="https://urcourses.uregina.ca/guides/instructor/h5p#creating_an_activity" target="_blank">how to upload a Interactive video in UR Courses</a>.</p>
+          </div>
+      </div>
 
-<form method="post" action="get_h5p_link.php">
-<div class="mt-3 mb-2 input-group">
-<label for="entryidlabel" class="col-form-label p-2">Entry ID</label>
-<input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="" value="<?php isset($_POST['entryId']) ? htmlspecialchars($_POST['entryId'], ENT_QUOTES) : '' ?>">
-<input name="set" value ="submit" class="btn btn-secondary" type="submit">
-</div>
+      <form method="post" action="get_h5p_link.php">
+      <div class="mt-3 mb-2 input-group">
+      <label for="entryidlabel" class="col-form-label p-2">Entry ID</label>
+      <input type="text" class="form-control" id="entryidlabel" name="entryId" placeholder="" value="<?php isset($_POST['entryId']) ? htmlspecialchars($_POST['entryId'], ENT_QUOTES) : '' ?>">
+      <input name="set" value ="submit" class="btn btn-secondary" type="submit">
+      </div>
 
-</form>
+      </form>
 
-<?php
+      <?php
 
-if (!isset($_POST['entryId'])) {
-   $eid ="0_tempvar"; //looks like the script will run right away when the button (URL for H5P) has been clik for the 1st time
-   //work around assign temp variable to entryid for the 1st run to avoid null values error coming from Kaltura API.
- } elseif (empty($_POST['entryId'])) { //to cath the kaltura null value error
-  $eid ="0_tempvar";//added alert notification instead of null
-  ?> 
- <div class="alert alert-primary d-flex align-items-center" role="alert">
-  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-  <div>
-   Nothing to display.
-</div>
+      if (!isset($_POST['entryId'])) {
+        $eid ="0_tempvar"; //looks like the script will run right away when the button (URL for H5P) has been clik for the 1st time
+        //work around assign temp variable to entryid for the 1st run to avoid null values error coming from Kaltura API.
+      } elseif (empty($_POST['entryId'])) { //to cath the kaltura null value error
+        $eid ="0_tempvar";//added alert notification instead of null
+        ?> 
+      <div class="alert alert-primary d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+        <div>
+        Nothing to display.
+      </div>
 
-<?php
- }else {
+      <?php
+      }else {
 
-  $eid = $_POST['entryId']; //pass entry id coming from Input entryId
-  $client->setKS($ks);
-  $filter = new KalturaAssetFilter();
-  $pager = new KalturaFilterPager();
+        $eid = $_POST['entryId']; //pass entry id coming from Input entryId
+        $client->setKS($ks);
+        $filter = new KalturaAssetFilter();
+        $pager = new KalturaFilterPager();
 
-  $filter->entryIdEqual = $eid; //entryId being pass to kaltura api call
-  $result = $client->flavorAsset->listAction($filter, $pager);
-  if ($result->totalCount == 0) {
-    # code...
-    ?> 
-    <div class="alert alert-info d-flex align-items-center" role="alert">
-     <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-     <div>
-    Entry ID: <strong><?php echo $eid; ?></strong> is invalid <strong>or</strong> cannot be found in the server.
-   </div>
-   
-   <?php
-  }else {
-
-
-
-     ?>
-<div class="table-responsive">
-       <table class="m-auto table table-striped table-hover table-responsive "><tr><th></th><th>Quality</th><th>Video URL</th><th>Format</th><th>Dimension</th><th>Size(kb)</th></tr>
+        $filter->entryIdEqual = $eid; //entryId being pass to kaltura api call
+        $result = $client->flavorAsset->listAction($filter, $pager);
+        if ($result->totalCount == 0) {
+          # code...
+          ?> 
+          <div class="alert alert-info d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+          <div>
+          Entry ID: <strong><?php echo $eid; ?></strong> is invalid <strong>or</strong> cannot be found in the server.
+        </div>
+        
+        <?php
+        }else {
 
 
-     <?php
-    
 
-     $ta = 0; // var id for the copy flavor url button
-   foreach ($result->objects as $entry) { //iterate on the flavor assets objects
-    //print_r($entry->totalcount);
-          $ta += 1;
-          $dimension = $entry->width."X".$entry->height;
-          if ($entry->flavorParamsId  == 2) {
-            $quality = "Basic/Small - WEB/MBL (H264/400)";
-            # code...
-          }elseif ($entry->flavorParamsId  == 3) {
-            $quality = "Basic/Small - WEB/MBL (H264/600)";
-            # code...
-          }elseif ($entry->flavorParamsId  == 4) {
-            $quality = "SD/Small - WEB/MBL (H264/900)";
-            # code...
-          }elseif ($entry->flavorParamsId  == 5) {
-            $quality = "HD/720 - WEB (H264/2500)";
-            # code...
-          }elseif ($entry->flavorParamsId  == 6) {
-            $quality = "SD/Large - WEB/MBL (H264/1500)";
-            # code...
-          }elseif ($entry->flavorParamsId  == 7) {
-            $quality = "HD/1080 - WEB (H264/4000)";
-            # code...
-          }
+          ?>
+      <div class="table-responsive">
+            <table class="m-auto table table-striped table-hover table-responsive "><tr><th></th><th>Quality</th><th>Video URL</th><th>Format</th><th>Dimension</th><th>Size(kb)</th></tr>
+
+
+          <?php
           
-          //create the flavor url link
-          $flavorlink="https://vodcdn.ca.kaltura.com/p/103/sp/10300/serveFlavor/entryId/$eid/v/2/ev/3/flavorId/$entry->id/forceproxy/true/name/a.mp4";
 
-           if ($entry->isOriginal == 1 and $entry->flavorParamsId == 0) {
-                 $flavorname = "Source";
-                 //$flavorurl = "https://api.ca.kaltura.com/p/103/sp/10300/playManifest/entryId/$eid/format/url/flavorParamIds/0";
-                // $flavorlink="https://vodcdn.ca.kaltura.com/p/103/sp/10300/serveFlavor/entryId/$eid/v/2/ev/3/flavorId/$entry->id/forceproxy/true/name/a.mp4";
-             }elseif ($entry->status > 2) {
-                 // disable entries if status is not equal 2(ready)
-                  $flavorlink ="";
-                  $entry->fileExt ="";
-                  $dimension="";
-                  $entry->size="";
-                  $stat ="disabled";
-             }elseif ($entry->status == 1) {
-                  $flavorlink = "Flavor Stuck in conversion Error, Please Notify IT Support";
-             }
-            if ($entry->flavorParamsId > 0) {
-              # code...
-           
-// display the table
-   echo "<tr>
-        <td><input data-bs-toggle=\"tooltip\" data-bs-placement=\"left\" title=\"Copy Flavor Url\"
-        class=\"btn btn-secondary\" type=\"button\" value=\"Copy URL\" onclick=\"selectElementContents( document.getElementById('$ta') );\" $stat></td>
-        <td> ".$quality."
-         </td> 
-        <td id='$ta'> ".$flavorlink."</td>
-        <td> ".$entry->fileExt."</td>
-        <td>".$dimension."</td>
-        <td>".$entry->size."</td>
-        </tr>";
+          $ta = 0; // var id for the copy flavor url button
+        foreach ($result->objects as $entry) { //iterate on the flavor assets objects
+          //print_r($entry->totalcount);
+                $ta += 1;
+                $dimension = $entry->width."X".$entry->height;
+                if ($entry->flavorParamsId  == 2) {
+                  $quality = "Basic/Small - WEB/MBL (H264/400)";
+                  # code...
+                }elseif ($entry->flavorParamsId  == 3) {
+                  $quality = "Basic/Small - WEB/MBL (H264/600)";
+                  # code...
+                }elseif ($entry->flavorParamsId  == 4) {
+                  $quality = "SD/Small - WEB/MBL (H264/900)";
+                  # code...
+                }elseif ($entry->flavorParamsId  == 5) {
+                  $quality = "HD/720 - WEB (H264/2500)";
+                  # code...
+                }elseif ($entry->flavorParamsId  == 6) {
+                  $quality = "SD/Large - WEB/MBL (H264/1500)";
+                  # code...
+                }elseif ($entry->flavorParamsId  == 7) {
+                  $quality = "HD/1080 - WEB (H264/4000)";
+                  # code...
+                }
+                
+                //create the flavor url link
+                $flavorlink="https://vodcdn.ca.kaltura.com/p/103/sp/10300/serveFlavor/entryId/$eid/v/2/ev/3/flavorId/$entry->id/forceproxy/true/name/a.mp4";
+
+                if ($entry->isOriginal == 1 and $entry->flavorParamsId == 0) {
+                      $flavorname = "Source";
+                      //$flavorurl = "https://api.ca.kaltura.com/p/103/sp/10300/playManifest/entryId/$eid/format/url/flavorParamIds/0";
+                      // $flavorlink="https://vodcdn.ca.kaltura.com/p/103/sp/10300/serveFlavor/entryId/$eid/v/2/ev/3/flavorId/$entry->id/forceproxy/true/name/a.mp4";
+                  }elseif ($entry->status > 2) {
+                      // disable entries if status is not equal 2(ready)
+                        $flavorlink ="";
+                        $entry->fileExt ="";
+                        $dimension="";
+                        $entry->size="";
+                        $stat ="disabled";
+                  }elseif ($entry->status == 1) {
+                        $flavorlink = "Flavor Stuck in conversion Error, Please Notify IT Support";
+                  }
+                  if ($entry->flavorParamsId > 0) {
+                    # code...
+                
+      // display the table
+        echo "<tr>
+              <td><input data-bs-toggle=\"tooltip\" data-bs-placement=\"left\" title=\"Copy Flavor Url\"
+              class=\"btn btn-secondary\" type=\"button\" value=\"Copy URL\" onclick=\"selectElementContents( document.getElementById('$ta') );\" $stat></td>
+              <td> ".$quality."
+              </td> 
+              <td id='$ta'> ".$flavorlink."</td>
+              <td> ".$entry->fileExt."</td>
+              <td>".$dimension."</td>
+              <td>".$entry->size."</td>
+              </tr>";
+                  }
+        }
+      }
+      ?>
+      </div>
+
+
+      <script type="text/javascript">
+      // copy the flavor url from the table
+      function selectElementContents(el) {
+            var body = document.body, range, sel;
+            if (document.createRange && window.getSelection) {
+                range = document.createRange();
+                sel = window.getSelection();
+                sel.removeAllRanges();
+                try {
+                    range.selectNodeContents(el);
+                    sel.addRange(range);
+                } catch (e) {
+                    range.selectNode(el);
+                    sel.addRange(range);
+                }
+                document.execCommand("copy");
+                //alert("copied Flavor Url");
+            } else if (body.createTextRange) {
+                range = body.createTextRange();
+                range.moveToElementText(el);
+                range.select();
+                range.execCommand("Copy");
             }
-   }
-}
-?>
-</div>
-<script type="text/javascript">
-// copy the flavor url from the table
-function selectElementContents(el) {
-       var body = document.body, range, sel;
-       if (document.createRange && window.getSelection) {
-           range = document.createRange();
-           sel = window.getSelection();
-           sel.removeAllRanges();
-           try {
-               range.selectNodeContents(el);
-               sel.addRange(range);
-           } catch (e) {
-               range.selectNode(el);
-               sel.addRange(range);
-           }
-           document.execCommand("copy");
-           //alert("copied Flavor Url");
-       } else if (body.createTextRange) {
-           range = body.createTextRange();
-           range.moveToElementText(el);
-           range.select();
-           range.execCommand("Copy");
-       }
 
-       }
+            }
 
-</script>
+      </script>
 
-<?php
+      <?php
 
-   }
+        }
 
-?>
-</div>
-</div>
-</div>
+      ?>
+      </div>
+      </div>
+<div class="col-auto text-end mt-2">
+      <button type="button" class="btn btn-light backbutton" onClick="parent.location='mymedia.php'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
+          <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg> BACK TO MY MEDIA
+      </button> 
 </html>

@@ -27,27 +27,12 @@
  * @return void
  */
 function local_mymedia_extend_navigation($navigation) {
-    global $USER, $DB, $PAGE, $CFG;
+    global $USER, $CFG;
 
     if (empty($USER->id)) {
         return;
     }
 
-    // When on the admin-index page, first check if the capability exists.
-    // This is to cover the edge case on the Plugins check page, where a check for the capability is performed before the capability has been added to the Moodle mdl_capabilities
-    // table.
-    if ('admin-index' === $PAGE->pagetype) {
-        $exists = $DB->record_exists('capabilities', array('name' => 'local/mymedia:view'));
-
-        if (!$exists) {
-            return;
-        }
-    }
-
-    $nodehome = $navigation->get('home');
-    if (empty($nodehome)){
-        $nodehome = $navigation;
-    }
     $context = context_user::instance($USER->id);
 
     if (!has_capability('local/mymedia:view', $context, $USER)) {
@@ -56,11 +41,26 @@ function local_mymedia_extend_navigation($navigation) {
 
     $menuHeaderStr = get_string('nav_mymedia', 'local_mymedia');
 
-    if (strpos($CFG->custommenuitems,$menuHeaderStr) !== false) {
-		//My Media is already part of the config, no need to add it again.
-		return;
-	}
+    if (strpos($CFG->custommenuitems, $menuHeaderStr) !== false) {
+        // My Media is already part of the config, no need to add it again.
+        return;
+    }
 
-	$myMediaStr = "\n$menuHeaderStr|/local/mymedia/mymedia.php";
-	$CFG->custommenuitems .= $myMediaStr;
+    $myMediaStr = "\n$menuHeaderStr|/local/mymedia/mymedia.php";
+    $CFG->custommenuitems .= $myMediaStr;
+
+    $url = new moodle_url('/local/mymedia/mymedia.php');
+    $node = navigation_node::create(
+        'My Media',
+        $url,
+        navigation_node::NODETYPE_LEAF,
+        'local_mymedia',
+        'local_mymedia',
+        new pix_icon('icon', 'local_mymedia')
+    );
+    $navigation->add_node($node);
+
+   
+    
+    
 }

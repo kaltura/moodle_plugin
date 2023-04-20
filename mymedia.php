@@ -1,3 +1,4 @@
+
 <?php
 // This file is part of Moodle - http://moodle.org/
 //
@@ -25,8 +26,9 @@
 
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+//require_once($CFG->dirroot.'/lib/navigationlib.php');
 
-global $USER, $SITE;
+global $USER, $SITE, $navigation;
 
 require_login();
 
@@ -41,82 +43,76 @@ $PAGE->set_pagetype('mymedia-index');
 $PAGE->set_pagelayout('report');
 $PAGE->set_title($header);
 $PAGE->set_heading($header);
-
+$PAGE->requires->css('/local/mymedia/mymedia.css');
 $pageclass = 'kaltura-mediagallery-body';
+$PAGE->add_body_class($pageclass);
+
 $PAGE->add_body_class($pageclass);
 
 echo $OUTPUT->header();
 
+
 ?>
-<div class="secondary-navigation pl-0">
- <nav class="moremenu navigation observed"> 
-<ul role ="menubar" class="nav more-nav nav-tabs">
-  <li class="nav-item ">
-    <a class="nav-link activate" aria-current="page" target ="contentframe" href="simple_uploader.php">Trouble uploading?</a>
-  </li>
-  <li class="nav-item ">
-    <a class="nav-link  activate" target ="contentframe" href="get_h5p_link.php">URLs for H5P</a>
-  </li>
-  <li class="nav-item ">
-    <?php
-    //Quick hack for CCE Community, will need to think how it should work for them
-    error_log(print_r($SITE->shortname,TRUE));
-    if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
-    ?>
-    <a class="nav-link activate" target ="contentframe" href="get_zoom_url.php">Import Zoom Recordings</a>
-  <?php
-    }
-    ?>
-  </li>
-</ul>
-</nav>
+<div class="secondary-navigation d-print-none">
+  <nav class="moremenu navigation observed">
+    <ul role="menubar" id ="moremenu" class="nav more-nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link nav_border_bottom" aria-current="page" target="contentframe" href="simple_uploader.php">Trouble uploading?</a>
+      </li>
+      <li class="nav-item " forceintomoremenu ="true">
+        <a class="nav-link nav_border_bottom" target="contentframe" href="get_h5p_link.php">URLs for H5P</a>
+      </li>
+      <li class="nav-item" forceintomoremenu ="true">
+        <?php
+        //Quick hack for CCE Community, will need to think how it should work for them
+        error_log(print_r($SITE->shortname,TRUE));
+        if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
+        ?>
+        <a class="nav-link nav_border_bottom" target="contentframe" href="get_zoom_url.php">Import Zoom Recordings</a>
+      <?php
+        }
+        ?>
+      </li>
+      <li class="nav-item dropdown moremen">
+        <a class="nav-link dropdown-toggle nav_border_bottom" data-toggle="dropdown" href="#" role="button" aria-expanded="false">More</a>
+        <ul class="dropdown-menu dropdown-bdr">
+        <a class="dropdown-item " target="contentframe" href="get_h5p_link.php">URLs for H5P</a>
+        <?php
+        //Quick hack for CCE Community, will need to think how it should work for them
+        error_log(print_r($SITE->shortname,TRUE));
+        if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
+        ?>
+        <a class="dropdown-item" target="contentframe" href="get_zoom_url.php">Import Zoom Recordings</a>
+      <?php
+        }
+        ?>
+        </ul>
+      </li>
+
+    </ul>
+  </nav>
 </div>
+
 <script>
-let links = document.querySelectorAll('.nav-link');
-for(let i=0; i<links.length; i++){
-  links[i].addEventListener('click', function() {
-    for(let j=0; j<links.length; j++)
-      links[j].classList.remove('active');
+  const navLinks = document.querySelectorAll('.nav_border_bottom');
+
+navLinks.forEach(link => {
+  link.addEventListener('click', function() {
+    // Remove the active class from all other nav-links
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Add the active class to the clicked nav-link
     this.classList.add('active');
   });
-}
-  </script>
+});
+
+</script>
 
 
 <?php
  
-/** Request the launch content with an iframe tag.
-$attr = array(
-    'href' => 'simple_uploader.php',
-	'class' => 'btn btn-secondary',
-	'style' => 'float: right; margin-top: -1em; margin-bottom: 0.5em',
-    'target' => 'contentframe',
-);
-echo html_writer::tag('a', 'Trouble Uploading?', $attr);
-
-
- Request the launch content with an iframe tag.
-$attr = array(
-    'href' => 'get_h5p_link.php',
-	'class' => 'btn btn-secondary',
-	'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
-    'target' => 'contentframe',
-);
-echo html_writer::tag('a', 'URLs for H5P', $attr);
-
-//Quick hack for CCE Community, will need to think how it should work for them
-error_log(print_r($SITE->shortname,TRUE));
-if($SITE->shortname != "CCE Community" && $SITE->shortname != "UR Community"){
-    // Request the launch content with an iframe tag.
-    $attr = array(
-        'href' => 'get_zoom_url.php',
-        'class' => 'btn btn-secondary',
-        'style' => 'float: right; margin-top: -1em; margin-right: 1em; margin-bottom: 0.5em',
-        'target' => 'contentframe',
-    );
-    echo html_writer::tag('a', 'Import Zoom Recordings', $attr);
-}
-**/
 // Request the launch content with an iframe tag.
 $attr = array(
     'id' => 'contentframe',

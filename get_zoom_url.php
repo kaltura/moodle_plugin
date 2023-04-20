@@ -125,11 +125,8 @@ function getAlert($alertname){
 
   ?>
   
-  <button type="button" class="btn btn-light backbutton"  onClick="parent.location='mymedia.php'" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
-  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-  </svg> BACK TO MY MEDIA </button>
-
-  <div class="container-fluid mt-2 mb-2">
+ 
+  <div class="container-fluid mb-2">
     <div class="card mt-2">
       <div class="card-header text-center">
         <h4>
@@ -488,9 +485,21 @@ if (empty($count)) {
           ?>
 <div>        
 <div class="submit-control mt-2">
-<input form="uploadfrm" type="" class="btn btn-secondary uploadurl bdr" name="upload" value="Upload to Kaltura" <?php echo $stat; ?>>
-
+  <div class="row">
+    <div class="col text-start">
+      <input form="uploadfrm" type="" class="btn btn-secondary uploadurl bdr" name="upload" value="Upload to Kaltura" <?php echo $stat; ?>>
+    </div>
+    <div class="col-auto text-end">
+      <button type="button" class="btn btn-light backbutton" onClick="parent.location='mymedia.php'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
+          <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+        </svg> BACK TO MY MEDIA
+      </button> 
+    </div>
+  </div>
 </div>
+
+
 
 <script type="text/javascript">
 $('.enablevmode').on( 'click', function(e) {

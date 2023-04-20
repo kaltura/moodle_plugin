@@ -1,0 +1,30 @@
+
+/* hide the "More" menu on screens larger than 515px */
+@media (min-width: 515px) {
+    .moremen {
+      display: none !important;
+    }
+  }
+    /* hide links on screens smaller than 514px */
+  @media (max-width: 514px) {
+    .nav-item[forceintomoremenu=true] {
+      display: none;
+    }
+  }
+  
+  /* show links on screens larger than 515px */
+  @media (min-width: 515) {
+    .nav-item[forceintomoremenu=true] {
+      display: block;
+    }
+  }
+  .dropdown-bdr {
+    margin-top: 2px !important;
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+  }
+  
+  .moremenu .nav-link.active {
+    border-bottom-color: #004f2e !important;
+  }
+  

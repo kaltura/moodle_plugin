@@ -926,19 +926,35 @@ background: #ffffff !important;
     margin: auto;
 }
 
-.uploadBox__container {
-height: auto;
-max-width: 100%;
-vertical-align: middle;
-border: 0;
+.resumable-drop {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #fafafa;
+  cursor: pointer;
 }
+
+.uploadBox__background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  height: auto;
+}
+
 .uploadBox__moving-image {
-    position: relative;
-    left: 0;
-    right: 0;
-    bottom: 27px;
-    transition: transform 0.2s ease-out;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 20%;
+  height: auto;
 }
+
+
+
 button.btn.btn-primary, button.btn.btn-small.btn-primary, a.btn.btn-primary, a.btn.btn-small.btn-primary, input.btn.btn-primary, input.btn.btn-small.btn-primary, div.btn.btn-primary, div.btn.btn-small.btn-primary, span.btn.btn-primary, span.btn.btn-small.btn-primary, label.btn.btn-primary, label.btn.btn-small.btn-primary {
     background-color: #008297;
     border-color: #008297 !important;

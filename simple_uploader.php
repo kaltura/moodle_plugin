@@ -105,10 +105,7 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
   </head>
   <body class="page">
     
-  <button type="button" class="btn btn-light backbutton mt-4"  onClick="parent.location='mymedia.php'" ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
-  <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-  </svg> BACK TO MY MEDIA </button>
-
+ 
       <div class="content">
         <div id="frame">
         <div class="row">
@@ -161,9 +158,10 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
                 <div class="form-group valid-row mb-5">
                   <div class="resumable-drop" ondragenter="jQuery(this).addClass('resumable-dragover');" ondragend="jQuery(this).removeClass('resumable-dragover');" ondrop="jQuery(this).removeClass('resumable-dragover');">
                   <div class="position-relative m-5 p-4">
-                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_background.png" alt="Upload new media">
-                    <img class = "p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_arrow.png" class="uploadBox__moving-image">
+                    <img class="p-2 position-absolute top-50 start-50 translate-middle img-fluid" src="simple/upload_background.png" alt="Upload new media">
+                    <img class="p-2 position-absolute top-50 start-50 translate-middle img-fluid uploadBox__moving-image" src="simple/upload_arrow.png" alt="Upload arrow">
                   </div>
+
                   <div class="mt-2 p-4">
                       <h2>Drag & Drop a file here</h2>
                       <p class="text-muted">or</p> 
@@ -191,6 +189,12 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 	                  </select>
 		              </div>
                 </details>
+                <div class="col-auto text-end mt-2">
+                <button type="button" class="btn btn-light backbutton" onClick="parent.location='mymedia.php'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" fill="currentColor" class="bi bi-chevron-left clarete" viewBox="0 0 16 14">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                  </svg> BACK TO MY MEDIA
+                </button> 
 	            </div>
 
 	            <div class="form-group valid-row">
@@ -212,7 +216,10 @@ if ($usedarkmode = $DB->get_record('theme_urcourses_darkmode', array('userid'=>$
 	            </div>
 	          </div>
 	        </div>
+         
 	      </fieldset>
+      
+
       </div>
 	  </div>
 
