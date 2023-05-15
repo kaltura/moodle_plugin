@@ -13,6 +13,7 @@
 !local/mymedia/**/*
 
 !lib/editor/tinymce/plugins/kalturamedia/**/*
+!lib/editor/tiny/plugins/kalturamedia/**/*
 
 !createPackage.sh
 !incrementVersion.sh
