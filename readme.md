@@ -21,11 +21,11 @@ For moodle 3.x, use the MOODLE_311_DEV branch, and for moodle 4.x use the MOODLE
 ```bash
 $ git clone https://github.com/estevebadia/kaltura_moodle_plugin.git -b [MOODLE_311_DEV|MOODLE_402_DEV]
 ```
-2. Replace the files of the kaltura plugins. Provide the Moodle path if it is not the default /var/www/html:
+2. Replace the files of the kaltura plugins. Provide the Moodle path if it is not the default `/var/www/html`:
 ```bash
 $ cp -rv kaltura_moodle_plugin/*/ /var/www/html/
 ```
-2a. If you're only interested in the new TinyMCE 6 plugin, you can just copy the /kaltura_moodle_plugin/lib/editor/tiny/plugins/kalturamedia folder and keep the rest of the official kaltura plugin.
+2a. If you're only interested in the new TinyMCE 6 plugin, you can just copy the `/kaltura_moodle_plugin/lib/editor/tiny/plugins/kalturamedia` folder and keep the rest of the official kaltura plugin.
 
 3. Depending on the HTML Editors you have in your system you may need to delete the TinyMCE (legacy) plugin (folder `lib/editor/tinymce`) or the TinyMCE 6 plugin (folder `lib/editor/tiny`). Otherwise the Moodle will complain about a missing dependency.
 
