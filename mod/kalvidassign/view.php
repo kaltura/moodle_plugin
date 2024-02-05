@@ -70,33 +70,39 @@ echo $renderer->display_mod_info($kalvidassign, $context);
 
 echo $OUTPUT->box_end();
 
-$disabled = false;
+$disabled = $resubmit = false;
 $url = '';
 $width = 0;
 $height = 0;
 
 // Here we can assume that the user has permission to submit no matter what their role is.
 // The old method denied module-level locally assigned instructors the right to submit items,
-// even if they were also students within the course. 
+// even if they were also students within the course.
 $param = array('vidassignid' => $kalvidassign->id, 'userid' => $USER->id);
 $submission = $DB->get_record('kalvidassign_submission', $param);
 
-echo $renderer->display_video_container_markup($submission, $course->id, $cm->id);
+$displaystudentcontent = has_capability('mod/kalvidassign:submit', $context);
+if ($displaystudentcontent) {
+    echo $renderer->display_video_container_markup($submission, $course->id, $cm->id);
+}
 
 if (kalvidassign_assignemnt_submission_expired($kalvidassign)) {
     $disabled = true;
 }
 
-if (empty($submission->entry_id) && empty($submission->timecreated)) {
-    echo $renderer->display_student_submit_buttons($cm, $USER->id, $disabled);
-    echo $renderer->display_grade_feedback($kalvidassign, $context);
-} else {
-    if ($disabled || !$kalvidassign->resubmit) {
-        $disabled = true;
-    }
-    echo $renderer->display_student_resubmit_buttons($cm, $USER->id, $disabled);
-    echo $renderer->display_grade_feedback($kalvidassign, $context);
+if (!empty($submission->entry_id) && !empty($submission->timecreated)) {
+    $resubmit = true;
 }
+
+if ($displaystudentcontent) {
+    if ($resubmit) {
+        echo $renderer->display_student_resubmit_buttons($cm, $USER->id, $disabled);
+    } else {
+        echo $renderer->display_student_submit_buttons($cm, $USER->id, $disabled);
+    }
+}
+
+echo $renderer->display_grade_feedback($kalvidassign, $context);
 
 $params = array(
     'withblocks' => 0,
