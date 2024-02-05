@@ -689,7 +689,7 @@ class mod_kalvidassign_renderer extends plugin_renderer_base {
                      'value' => $cm->id);
         $html .= html_writer::empty_tag('input', $attr);
 
-        $attr = array('class' => 'btn btn-secondary',
+        $attr = array('class' => 'btn btn-secondary mt-1',
                      'type' => 'submit',
                      'name' => 'grade_submissions',
                      'value' => get_string('gradesubmission', 'kalvidassign'),
