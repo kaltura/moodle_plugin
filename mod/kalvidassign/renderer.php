@@ -1096,9 +1096,14 @@ class mod_kalvidassign_renderer extends plugin_renderer_base {
         $gradedate = $grade->dategraded;
         $gradeby   = $grade->usermodified;
 
+
         // We need the teacher info
-        if (!$teacher = $DB->get_record('user', array('id'=>$gradeby))) {
-            print_error('cannotfindteacher');
+        $teacher = null;
+        if (!$kalvidassign->hidegrader)
+        {
+            if (!$teacher = $DB->get_record('user', array('id'=>$gradeby))) {
+                print_error('cannotfindteacher');
+            }
         }
 
         // Print the feedback

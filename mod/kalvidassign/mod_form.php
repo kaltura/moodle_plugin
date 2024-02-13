@@ -71,6 +71,10 @@ class mod_kalvidassign_mod_form extends moodleform_mod {
 
         $this->standard_grading_coursemodule_elements();
 
+        $name = get_string('hidegrader', 'kalvidassign');
+        $mform->addElement('selectyesno', 'hidegrader', $name);
+        $mform->addHelpButton('hidegrader', 'hidegrader', 'kalvidassign');
+
         $this->standard_coursemodule_elements();
 
         $this->add_action_buttons();
