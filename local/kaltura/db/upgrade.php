@@ -73,6 +73,5 @@ function xmldb_local_kaltura_upgrade($oldversion) {
         // Kaltura savepoint reached.
         upgrade_plugin_savepoint(true, 2016120130, 'local', 'kaltura');
     }
-
     return true;
 }

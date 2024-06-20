@@ -90,3 +90,6 @@ $string['privacy:metadata:editor'] = 'The editor of the user accessing the LTI C
 $string['privacy:metadata:module'] = 'The name of the module the user is accessing the LTI Consumer from';
 $string['privacy:metadata:source'] = 'The source URL of the media entry of the user accessing the LTI Consumer';
 $string['privacy:metadata:custompublishdata'] = 'The courses the user is enrolled in and the LTI roles the user has in the course';
+$string['kaltura:lti_admin_role'] = 'Admin permission for Kaltura LTI intergration';
+$string['kaltura:lti_instructor_role'] = 'Instructor permission for Kaltura LTI intergration';
+$string['kaltura:lti_learner_role'] = 'Learner permission for Kaltura LTI intergration';
