@@ -28,7 +28,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 $plugin->version = 2023042402;
 $plugin->component = 'local_kalturamediagallery';
-$plugin->release = 'Kaltura release 4.4.8';
+$plugin->release = 'Kaltura release 4.4.9';
 $plugin->requires = 2023042400;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
