@@ -50,9 +50,4 @@ class video_resource_viewed extends \core\event\base {
     public function get_url() {
         return new \moodle_url('/mod/kalvidres/view.php', array('id' => $this->contextinstanceid));
     }
- 
-    public function get_legacy_logdata() {
-        return array($this->courseid, 'kalvidres', 'view video resource',
-            $this->get_url(), $this->objectid, $this->contextinstanceid);
-    }
 }
