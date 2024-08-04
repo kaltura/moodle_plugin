@@ -51,9 +51,4 @@ class grade_submissions_page_viewed extends \core\event\base {
     public function get_url() {
         return new \moodle_url('/mod/kalvidassign/grade_submissions.php', array('cmid' => $this->contextinstanceid));
     }
- 
-    public function get_legacy_logdata() {
-        return array($this->courseid, 'kalvidassign', 'view submissions page',
-            $this->get_url(), $this->objectid, $this->contextinstanceid);
-    }
 }
