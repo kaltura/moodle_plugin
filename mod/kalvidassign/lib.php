@@ -426,7 +426,6 @@ function kalvidassign_get_coursemodule_info($coursemodule) {
     global $DB;
 
     $dbparams = ['id' => $coursemodule->instance];
-    // course module id, or instance?
     $fields = 'id, name, completionsubmit';
     if (!$kalvidassign = $DB->get_record('kalvidassign', $dbparams, $fields)) {
         return false;
