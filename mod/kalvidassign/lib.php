@@ -537,7 +537,7 @@ function mod_kalvidassign_core_calendar_provide_event_action(calendar_event $eve
 function mod_kalvidassign_core_calendar_get_event_action_string(string $eventtype): string {
     $modulename = get_string('modulename', 'kalvidassign');
 
-    if ($eventtype == 'due') {
+    if ($eventtype === 'due') {
         return get_string('calendardue', 'kalvidassign', $modulename);
     } else {
         return get_string('requiresaction', 'calendar', $modulename);
