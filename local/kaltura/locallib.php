@@ -238,8 +238,10 @@ function local_kaltura_get_endpoint($module) {
 function local_kaltura_add_kaf_uri_token($url) {
     $configsettings = local_kaltura_get_config();
     // For records that have been migrated from old kaf uri to token format by search and replace.
-    if (preg_match('/https?:\/\/'.KALTURA_URI_TOKEN.'/', $url)) {
-        $url = preg_replace('/https?:\/\/'.KALTURA_URI_TOKEN.'/', $configsettings->kaf_uri, $url);
+    if (!is_null($url)) {
+        if (preg_match('/https?:\/\/'.KALTURA_URI_TOKEN.'/', $url)) {
+            $url = preg_replace('/https?:\/\/'.KALTURA_URI_TOKEN.'/', $configsettings->kaf_uri, $url);
+        }
     }
     return $url;
 }
