@@ -22,11 +22,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024100703;
+$plugin->version = 2024100704;
 $plugin->component  = 'assignsubmission_kalvid';
-$plugin->release    = 'Kaltura release 4.5.2';
+$plugin->release    = 'Kaltura release 4.5.3';
 $plugin->requires = 2024042200;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = array(
-    'local_kaltura' => 2024100703,
+    'local_kaltura' => 2024100704,
 );
