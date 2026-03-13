@@ -51,10 +51,9 @@ class plugininfo extends plugin implements plugin_with_configuration, plugin_wit
         ?\editor_tiny\editor $editor = null
     ): array {
         return [
-            // Your values go here.
-            // These will be mapped to a namespaced EditorOption in Tiny.
             // Pass contextId - later appended to ltibrowse url
             'contextid' => $context->id,
+            'enabled' => has_capability('tiny/kalturamedia:insert', $context),
         ];
     }
 }
