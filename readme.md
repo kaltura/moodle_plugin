@@ -6,28 +6,29 @@ This fork addresses 4 issues that have been reported, provided pull requests and
   - **Add capabilities to control the Kaltura button in HTML editors** (https://github.com/kaltura/moodle_plugin/pull/379)
   - **Fix UX issue with submit capability in kaltura assignment** (https://github.com/kaltura/moodle_plugin/pull/380)
   - **Allow plugins of type ltisource to update LTI launch parameters** (https://github.com/kaltura/moodle_plugin/issues/367)
-  - **Kaltura plugin for TinyMCE 6 (default in Moodle 4.2)**
+  - **Kaltura plugin for TinyMCE 6 (for Moodle 4 branch)**
 
 If you can't wait for this fixes to be merged in the original plugin, you can use the code on this repository. Note that the only branches that are updated with the fixes are:
 
- - MOODLE_311_DEV
- - MOODLE_402_DEV
-
-For moodle 3.x, use the MOODLE_311_DEV branch, and for moodle 4.x use the MOODLE_402_DEV branch.
+ - MOODLE_311_DEV (Use for Moodle 3.x)
+ - MOODLE_402_DEV (Use for Moodle 4.x)
+ - MOODLE_502_DEV (Use for Moodle 5.x)
 
 ## Installation
 
 1. Clone the repository in your server, providing the 3.x or 4.x branch.
 ```bash
-$ git clone https://github.com/estevebadia/kaltura_moodle_plugin.git -b [MOODLE_311_DEV|MOODLE_402_DEV]
+$ git clone https://github.com/estevebadia/kaltura_moodle_plugin.git -b [MOODLE_311_DEV|MOODLE_402_DEV|MOODLE_502_DEV]
 ```
-2. Replace the files of the kaltura plugins. Provide the Moodle path if it is not the default `/var/www/html`:
+2a. Replace the files of the kaltura plugins. If `MOODLE_PATH` is the public folder of your Moodle installation, run the following command:
 ```bash
-$ cp -rv kaltura_moodle_plugin/*/ /var/www/html/
+$ cp -rv kaltura_moodle_plugin/*/ MOODLE_PATH/
 ```
-2a. If you're only interested in the new TinyMCE 6 plugin, you can just copy the `/kaltura_moodle_plugin/lib/editor/tiny/plugins/kalturamedia` folder and keep the rest of the official kaltura plugin.
+Note that from Moodle 5.0 this folder is the `public` folder inside the Moodle installation, while for previous versions is the root folder of the Moodle installation.
 
-3. Depending on the HTML Editors you have in your system you may need to delete the TinyMCE (legacy) plugin (folder `lib/editor/tinymce`) or the TinyMCE 6 plugin (folder `lib/editor/tiny`). Otherwise the Moodle will complain about a missing dependency.
+2b. (Only 4.x) If you're only interested in the new TinyMCE 6 plugin for Moodle 4.x, you can just copy the `/kaltura_moodle_plugin/lib/editor/tiny/plugins/kalturamedia` folder and keep the rest of the official kaltura plugin.
+
+3. (Only 4.x) Depending on the HTML Editors you have in your system you may need to delete the TinyMCE (legacy) plugin (folder `lib/editor/tinymce`) or the TinyMCE 6 plugin (folder `lib/editor/tiny`). Otherwise the Moodle will complain about a missing dependency.
 
 For example, for the default Moodle 4.2 installation you need to delete the TinyMCE (legacy) plugin:
 ```bash
@@ -46,4 +47,7 @@ https://github.com/kaltura/moodle_plugin/compare/MOODLE_311_DEV...estevebadia:ka
 
 Moodle 4.x
 https://github.com/kaltura/moodle_plugin/compare/MOODLE_401_DEV...estevebadia:kaltura_moodle_plugin:MOODLE_402_DEV
+
+Moodle 5.x
+https://github.com/kaltura/moodle_plugin/compare/MOODLE_501_DEV...estevebadia:kaltura_moodle_plugin:MOODLE_502_DEV
 
