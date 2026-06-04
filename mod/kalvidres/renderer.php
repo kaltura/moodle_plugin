@@ -68,7 +68,7 @@ class mod_kalvidres_renderer extends plugin_renderer_base {
             'width' => $kalvidres->width,
             'src' => $url->out(false),
             'allowfullscreen' => 'true',
-            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *;',
+            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *; local-network-access *;',
         );
 
         $iframe = html_writer::tag('iframe', '', $attr);
