@@ -195,7 +195,7 @@ class mod_kalvidres_mod_form extends moodleform_mod {
             'height' => $height,
             'width' => $width,
             'allowfullscreen' => 'true',
-            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *;',
+            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *; local-network-access *;',
         );
 
         if ($hide) {

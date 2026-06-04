@@ -138,7 +138,7 @@ class assign_submission_kalvid extends assign_submission_plugin {
             'class' => 'kaltura-player-iframe',
             'src' => ($url instanceof moodle_url) ? $url->out(false) : '',
             'allowfullscreen' => 'true',
-            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *;',
+            'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *; local-network-access *;',
             'height' => '100%',
             'width' => !empty($submissionrec->width) ? $submissionrec->width : ''
         ];
@@ -329,7 +329,7 @@ class assign_submission_kalvid extends assign_submission_plugin {
                 'class' => 'kaltura-player-iframe',
                 'src' => $url->out(false),
                 'allowfullscreen' => 'true',
-                'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *;',
+                'allow' => 'autoplay *; fullscreen *; encrypted-media *; camera *; microphone *; display-capture *; clipboard-write *; local-network-access *;',
                 'height' => '203px',
                 'width' => '360px'
             ];
