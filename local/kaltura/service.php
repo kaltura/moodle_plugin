@@ -56,7 +56,7 @@ $serviceurl = new moodle_url('/local/kaltura/service.php');
 
 // Log the request.
 $enablelogging = get_config(KALTURA_PLUGIN_NAME, 'enable_logging');
-if (!empty($enablelogging) && isloggedin()) {
+if (!empty($enablelogging)) {
     $param = array(
         'url' => $url,
         'width' => $width,
