@@ -23,10 +23,10 @@
  * @copyright  (C) 2014 Remote Learner.net Inc http://www.remote-learner.net
  */
 
+define('NO_MOODLE_COOKIES', true);
+
 require_once(dirname(__FILE__).'/../../config.php');
 require_once($CFG->dirroot.'/local/kaltura/locallib.php');
-
-require_login();
 
 global $PAGE;
 
