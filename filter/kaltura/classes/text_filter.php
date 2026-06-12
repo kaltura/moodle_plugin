@@ -107,12 +107,12 @@ class text_filter extends \core_filters\text_filter {
             // Get the height and width of the iframe.
             $properties = explode('||', $link[$count - 1]);
 
-            $width = $properties[2];
-            $height = $properties[3];
-
             if (4 != count($properties)) {
                 return $link[0];
             }
+
+            $width = $properties[2];
+            $height = $properties[3];
 
             $source = self::$kafuri . '/browseandembed/index/media/entryid/' . $link[$count - 4] . $link[$count - 3];
         }
