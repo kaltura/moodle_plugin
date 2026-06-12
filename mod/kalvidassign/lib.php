@@ -60,7 +60,7 @@ function kalvidassign_add_instance($kalvidassign) {
         $event->timeduration = 0;
 
         // add calendar events
-        calendar_event::create($event);
+        calendar_event::create($event, false);
         // add timeline reminder event if requested by user
         $completionexpected = (!empty($kalvidassign->completionexpected)) ? $kalvidassign->completionexpected : null;
         \core_completion\api::update_completion_date_event($kalvidassign->coursemodule, 'kalvidassign', $kalvidassign->id, $completionexpected);
@@ -119,7 +119,7 @@ function kalvidassign_update_instance($kalvidassign) {
             $event->timeduration = 0;
 
             // add calendar events
-            calendar_event::create($event);
+            calendar_event::create($event, false);
             // add timeline reminder event if requested by user
             $completionexpected = (!empty($kalvidassign->completionexpected)) ? $kalvidassign->completionexpected : null;
             \core_completion\api::update_completion_date_event($kalvidassign->coursemodule, 'kalvidassign', $kalvidassign->id, $completionexpected);
