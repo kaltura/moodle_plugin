@@ -218,8 +218,7 @@ class assign_submission_kalvid extends assign_submission_plugin {
         $submissionrec = $this->get_kalvid_submission($submission->id);
 
         if (empty($data->entry_id) || empty($data->source)) {
-            $this->set_error(get_string('emptyentryid', 'assignsubmission_kalvid'));
-            return false;
+            return true;
         }
 
         $params = array(
