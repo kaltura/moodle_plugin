@@ -39,5 +39,4 @@ $string['addmedia'] = 'Add media submission';
 $string['invalid_source_parameter'] = 'Invalid source parameter';
 $string['invalid_launch_parameters'] = 'Invalid launch parameters';
 $string['video_thumbnail'] = 'Video thumbnail';
-$string['emptyentryid'] = 'Media assignment was not submitted correctly. Please try to resubmit.';
 
