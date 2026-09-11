@@ -1258,9 +1258,9 @@ abstract class KalturaServiceBase
 	/**
 	 * Initialize the service keeping reference to the KalturaClient
 	 *
-	 * @param KalturaClient $client
+	 * @param KalturaClient|null $client
 	 */
-	public function __construct(KalturaClient $client = null)
+	public function __construct(?KalturaClient $client = null)
 	{
 		$this->client = $client;
 	}
