@@ -16,3 +16,19 @@
 
 !createPackage.sh
 !incrementVersion.sh
+
+# moving plugins to 'public/'
+
+!public/mod/kalvidassign/**/*
+!public/mod/kalvidres/**/*
+
+!public/filter/kaltura/**/*
+
+!public/local/kaltura/**/*
+!public/local/kalturamediagallery/**/*
+!public/local/mymedia/**/*
+
+!public/lib/editor/tinymce/plugins/kalturamedia/**/*
+
+!public/createPackage.sh
+!public/incrementVersion.sh
