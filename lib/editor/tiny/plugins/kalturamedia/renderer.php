@@ -53,6 +53,7 @@ function tiny_kalturamedia_preview_embed_form($contextId = '') {
     $content = $simulateclickdiv.$ltilaunchcontainer.$previewcontainer.$hiddenelements;
 
     //$content = $ltilaunchcontainer.$previewcontainer.$hiddenelements;
-    return html_writer::tag('form', $content, array('onsubmit' => 'insertMedia();return false', 'action' => '#'));
+    // Stable id so insertMedia() can find this form even when the host page renders other forms before it.
+    return html_writer::tag('form', $content, array('id' => 'tiny_kalturamedia_embed_form', 'onsubmit' => 'insertMedia();return false', 'action' => '#'));
 }
 
