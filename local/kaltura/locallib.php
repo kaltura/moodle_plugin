@@ -884,7 +884,10 @@ function local_kaltura_decode_object_for_storage($object) {
         return '';
     }
 
-    return unserialize(base64_decode($object));
+    return unserialize(
+        base64_decode($object),
+        ['allowed_classes' => ['stdClass']],
+    );
 }
 
 /**
