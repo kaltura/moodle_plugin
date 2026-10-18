@@ -53,6 +53,10 @@ function tiny_kalturamedia_preview_embed_form($contextId = '') {
     $content = $simulateclickdiv.$ltilaunchcontainer.$previewcontainer.$hiddenelements;
 
     //$content = $ltilaunchcontainer.$previewcontainer.$hiddenelements;
-    return html_writer::tag('form', $content, array('onsubmit' => 'insertMedia();return false', 'action' => '#'));
+    return html_writer::tag('form', $content, array(
+        'id' => 'tiny_kalturamedia_form',
+        'onsubmit' => 'insertMedia();return false',
+        'action' => '#'
+    ));
 }
 
