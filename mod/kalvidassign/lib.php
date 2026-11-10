@@ -266,9 +266,6 @@ function kalvidassign_supports($feature) {
         case FEATURE_GROUPINGS:
             return true;
             break;
-        case FEATURE_GROUPMEMBERSONLY:
-            return true;
-            break;
         case FEATURE_MOD_INTRO:
             return true;
             break;
