@@ -218,7 +218,7 @@ if (!empty($gradedata->mode)) {
     }
 }
 
-$renderer->display_submissions_table($cm, $data->group_filter, $data->filter, $data->perpage, $data->quickgrade, $tifirst, $tilast, $page);
+$renderer->display_submissions_table($cm, $data->perpage, $data->group_filter, $data->filter, $data->quickgrade, $tifirst, $tilast, $page);
 
 $prefform->set_data($data);
 $prefform->display();

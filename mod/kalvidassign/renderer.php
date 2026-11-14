@@ -706,17 +706,18 @@ class mod_kalvidassign_renderer extends plugin_renderer_base {
 
     /**
      * This function returns HTML markup to render a the submissions table
+     *
      * @param object $cm A course module object.
+     * @param int $perpage The number of submissions to display on a page.
      * @param int $groupfilter The group id to filter against.
      * @param string $filter Filter users who have submitted, submitted and graded or everyone.
-     * @param int $perpage The number of submissions to display on a page.
      * @param bool $quickgrade True if the quick grade table needs to be rendered, otherwsie false.
      * @param string $tifirst The first initial of the first name.
      * @param string $tilast The first initial of the last name.
      * @param int $page The current page to render.
      * @return string Returns HTML markup.
      */
-    public function display_submissions_table($cm, $groupfilter = 0, $filter = 'all', $perpage, $quickgrade = false, $tifirst = '', $tilast = '', $page = 0) {
+    public function display_submissions_table($cm, $perpage, $groupfilter = 0, $filter = 'all', $quickgrade = false, $tifirst = '', $tilast = '', $page = 0) {
 
         global $DB, $COURSE, $USER;
 
