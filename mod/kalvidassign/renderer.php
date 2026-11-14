@@ -211,7 +211,9 @@ class submissions_table extends table_sql {
             $output .= html_writer::end_tag('textarea');
 
         } else {
-            $output = shorten_text(strip_tags($data->submissioncomment), 15);
+            if (isset($data->submissioncomment) && !is_null($data->submissioncomment)) { 
+                $output = shorten_text(strip_tags($data->submissioncomment), 15);
+            }
         }
 
         return $output;
